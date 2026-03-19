@@ -560,8 +560,11 @@ void _matmul_tensors(metrix_float& m1, metrix_float& m2, bool t1, bool t2, float
     }
   //  return data;
 }
-
-
+void _add_tensors(metrix_float &m, float* data) {
+    for(int i = 0; i < m.n; ++i) {
+        data[i] += m.data[i];
+    }
+}
 void _add_tensors(metrix_float &m1, metrix_float &m2, float* data) {
     for(int i = 0; i < m1.n; ++i) {
         data[i] += m1.data[i] + m2.data[i];
@@ -573,6 +576,11 @@ void _add_tensors(std::vector<metrix_float*>& ms, float* data, size_t batch_id) 
         for(int i = 0; i < m->n; ++i) {
             data[i] += p[i];
         }
+    }
+}
+void _sub_tensors(metrix_float &m, float* data) {
+    for(int i = 0; i < m.n; ++i) {
+        data[i] -= m.data[i];
     }
 }
 void _sub_tensors(metrix_float &m1, metrix_float &m2, float* data) {

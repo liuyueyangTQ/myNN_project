@@ -67,7 +67,7 @@ protected:
     op* op_last; // 指向上一个操作
 public:
     tensor_base(bool is_param = false, bool lock_grad = false, tensor_type type = tensor_type::common, size_t batch_num = 1) 
-        : is_param(is_param),lock_grad(lock_grad), lr(0.0001), tstp(type),
+        : is_param(is_param), lock_grad(lock_grad), lr(0.0001), tstp(type),
           op_next(nullptr), op_last(nullptr), batch_num(batch_num)
         {}
     //tensor(metrix_float &m) : w(m),shape(m.shape),lock_grad(true),is_pram(false) {}

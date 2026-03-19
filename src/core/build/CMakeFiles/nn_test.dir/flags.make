@@ -6,5 +6,5 @@ CXX_DEFINES = -DUSE_DEBUG -DUSE_THREAD
 
 CXX_INCLUDES = @CMakeFiles/nn_test.dir/includes_CXX.rsp
 
-CXX_FLAGS =  -static-libgcc -static-libstdc++ -O3 -flto -march=native -std=gnu++17
+CXX_FLAGS =  -static-libgcc -static-libstdc++ -O3 -flto -march=native -g -g -O0 -std=gnu++17
 

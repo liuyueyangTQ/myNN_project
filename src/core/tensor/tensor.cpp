@@ -877,7 +877,7 @@ void relu::count_output() {
     float* bpt = this->b->data;
 
     for(int i = 0; i < this->n; ++i) {
-        otpt[i] = std::max(ipt[i] + bpt[i], (float)0);
+        otpt[i] += std::max(ipt[i] + bpt[i], (float)0);
     }
 }
 
@@ -886,7 +886,7 @@ void relu::count_output(size_t batch_id) {
     float* ipt = (*(this->batch_input + batch_id)).data;
     float* bpt = this->b->data;
     for(int i = 0; i < this->n; ++i) {
-        otpt[i] = std::max(ipt[i] + bpt[i], (float)0);
+        otpt[i] += std::max(ipt[i] + bpt[i], (float)0);
     }
     //////////////////////////////////////////////////////////////////
     /*
@@ -908,7 +908,7 @@ void relu::count_grad() {
     float* g = this->grad->data;
     float* otpt = this->output->data;
     for(int i = 0; i < this->n; ++i) {
-        g[i] = (otpt[i] > 0) ? g[i] : 0;
+        g[i] += (otpt[i] > 0) ? g[i] : 0;
     }  
 }
 
@@ -923,7 +923,7 @@ void relu::count_grad(size_t batch_id) {
     float* g = (this->batch_grad + batch_id)->data;
     float* otpt = (this->batch_output + batch_id)->data;
     for(int i = 0; i < this->n; ++i) {
-        g[i] = (otpt[i] > 0) ? g[i] : 0; // 要乘上 next_grad
+        g[i] += (otpt[i] > 0) ? g[i] : 0; // 要乘上 next_grad
     }  
     /////////////////////////////////////////////////////
     // std::cout << "The RELUE Layer INPUT GRAD is: \n";
@@ -992,6 +992,17 @@ void softmax::count_output(size_t batch_id) {
        //这是归一化计算，不能在原先的基础上作加法，而应当重新赋值
         otpt[i] = otpt_exp[i] / sum; 
     /////////////////////////////////////////
+
+    // std::cout << "THE last layer INPUT is:\n";
+    // for(int i = 0; i < this->n; ++i)
+    //     std::cout << ipt[i] << ' ';
+    // std::cout << std::endl;
+    // std::cout << "THE last layer OUTPUT is:\n";  
+    // for(int i = 0; i < this->n; ++i)
+    //     std::cout << otpt[i] << ' ';
+    // std::cout << std::endl;
+
+    ////////////////////////////////////////
 }
 void softmax::count_grad() {
 
@@ -1010,6 +1021,10 @@ void softmax::count_grad(size_t batch_id) {
     float* otpt = (this->batch_output + batch_id)->data;
     float dai_dzj;
     for(int i = 0; i < this->n; ++i) {
+        // dai_dzj = 0;
+        // for(int j = 0; j < this->n; ++j){
+        //     dai_dzj += ( (i == j) ? ( *(otpt + j) * (1 - *(otpt + j)) ) : ( -(*(otpt + j) * otpt[i]) )); // 要乘上 next_grad
+        // }
         g[i] = otpt[i] - g[i];  //优化过的交叉熵和softmax梯度
         // 是直接赋值而非+=
     }  

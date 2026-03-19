@@ -9,14 +9,59 @@ namespace dtensor{
 using _size = std::pair<size_t, size_t>;
 
 dtensor_base* dtensor_base::get_next() {
-    return this->op_next->output;
+    return this->op_next[0]->output;
 }
 
 #ifdef USE_DEBUG
     int layer::layer_index = 0;
     int tensor2D_float::wm_index = 0;
-#endif
+void get_info(std::string input) {
+    std::cout << input <<"\n";
+    std::string info;
+    while(1) {    
+        std::cout << "Input info U need\n";
+        std::cin >> info;
+        if(info == "n") {
+            std::cout << "go next...\n";
+            return;
+        }
+        if(info == "ts") {
+            std::cout << "Choose tensors \n";
+            std::cin >> info;
+            if(info == "n") return;
+            size_t batch_id;
+            bool inc_grad;
+            if(info == "w") {
+                std::cout << "include grad? \n";
+                std::cin >> batch_id >> inc_grad;
+            }
+            
+        }
 
+
+    }
+}
+#endif
+void dtensor_base::print(bool inc_grad, size_t batch_id, bool rec) {
+    if(have_printed && rec) 
+        return;
+    if(batch_id == batch_num) {
+        for(size_t i = 0; i < batch_num; ++i) {
+            std::cout << "The " << i <<"-th batch:\n";
+            _print_val(i);
+            if(inc_grad)
+                _print_grad(i);
+        }
+        return;
+    }
+    std::cout << "The " << batch_id <<"-th batch:\n";
+    _print_val(batch_id);
+    if(inc_grad)
+        _print_grad(batch_id);
+
+    if(rec) // 需要记录是否打印过
+        have_printed = true;
+}
 
 void dtensor_base::print_info() {
     std::cout << "Tensor info: \n";
@@ -38,6 +83,73 @@ void dtensor_base::print_info() {
             break;
     }
 }
+void dtensor_base::reset_count() {
+    for(int i = 0; i < batch_num; ++i) {
+        temp_n[i] = count_n ;
+        have_forwarded[i] = false;
+        have_updated = false;
+    }
+
+}
+void dtensor_base::forward() {
+    for(int i = 0; i < batch_num; ++i)
+        this->forward(i);
+}
+void dtensor_base::forward(size_t batch_id) { // 变量tensor前向传播可使的前面op就绪输入计数++
+    if(have_forwarded[batch_id])
+        return;
+    //std::cout << " forward by count n = : " << this->count_n << std::endl;
+    this->_forward(batch_id);
+    if(!is_param) {//动态tensor
+        for(auto &otpt : op_next) {
+            (otpt->temp_n)[batch_id]++;
+        // std::cout << " next op temp_n value is: " << (otpt->temp_n)[batch_id] << std::endl;
+        }
+    }
+    have_forwarded[batch_id] = true;
+}
+void dtensor_base::backward() {
+    for(int i = 0; i < batch_num; ++i)
+        this->backward(i);
+}
+void dtensor_base::backward(size_t batch_id) {
+    // 如果 is_param 如weight metrix， 直接退出
+    if(is_param || temp_n[batch_id] != 0) //尚未就绪
+        return;
+    // std::cout << " backward by count n = : " << this->count_n << std::endl;
+    // std::cout << "temp n is : " << temp_n[batch_id] <<std::endl;
+    this->_backward(batch_id);
+}
+
+#ifdef USE_DEBUG
+void dtensor_base::forward_D() {
+    for(int i = 0; i < batch_num; ++i)
+        this->forward_D(i);
+}
+void dtensor_base::forward_D(size_t batch_id) {
+    if(have_forwarded[batch_id])
+        return;
+    this->_forward_D(batch_id);
+    if(!is_param) {//动态tensor
+        for(auto &otpt : op_next) {
+            (otpt->temp_n)[batch_id]++;
+        // std::cout << " next op temp_n value is: " << (otpt->temp_n)[batch_id] << std::endl;
+        }
+    }
+    have_forwarded[batch_id] = true;
+}
+void dtensor_base::backward_D() {
+    for(int i = 0; i < batch_num; ++i)
+        this->backward_D(i);
+}
+void dtensor_base::backward_D(size_t batch_id) {
+    // 如果 is_param 如weight metrix， 直接退出
+    if(is_param || temp_n[batch_id] != 0) //尚未就绪
+        return;
+    this->_backward_D(batch_id);
+}
+#endif
+
 
 // get_shape 
 std::vector<size_t> multi_dim_tensor::get_shape() {
@@ -302,9 +414,8 @@ void multi_dim_tensor::update(double lr) {
     // 目前没有参数需要更新，后续如果有了再实现
 }
 void tensor2D_float::update(double lr) {
-    if(this->lock_grad) // 不更新梯度
+    if(this->lock_grad || have_updated) // 不更新梯度或已经更新过了
         return;
-
     size_t row = this->weight->shape.first, col = this->weight->shape.second;
     float dw; float* w;
     float temp;
@@ -321,9 +432,12 @@ void tensor2D_float::update(double lr) {
         dw /= ((float)this->batch_num); //梯度取平均值
         this->weight->data[i] -= lr * dw;
     }
+    have_updated = true;
     return;
 }
 void layer::update(double lr) { // 更新参数 （b）
+    if(have_updated)
+        return;
     float db;
     float* grad_b;
     float temp;
@@ -341,17 +455,18 @@ void layer::update(double lr) { // 更新参数 （b）
         db /= ((float)this->batch_num); //梯度取平均值
         this->b->data[i] -= lr * db;
     }
+    have_updated = true;
 }
 
 
-// forward() 和 backward() 的重载版本，分别用于处理整个batch和单个样本的情况
-void tensor2D_float::forward() { //无需操作
+// _forward() 和 _backward() 的重载版本，分别用于处理整个batch和单个样本的情况
+void tensor2D_float::_forward() { //无需操作
 }
-void tensor2D_float::forward(size_t batch_id) { //无需操作
+void tensor2D_float::_forward(size_t batch_id) { //无需操作
 }
-void tensor2D_float::backward() { // 无需任何操作，grad即为传入值，在op的backward中已计算
+void tensor2D_float::_backward() { // 无需任何操作，grad即为传入值，在op的backward中已计算
 }
-void tensor2D_float::backward(size_t batch_id) { // 无需任何操作，grad即为传入值，在op的backward中已计算
+void tensor2D_float::_backward(size_t batch_id) { // 无需任何操作，grad即为传入值，在op的backward中已计算
 }
 void tensor2D_float::backward(float* next_grad) {
 }
@@ -361,23 +476,23 @@ void tensor2D_float::backward_grad() {
 }
 void tensor2D_float::backward_grad(size_t batch_id) {
 }
-void layer::forward() {
+void layer::_forward() {
     for(int i = 0; i < this->batch_num; ++i) {
         this->count_output(i);
     }
 }
-void layer::forward(size_t batch_id) {
+void layer::_forward(size_t batch_id) {
     this->count_output(batch_id);
 }
-void layer::backward() {
-    std::cout << "layer backward start!\n";
+void layer::_backward() {
+    // std::cout << "layer backward start!\n";
     // dynamic_cast<layer*>(this);
     for(int i = 0; i < this->batch_num; ++i) {
         this->count_grad(i);
     }
-    std::cout << "layer backward finished!\n";
+    // std::cout << "layer backward finished!\n";
 }
-void layer::backward(size_t batch_id) {
+void layer::_backward(size_t batch_id) {
     this->count_grad(batch_id);    ////////最后一层，没有邻接矩阵
 }
 void layer::backward(float* next_grad) {
@@ -388,13 +503,13 @@ void layer::backward_grad() {
 }
 void layer::backward_grad(size_t batch_id) {
 }
-void multi_dim_tensor::forward() {
+void multi_dim_tensor::_forward() {
 }
-void multi_dim_tensor::forward(size_t batch_id) {
+void multi_dim_tensor::_forward(size_t batch_id) {
 }
-void multi_dim_tensor::backward() {
+void multi_dim_tensor::_backward() {
 }
-void multi_dim_tensor::backward(size_t batch_id) {
+void multi_dim_tensor::_backward(size_t batch_id) {
 }
 void multi_dim_tensor::backward(float* next_grad) {
 }
@@ -404,6 +519,48 @@ void multi_dim_tensor::backward_grad() {
 }
 void multi_dim_tensor::backward_grad(size_t batch_id) {
 }
+
+#ifdef USE_DEBUG
+void layer::_forward_D() {
+    for(int i = 0; i < this->batch_num; ++i) {
+        this->count_output(i);
+    }
+}
+void layer::_forward_D(size_t batch_id) {
+    this->count_output(batch_id);
+    get_info("after layer forward of batch " + std::to_string(batch_id) + "...\n");
+}
+void layer::_backward_D() {
+    // dynamic_cast<layer*>(this);
+    for(int i = 0; i < this->batch_num; ++i) {
+        this->count_grad(i);
+    }
+}
+void layer::_backward_D(size_t batch_id) {
+    this->count_grad(batch_id);    ////////最后一层，没有邻接矩阵
+    get_info("after layer backward of batch " + std::to_string(batch_id) + "...\n");
+}
+
+void multi_dim_tensor::_forward_D() {
+}
+void multi_dim_tensor::_forward_D(size_t batch_id) {
+}
+void multi_dim_tensor::_backward_D() {
+}
+void multi_dim_tensor::_backward_D(size_t batch_id) {
+}
+void tensor2D_float::_forward_D() { //无需操作
+}
+void tensor2D_float::_forward_D(size_t batch_id) { //无需操作
+}
+void tensor2D_float::_backward_D() { // 无需任何操作，grad即为传入值，在op的backward中已计算
+}
+void tensor2D_float::_backward_D(size_t batch_id) { // 无需任何操作，grad即为传入值，在op的backward中已计算
+}
+
+#endif
+
+
 
 // count_output() 和 count_grad() 的重载版本，分别用于处理整个batch和单个样本的情况
 void origin::count_output() {  
@@ -472,7 +629,7 @@ void relu::count_output(size_t batch_id) {
     float* ipt = (*(this->batch_input + batch_id)).data;
     float* bpt = this->b->data;
     for(int i = 0; i < this->n; ++i) {
-        otpt[i] += std::max(ipt[i] + bpt[i], (float)0);
+        otpt[i] = std::max(ipt[i] + bpt[i], (float)0);
     }
 }
 void relu::count_grad() {  
@@ -489,7 +646,7 @@ void relu::count_grad(size_t batch_id) {
     float* g = (this->batch_grad + batch_id)->data;
     float* otpt = (this->batch_output + batch_id)->data;
     for(int i = 0; i < this->n; ++i) {
-        g[i] += (otpt[i] > 0) ? g[i] : 0; // 要乘上 next_grad
+        g[i] = (otpt[i] > 0) ? g[i] : 0; // 要乘上 next_grad
     }  
 }
 
@@ -525,8 +682,6 @@ void softmax::count_grad(size_t batch_id) {
     assert(this->batch_input + batch_id);
 #endif  
     float* g = (this->batch_grad + batch_id)->data;
-
-
     float* otpt = (this->batch_output + batch_id)->data;
     float dai_dzj;
     for(int i = 0; i < this->n; ++i) {
@@ -540,42 +695,34 @@ void softmax::count_grad(size_t batch_id) {
 }
 
 // print
-void multi_dim_tensor::print(bool inc_grad) {
+void multi_dim_tensor::_print_val(size_t batch_id) {
 
 }
-void tensor2D_float::print(bool inc_grad) {
-    std::cout << "Tensor2D value is:\n";
+void tensor2D_float::_print_val(size_t batch_id) {
+    assert(batch_id <= batch_num);
+    std::cout << "tensor2D_float value:\n";
     this->weight->print(); //只有一个weight值
-    if(inc_grad) {
-        std::cout << "Tensor2D grad is:\n";
-        for(int i = 0; i < this->batch_num; ++i) {
-            std::cout << "  Batch " << i << ": \n";
-            this->batch_grad[i].print();
-        }
-    }
+}
+void layer::_print_val(size_t batch_id) {
+    std::cout << "Layer input:\n";
+    this->batch_input[batch_id].print();
+    std::cout << "Layer output:\n";
+    this->batch_output[batch_id].print();
+}
+void multi_dim_tensor::_print_grad(size_t batch_id) {
+
+}
+void tensor2D_float::_print_grad(size_t batch_id) {
+    std::cout << "tensor2D_float grad:\n";
+    this->batch_grad[batch_id].print();
 }
 
-void layer::print(bool inc_grad) {
-    // this->print_layer(inc_grad);
-    std::cout << "Layer input is:\n";
-    for(int i = 0; i < this->batch_num; ++i) {
-        std::cout << "  Batch " << i << ": \n";
-        this->batch_input[i].print();
-    }
-    std::cout << "Layer output is:\n";
-    for(int i = 0; i < this->batch_num; ++i) {
-        std::cout << "  Batch " << i << ": \n";
-        this->batch_output[i].print();
-    }
-
-    if(inc_grad) {
-        std::cout << "Layer grad is:\n";
-        for(int i = 0; i < this->batch_num; ++i) {
-            std::cout << "  Batch " << i << ": \n";
-            this->batch_grad[i].print();
-        }
-    }
+void layer::_print_grad(size_t batch_id) {
+    std::cout << "Layer grad:\n";
+    this->batch_grad[batch_id].print();
 }
+
+
 void origin::print_layer(bool inc_grad) {
 
 }
@@ -698,6 +845,7 @@ void layer::count_loss_grad(std::vector<float>& label, loss_type loss_tp, size_t
     // （该处实现放到了 count_label_grad 中）
     //std::cout << "      label loss counted!\n";
 }
+
 
 layer* layer_tool(int n, size_t batch_num, sub_type stp) {
     switch (stp)

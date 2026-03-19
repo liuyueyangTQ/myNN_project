@@ -4,6 +4,7 @@
 #include<cmath>
 #include<cassert>
 #include<string>
+#include<map>
 #include"enum_type.h"
 #include"ops.h"
 #include"buffer_util.h"
@@ -44,6 +45,10 @@ class layer;
 class Linear_NN;
 using namespace base;
 
+#ifdef USE_DEBUG 
+void get_info(std::string input);
+#endif
+
 class dtensor_base{
     friend class op;
     friend size_t base::get_tensor_size(::dtensor::dtensor_base* t);
@@ -53,23 +58,38 @@ protected:
     bool lock_grad;
     size_t n;
     size_t batch_num;
-    op* op_next; // 指向下一个操作
-    op* op_last; // 指向上一个操作
+    std::vector<op*> op_next; // 指向下一个操作
+    std::vector<op*> op_last; // 指向上一个操作
+    size_t count_n, *temp_n; // dtensor指向的count_n个算子，这些算子剩temp_n个完成传递
+    bool *have_forwarded;
+    bool have_updated, have_printed;
+#ifdef USE_DEBUG 
+    //std::vector<std::pair<std::pair<dtensor*, dtensor*>, size_t>> layers;
+    //std::vector<std::pair<op*, size_t>> opses;
+#endif 
 public:
     tensor_type tstp;
     dtensor_base(bool is_param = false, bool lock_grad = false, tensor_type type = tensor_type::common, size_t batch_num = 1, size_t n = 0) 
-        : is_param(is_param),lock_grad(lock_grad), tstp(type),
-          op_next(nullptr), op_last(nullptr), batch_num(batch_num), n(n)
+        : is_param(is_param),lock_grad(lock_grad), tstp(type), batch_num(batch_num), n(n),
+        count_n(0), temp_n(new size_t[batch_num]()), have_forwarded(new bool[batch_num]()), have_updated(false), have_printed(false)
         {}
     //tensor(metrix_float &m) : w(m),shape(m.shape),lock_grad(true),is_pram(false) {}
     virtual void set_input_value(float* data, size_t batch_id) = 0;
     virtual void set_input_value(std::vector<std::vector<float>>& data) = 0;
     inline void disgrad() { lock_grad = true; }
-    virtual void forward() = 0;
-    virtual void forward(size_t batch_id) = 0;
 
-    virtual void backward() = 0;  //用于中间层
-    virtual void backward(size_t batch_id) = 0; //用于中间层
+    void reset_count();
+
+    void forward();
+    void forward(size_t batch_id);
+    void backward();  //用于中间层
+    void backward(size_t batch_id); //用于中间层
+
+    virtual void _forward() = 0;
+    virtual void _forward(size_t batch_id) = 0;
+
+    virtual void _backward() = 0;  //用于中间层
+    virtual void _backward(size_t batch_id) = 0; //用于中间层
 
     //virtual void backward_mul() = 0; // 之后在考虑
 
@@ -81,7 +101,20 @@ public:
     
     void count_loss_grad(std::vector<std::vector<float>>& label, loss_type loss_tp);
     virtual void count_loss_grad(std::vector<float>& label, loss_type loss_tp, size_t batch_id) = 0;
+#ifdef USE_DEBUG 
 
+    void forward_D();
+    void forward_D(size_t batch_id);
+    void backward_D();  //用于中间层
+    void backward_D(size_t batch_id); //用于中间层
+
+    virtual void _forward_D() = 0;
+    virtual void _forward_D(size_t batch_id) = 0;
+
+    virtual void _backward_D() = 0;  //用于中间层
+    virtual void _backward_D(size_t batch_id) = 0; //用于中间层
+
+#endif 
     virtual std::vector<size_t> get_shape() = 0;
 
     virtual metrix_float& get_input_metrix_ref(size_t batch_id) = 0;
@@ -101,27 +134,34 @@ public:
     virtual void update(double lr) = 0;
 
     inline void add_nopp(dtensor_base* p, op* op) {
-        this->op_next = op;
+        this->op_next.push_back(op);
     }
     inline void add_lopp(dtensor_base* p, op* op) {
-        this->op_last = op;
+        this->op_last.push_back(op);
     }
     inline bool is_parameter() {
         return this->is_param;
     }
     dtensor_base* get_next();
     inline op* get_op_next() {
-        return this->op_next;
+        if(!op_next.size())
+            return nullptr;
+        return this->op_next[0];
     }
     inline op* get_op_last() {
-        return this->op_last;
+        if(!op_last.size())
+            return nullptr;
+        return this->op_last[0];
     }
     inline size_t get_n() {
         return this->n;
     }
-
-
-    virtual void print(bool inc_grad = false) = 0;
+    inline size_t get_count_n() {
+        return this->count_n;
+    }
+    void print(bool inc_grad = false, size_t batch_id = 0, bool rec = false);
+    virtual void _print_val(size_t batch_id = 0) = 0;
+    virtual void _print_grad(size_t batch_id = 0) = 0;
     // virtual void print_batches() {}
 
     void print_info();
@@ -132,13 +172,13 @@ public:
         this->tstp = type;
     }
     inline void set_op_next(op* p) {
-        this->op_next = p;
+        assert(!op_next.size());
+        this->op_next.push_back(p);
     }
     inline void set_op_last(op* p) {
-        this->op_last = p;
+        assert(!op_last.size());
+        this->op_last.push_back(p);
     }
-
-
 
 };
 
@@ -199,16 +239,17 @@ public:
         }
         this->n = total_size;
     }
-    void print(bool inc_grad = false) override;
+    void _print_val(size_t batch_id = 0) override;
+    void _print_grad(size_t batch_id = 0) override;
     void set_input_value(float* data, size_t batch_id) override;
     void set_input_value(std::vector<std::vector<float>>& data) override;
 
     std::vector<size_t> get_shape() override;
-    void forward() override;
-    void forward(size_t batch_id) override;
+    void _forward() override;
+    void _forward(size_t batch_id) override;
 
-    void backward() override;  //用于中间层
-    void backward(size_t batch_id) override; //用于中间层
+    void _backward() override;  //用于中间层
+    void _backward(size_t batch_id) override; //用于中间层
 
     //void backward_mul(); // 之后在考虑
 
@@ -222,7 +263,14 @@ public:
     void clear_grad() override;
     void clear_value() override;
     void update(double lr) override;
-    
+#ifdef USE_DEBUG 
+    void _forward_D() override;
+    void _forward_D(size_t batch_id) override;
+
+    void _backward_D() override;  //用于中间层
+    void _backward_D(size_t batch_id) override; //用于中间层
+#endif    
+
     metrix_float& get_input_metrix_ref(size_t batch_id) override;
     metrix_float& get_grad_metrix_ref(size_t batch_id) override;
     metrix_float& get_output_metrix_ref(size_t batch_id) override;
@@ -307,7 +355,7 @@ public:
     }
 
     tensor2D_float(tensor2D_float const &t) = delete; // 不提供实现
-    // void forward() override {}
+    // void _forward() override {}
     ~tensor2D_float() 
     {
         this->_release_data(this->batch_grad);
@@ -319,18 +367,26 @@ public:
     }
     void set_input_value(float* data, size_t batch_id) override;
     void set_input_value(std::vector<std::vector<float>>& data) override;
-    void print(bool inc_grad = false) override;
+    void _print_val(size_t batch_id = 0) override;
+    void _print_grad(size_t batch_id = 0) override;
     void print_grad();
     std::vector<size_t> get_shape() override;
 private:
 
-    void forward() override;
-    void forward(size_t batch_id) override;
+    void _forward() override;
+    void _forward(size_t batch_id) override;
 
-    void backward() override;
-    void backward(size_t batch_id) override;
+    void _backward() override;
+    void _backward(size_t batch_id) override;
     void backward_grad() override;
     void backward_grad(size_t batch_id) override;
+#ifdef USE_DEBUG 
+    void _forward_D() override;
+    void _forward_D(size_t batch_id) override;
+
+    void _backward_D() override;  //用于中间层
+    void _backward_D(size_t batch_id) override; //用于中间层
+#endif   
 
     void backward(float* next_grad);  //用于尾部层 // 可额外添加
     void backward(float* next_grad, size_t batch_id); //用于尾部层 // 可额外添加
@@ -456,20 +512,27 @@ public:
 #endif 
     }
 
-    void print(bool inc_grad = false) override;
+    void _print_val(size_t batch_id = 0) override;
+    void _print_grad(size_t batch_id = 0) override;
     virtual void print_layer(bool inc_grad = false) = 0;
     virtual void print_batches() = 0;
 private: 
     void _set_batch();
-    void forward() override;
-    void forward(size_t batch_id) override;
+    void _forward() override;
+    void _forward(size_t batch_id) override;
 
     void get_input(std::vector<std::vector<float>>& samples);
     void get_input(std::vector<float>& sample, size_t batch_id);
-    // void backward() override; // 不需要
-    void backward() override; // 通过下一层的梯度计算传递损失 
-    void backward(size_t batch_id) override; // 通过下一层的 第 batch_id 个样本 计算梯度传递损失
+    // void _backward() override; // 不需要
+    void _backward() override; // 通过下一层的梯度计算传递损失 
+    void _backward(size_t batch_id) override; // 通过下一层的 第 batch_id 个样本 计算梯度传递损失
+#ifdef USE_DEBUG 
+    void _forward_D() override;
+    void _forward_D(size_t batch_id) override;
 
+    void _backward_D() override;  //用于中间层
+    void _backward_D(size_t batch_id) override; //用于中间层
+#endif   
     void backward(float* next_grad) override; // 用于尾部层  通过损失函数传递的梯度
     void backward(float* next_grad, size_t batch_id) override; // 用于尾部层  通过损失函数传递的 第 batch_id 个样本 的梯度
 

@@ -4,6 +4,14 @@ project(Metrix_test)
 # 设置C++标准
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# 1. 先设置构建类型为 Debug（关键！CMake 会自动适配 Debug 模式的默认编译选项）
+set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
+
+# 2. 强制为 C/C++ 设置 Debug 模式的编译选项（覆盖默认，确保 -g -O0 生效）
+# 针对 C++ 文件
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -O0")
+# 如果项目包含 C 文件，补充这行
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -g -O0")
 
 # 对于MinGW，需要设置正确的编译器标志
 if(MINGW)
@@ -143,6 +151,7 @@ target_compile_definitions(dnn_test
     PRIVATE       # 仅当前目标（dtensor_test）的源文件可见
         USE_DEBUG 
         USE_THREAD
+        DEBUG_ASSERT_H
 )
 
 
