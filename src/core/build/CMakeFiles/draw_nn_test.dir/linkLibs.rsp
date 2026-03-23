@@ -1,1 +1,0 @@
-  -L"C:/Tools/glew-2.2.0/bin/Release/x64"  -L"C:/Tools/glfw-3.4/bin"  -lglew32 -lglfw3 "C:/Tools/glfw-3.4/lib/glfw3dll.lib" -lopengl32 -lws2_32 -lmswsock -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

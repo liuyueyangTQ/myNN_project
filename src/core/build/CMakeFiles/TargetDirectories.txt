@@ -1,9 +1,0 @@
-C:/workspace/myNN_project/src/core/build/CMakeFiles/metrix_test.dir
-C:/workspace/myNN_project/src/core/build/CMakeFiles/tensor_test.dir
-C:/workspace/myNN_project/src/core/build/CMakeFiles/nn_test.dir
-C:/workspace/myNN_project/src/core/build/CMakeFiles/thread_test.dir
-C:/workspace/myNN_project/src/core/build/CMakeFiles/dtensor_test.dir
-C:/workspace/myNN_project/src/core/build/CMakeFiles/dnn_test.dir
-C:/workspace/myNN_project/src/core/build/CMakeFiles/draw_nn_test.dir
-C:/workspace/myNN_project/src/core/build/CMakeFiles/edit_cache.dir
-C:/workspace/myNN_project/src/core/build/CMakeFiles/rebuild_cache.dir
