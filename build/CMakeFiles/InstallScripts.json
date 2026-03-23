@@ -1,7 +1,8 @@
 {
 	"InstallScripts" : 
 	[
-		"C:/workspace/graph_project/build/cmake_install.cmake"
+		"C:/workspace/myNN_project/build/cmake_install.cmake",
+		"C:/workspace/myNN_project/build/src/visual/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

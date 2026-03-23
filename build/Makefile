@@ -56,10 +56,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\workspace\graph_project
+CMAKE_SOURCE_DIR = C:\workspace\myNN_project
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\workspace\graph_project\build
+CMAKE_BINARY_DIR = C:\workspace\myNN_project\build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -86,9 +86,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\graph_project\build\CMakeFiles C:\workspace\graph_project\build\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles C:\workspace\myNN_project\build\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\graph_project\build\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -116,65 +116,521 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named glfw_test
+# Target rules for targets named metrix_test
 
 # Build rule for target.
-glfw_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 glfw_test
-.PHONY : glfw_test
+metrix_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 metrix_test
+.PHONY : metrix_test
 
 # fast build rule for target.
-glfw_test/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\glfw_test.dir\build.make CMakeFiles/glfw_test.dir/build
-.PHONY : glfw_test/fast
+metrix_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\metrix_test.dir\build.make CMakeFiles/metrix_test.dir/build
+.PHONY : metrix_test/fast
 
-src/buttons.obj: src/buttons.cpp.obj
-.PHONY : src/buttons.obj
+#=============================================================================
+# Target rules for targets named tensor_test
+
+# Build rule for target.
+tensor_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 tensor_test
+.PHONY : tensor_test
+
+# fast build rule for target.
+tensor_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\tensor_test.dir\build.make CMakeFiles/tensor_test.dir/build
+.PHONY : tensor_test/fast
+
+#=============================================================================
+# Target rules for targets named nn_test
+
+# Build rule for target.
+nn_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 nn_test
+.PHONY : nn_test
+
+# fast build rule for target.
+nn_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\nn_test.dir\build.make CMakeFiles/nn_test.dir/build
+.PHONY : nn_test/fast
+
+#=============================================================================
+# Target rules for targets named thread_test
+
+# Build rule for target.
+thread_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 thread_test
+.PHONY : thread_test
+
+# fast build rule for target.
+thread_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\thread_test.dir\build.make CMakeFiles/thread_test.dir/build
+.PHONY : thread_test/fast
+
+#=============================================================================
+# Target rules for targets named dtensor_test
+
+# Build rule for target.
+dtensor_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 dtensor_test
+.PHONY : dtensor_test
+
+# fast build rule for target.
+dtensor_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dtensor_test.dir\build.make CMakeFiles/dtensor_test.dir/build
+.PHONY : dtensor_test/fast
+
+#=============================================================================
+# Target rules for targets named dnn_test
+
+# Build rule for target.
+dnn_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 dnn_test
+.PHONY : dnn_test
+
+# fast build rule for target.
+dnn_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/build
+.PHONY : dnn_test/fast
+
+#=============================================================================
+# Target rules for targets named draw_nn_test
+
+# Build rule for target.
+draw_nn_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 draw_nn_test
+.PHONY : draw_nn_test
+
+# fast build rule for target.
+draw_nn_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/build
+.PHONY : draw_nn_test/fast
+
+#=============================================================================
+# Target rules for targets named NN_Qt_GUI
+
+# Build rule for target.
+NN_Qt_GUI: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 NN_Qt_GUI
+.PHONY : NN_Qt_GUI
+
+# fast build rule for target.
+NN_Qt_GUI/fast:
+	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI.dir/build
+.PHONY : NN_Qt_GUI/fast
+
+#=============================================================================
+# Target rules for targets named NN_Qt_GUI_autogen_timestamp_deps
+
+# Build rule for target.
+NN_Qt_GUI_autogen_timestamp_deps: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 NN_Qt_GUI_autogen_timestamp_deps
+.PHONY : NN_Qt_GUI_autogen_timestamp_deps
+
+# fast build rule for target.
+NN_Qt_GUI_autogen_timestamp_deps/fast:
+	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI_autogen_timestamp_deps.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/build
+.PHONY : NN_Qt_GUI_autogen_timestamp_deps/fast
+
+#=============================================================================
+# Target rules for targets named NN_Qt_GUI_autogen
+
+# Build rule for target.
+NN_Qt_GUI_autogen: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 NN_Qt_GUI_autogen
+.PHONY : NN_Qt_GUI_autogen
+
+# fast build rule for target.
+NN_Qt_GUI_autogen/fast:
+	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI_autogen.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/build
+.PHONY : NN_Qt_GUI_autogen/fast
+
+src/core/math/metrix.obj: src/core/math/metrix.cpp.obj
+.PHONY : src/core/math/metrix.obj
 
 # target to build an object file
-src/buttons.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\glfw_test.dir\build.make CMakeFiles/glfw_test.dir/src/buttons.cpp.obj
-.PHONY : src/buttons.cpp.obj
+src/core/math/metrix.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\metrix_test.dir\build.make CMakeFiles/metrix_test.dir/src/core/math/metrix.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\tensor_test.dir\build.make CMakeFiles/tensor_test.dir/src/core/math/metrix.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\nn_test.dir\build.make CMakeFiles/nn_test.dir/src/core/math/metrix.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\thread_test.dir\build.make CMakeFiles/thread_test.dir/src/core/math/metrix.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dtensor_test.dir\build.make CMakeFiles/dtensor_test.dir/src/core/math/metrix.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/math/metrix.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/math/metrix.cpp.obj
+.PHONY : src/core/math/metrix.cpp.obj
 
-src/buttons.i: src/buttons.cpp.i
-.PHONY : src/buttons.i
+src/core/math/metrix.i: src/core/math/metrix.cpp.i
+.PHONY : src/core/math/metrix.i
 
 # target to preprocess a source file
-src/buttons.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\glfw_test.dir\build.make CMakeFiles/glfw_test.dir/src/buttons.cpp.i
-.PHONY : src/buttons.cpp.i
+src/core/math/metrix.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\metrix_test.dir\build.make CMakeFiles/metrix_test.dir/src/core/math/metrix.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\tensor_test.dir\build.make CMakeFiles/tensor_test.dir/src/core/math/metrix.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\nn_test.dir\build.make CMakeFiles/nn_test.dir/src/core/math/metrix.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\thread_test.dir\build.make CMakeFiles/thread_test.dir/src/core/math/metrix.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dtensor_test.dir\build.make CMakeFiles/dtensor_test.dir/src/core/math/metrix.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/math/metrix.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/math/metrix.cpp.i
+.PHONY : src/core/math/metrix.cpp.i
 
-src/buttons.s: src/buttons.cpp.s
-.PHONY : src/buttons.s
+src/core/math/metrix.s: src/core/math/metrix.cpp.s
+.PHONY : src/core/math/metrix.s
 
 # target to generate assembly for a file
-src/buttons.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\glfw_test.dir\build.make CMakeFiles/glfw_test.dir/src/buttons.cpp.s
-.PHONY : src/buttons.cpp.s
+src/core/math/metrix.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\metrix_test.dir\build.make CMakeFiles/metrix_test.dir/src/core/math/metrix.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\tensor_test.dir\build.make CMakeFiles/tensor_test.dir/src/core/math/metrix.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\nn_test.dir\build.make CMakeFiles/nn_test.dir/src/core/math/metrix.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\thread_test.dir\build.make CMakeFiles/thread_test.dir/src/core/math/metrix.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dtensor_test.dir\build.make CMakeFiles/dtensor_test.dir/src/core/math/metrix.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/math/metrix.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/math/metrix.cpp.s
+.PHONY : src/core/math/metrix.cpp.s
 
-test/figure_test.obj: test/figure_test.cpp.obj
-.PHONY : test/figure_test.obj
+src/core/nn/model.obj: src/core/nn/model.cpp.obj
+.PHONY : src/core/nn/model.obj
 
 # target to build an object file
-test/figure_test.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\glfw_test.dir\build.make CMakeFiles/glfw_test.dir/test/figure_test.cpp.obj
-.PHONY : test/figure_test.cpp.obj
+src/core/nn/model.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/nn/model.cpp.obj
+.PHONY : src/core/nn/model.cpp.obj
 
-test/figure_test.i: test/figure_test.cpp.i
-.PHONY : test/figure_test.i
+src/core/nn/model.i: src/core/nn/model.cpp.i
+.PHONY : src/core/nn/model.i
 
 # target to preprocess a source file
-test/figure_test.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\glfw_test.dir\build.make CMakeFiles/glfw_test.dir/test/figure_test.cpp.i
-.PHONY : test/figure_test.cpp.i
+src/core/nn/model.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/nn/model.cpp.i
+.PHONY : src/core/nn/model.cpp.i
 
-test/figure_test.s: test/figure_test.cpp.s
-.PHONY : test/figure_test.s
+src/core/nn/model.s: src/core/nn/model.cpp.s
+.PHONY : src/core/nn/model.s
 
 # target to generate assembly for a file
-test/figure_test.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\glfw_test.dir\build.make CMakeFiles/glfw_test.dir/test/figure_test.cpp.s
-.PHONY : test/figure_test.cpp.s
+src/core/nn/model.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/nn/model.cpp.s
+.PHONY : src/core/nn/model.cpp.s
+
+src/core/nn/nn.obj: src/core/nn/nn.cpp.obj
+.PHONY : src/core/nn/nn.obj
+
+# target to build an object file
+src/core/nn/nn.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/nn/nn.cpp.obj
+.PHONY : src/core/nn/nn.cpp.obj
+
+src/core/nn/nn.i: src/core/nn/nn.cpp.i
+.PHONY : src/core/nn/nn.i
+
+# target to preprocess a source file
+src/core/nn/nn.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/nn/nn.cpp.i
+.PHONY : src/core/nn/nn.cpp.i
+
+src/core/nn/nn.s: src/core/nn/nn.cpp.s
+.PHONY : src/core/nn/nn.s
+
+# target to generate assembly for a file
+src/core/nn/nn.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/nn/nn.cpp.s
+.PHONY : src/core/nn/nn.cpp.s
+
+src/core/tensor/dtensor.obj: src/core/tensor/dtensor.cpp.obj
+.PHONY : src/core/tensor/dtensor.obj
+
+# target to build an object file
+src/core/tensor/dtensor.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dtensor_test.dir\build.make CMakeFiles/dtensor_test.dir/src/core/tensor/dtensor.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/tensor/dtensor.cpp.obj
+.PHONY : src/core/tensor/dtensor.cpp.obj
+
+src/core/tensor/dtensor.i: src/core/tensor/dtensor.cpp.i
+.PHONY : src/core/tensor/dtensor.i
+
+# target to preprocess a source file
+src/core/tensor/dtensor.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dtensor_test.dir\build.make CMakeFiles/dtensor_test.dir/src/core/tensor/dtensor.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/tensor/dtensor.cpp.i
+.PHONY : src/core/tensor/dtensor.cpp.i
+
+src/core/tensor/dtensor.s: src/core/tensor/dtensor.cpp.s
+.PHONY : src/core/tensor/dtensor.s
+
+# target to generate assembly for a file
+src/core/tensor/dtensor.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dtensor_test.dir\build.make CMakeFiles/dtensor_test.dir/src/core/tensor/dtensor.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/tensor/dtensor.cpp.s
+.PHONY : src/core/tensor/dtensor.cpp.s
+
+src/core/tensor/ops.obj: src/core/tensor/ops.cpp.obj
+.PHONY : src/core/tensor/ops.obj
+
+# target to build an object file
+src/core/tensor/ops.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dtensor_test.dir\build.make CMakeFiles/dtensor_test.dir/src/core/tensor/ops.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/tensor/ops.cpp.obj
+.PHONY : src/core/tensor/ops.cpp.obj
+
+src/core/tensor/ops.i: src/core/tensor/ops.cpp.i
+.PHONY : src/core/tensor/ops.i
+
+# target to preprocess a source file
+src/core/tensor/ops.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dtensor_test.dir\build.make CMakeFiles/dtensor_test.dir/src/core/tensor/ops.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/tensor/ops.cpp.i
+.PHONY : src/core/tensor/ops.cpp.i
+
+src/core/tensor/ops.s: src/core/tensor/ops.cpp.s
+.PHONY : src/core/tensor/ops.s
+
+# target to generate assembly for a file
+src/core/tensor/ops.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dtensor_test.dir\build.make CMakeFiles/dtensor_test.dir/src/core/tensor/ops.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/tensor/ops.cpp.s
+.PHONY : src/core/tensor/ops.cpp.s
+
+src/core/tensor/tensor.obj: src/core/tensor/tensor.cpp.obj
+.PHONY : src/core/tensor/tensor.obj
+
+# target to build an object file
+src/core/tensor/tensor.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\tensor_test.dir\build.make CMakeFiles/tensor_test.dir/src/core/tensor/tensor.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\nn_test.dir\build.make CMakeFiles/nn_test.dir/src/core/tensor/tensor.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\thread_test.dir\build.make CMakeFiles/thread_test.dir/src/core/tensor/tensor.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/tensor/tensor.cpp.obj
+.PHONY : src/core/tensor/tensor.cpp.obj
+
+src/core/tensor/tensor.i: src/core/tensor/tensor.cpp.i
+.PHONY : src/core/tensor/tensor.i
+
+# target to preprocess a source file
+src/core/tensor/tensor.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\tensor_test.dir\build.make CMakeFiles/tensor_test.dir/src/core/tensor/tensor.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\nn_test.dir\build.make CMakeFiles/nn_test.dir/src/core/tensor/tensor.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\thread_test.dir\build.make CMakeFiles/thread_test.dir/src/core/tensor/tensor.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/tensor/tensor.cpp.i
+.PHONY : src/core/tensor/tensor.cpp.i
+
+src/core/tensor/tensor.s: src/core/tensor/tensor.cpp.s
+.PHONY : src/core/tensor/tensor.s
+
+# target to generate assembly for a file
+src/core/tensor/tensor.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\tensor_test.dir\build.make CMakeFiles/tensor_test.dir/src/core/tensor/tensor.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\nn_test.dir\build.make CMakeFiles/nn_test.dir/src/core/tensor/tensor.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\thread_test.dir\build.make CMakeFiles/thread_test.dir/src/core/tensor/tensor.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/tensor/tensor.cpp.s
+.PHONY : src/core/tensor/tensor.cpp.s
+
+src/core/test/dnn_test.obj: src/core/test/dnn_test.cpp.obj
+.PHONY : src/core/test/dnn_test.obj
+
+# target to build an object file
+src/core/test/dnn_test.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/test/dnn_test.cpp.obj
+.PHONY : src/core/test/dnn_test.cpp.obj
+
+src/core/test/dnn_test.i: src/core/test/dnn_test.cpp.i
+.PHONY : src/core/test/dnn_test.i
+
+# target to preprocess a source file
+src/core/test/dnn_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/test/dnn_test.cpp.i
+.PHONY : src/core/test/dnn_test.cpp.i
+
+src/core/test/dnn_test.s: src/core/test/dnn_test.cpp.s
+.PHONY : src/core/test/dnn_test.s
+
+# target to generate assembly for a file
+src/core/test/dnn_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/test/dnn_test.cpp.s
+.PHONY : src/core/test/dnn_test.cpp.s
+
+src/core/test/draw_nn_test.obj: src/core/test/draw_nn_test.cpp.obj
+.PHONY : src/core/test/draw_nn_test.obj
+
+# target to build an object file
+src/core/test/draw_nn_test.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/test/draw_nn_test.cpp.obj
+.PHONY : src/core/test/draw_nn_test.cpp.obj
+
+src/core/test/draw_nn_test.i: src/core/test/draw_nn_test.cpp.i
+.PHONY : src/core/test/draw_nn_test.i
+
+# target to preprocess a source file
+src/core/test/draw_nn_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/test/draw_nn_test.cpp.i
+.PHONY : src/core/test/draw_nn_test.cpp.i
+
+src/core/test/draw_nn_test.s: src/core/test/draw_nn_test.cpp.s
+.PHONY : src/core/test/draw_nn_test.s
+
+# target to generate assembly for a file
+src/core/test/draw_nn_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/test/draw_nn_test.cpp.s
+.PHONY : src/core/test/draw_nn_test.cpp.s
+
+src/core/test/dtensor_test.obj: src/core/test/dtensor_test.cpp.obj
+.PHONY : src/core/test/dtensor_test.obj
+
+# target to build an object file
+src/core/test/dtensor_test.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dtensor_test.dir\build.make CMakeFiles/dtensor_test.dir/src/core/test/dtensor_test.cpp.obj
+.PHONY : src/core/test/dtensor_test.cpp.obj
+
+src/core/test/dtensor_test.i: src/core/test/dtensor_test.cpp.i
+.PHONY : src/core/test/dtensor_test.i
+
+# target to preprocess a source file
+src/core/test/dtensor_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dtensor_test.dir\build.make CMakeFiles/dtensor_test.dir/src/core/test/dtensor_test.cpp.i
+.PHONY : src/core/test/dtensor_test.cpp.i
+
+src/core/test/dtensor_test.s: src/core/test/dtensor_test.cpp.s
+.PHONY : src/core/test/dtensor_test.s
+
+# target to generate assembly for a file
+src/core/test/dtensor_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dtensor_test.dir\build.make CMakeFiles/dtensor_test.dir/src/core/test/dtensor_test.cpp.s
+.PHONY : src/core/test/dtensor_test.cpp.s
+
+src/core/test/metrix_test.obj: src/core/test/metrix_test.cpp.obj
+.PHONY : src/core/test/metrix_test.obj
+
+# target to build an object file
+src/core/test/metrix_test.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\metrix_test.dir\build.make CMakeFiles/metrix_test.dir/src/core/test/metrix_test.cpp.obj
+.PHONY : src/core/test/metrix_test.cpp.obj
+
+src/core/test/metrix_test.i: src/core/test/metrix_test.cpp.i
+.PHONY : src/core/test/metrix_test.i
+
+# target to preprocess a source file
+src/core/test/metrix_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\metrix_test.dir\build.make CMakeFiles/metrix_test.dir/src/core/test/metrix_test.cpp.i
+.PHONY : src/core/test/metrix_test.cpp.i
+
+src/core/test/metrix_test.s: src/core/test/metrix_test.cpp.s
+.PHONY : src/core/test/metrix_test.s
+
+# target to generate assembly for a file
+src/core/test/metrix_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\metrix_test.dir\build.make CMakeFiles/metrix_test.dir/src/core/test/metrix_test.cpp.s
+.PHONY : src/core/test/metrix_test.cpp.s
+
+src/core/test/tensor_test.obj: src/core/test/tensor_test.cpp.obj
+.PHONY : src/core/test/tensor_test.obj
+
+# target to build an object file
+src/core/test/tensor_test.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\tensor_test.dir\build.make CMakeFiles/tensor_test.dir/src/core/test/tensor_test.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\nn_test.dir\build.make CMakeFiles/nn_test.dir/src/core/test/tensor_test.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\thread_test.dir\build.make CMakeFiles/thread_test.dir/src/core/test/tensor_test.cpp.obj
+.PHONY : src/core/test/tensor_test.cpp.obj
+
+src/core/test/tensor_test.i: src/core/test/tensor_test.cpp.i
+.PHONY : src/core/test/tensor_test.i
+
+# target to preprocess a source file
+src/core/test/tensor_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\tensor_test.dir\build.make CMakeFiles/tensor_test.dir/src/core/test/tensor_test.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\nn_test.dir\build.make CMakeFiles/nn_test.dir/src/core/test/tensor_test.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\thread_test.dir\build.make CMakeFiles/thread_test.dir/src/core/test/tensor_test.cpp.i
+.PHONY : src/core/test/tensor_test.cpp.i
+
+src/core/test/tensor_test.s: src/core/test/tensor_test.cpp.s
+.PHONY : src/core/test/tensor_test.s
+
+# target to generate assembly for a file
+src/core/test/tensor_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\tensor_test.dir\build.make CMakeFiles/tensor_test.dir/src/core/test/tensor_test.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\nn_test.dir\build.make CMakeFiles/nn_test.dir/src/core/test/tensor_test.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\thread_test.dir\build.make CMakeFiles/thread_test.dir/src/core/test/tensor_test.cpp.s
+.PHONY : src/core/test/tensor_test.cpp.s
+
+src/core/thread/threadpool.obj: src/core/thread/threadpool.cpp.obj
+.PHONY : src/core/thread/threadpool.obj
+
+# target to build an object file
+src/core/thread/threadpool.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/thread/threadpool.cpp.obj
+.PHONY : src/core/thread/threadpool.cpp.obj
+
+src/core/thread/threadpool.i: src/core/thread/threadpool.cpp.i
+.PHONY : src/core/thread/threadpool.i
+
+# target to preprocess a source file
+src/core/thread/threadpool.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/thread/threadpool.cpp.i
+.PHONY : src/core/thread/threadpool.cpp.i
+
+src/core/thread/threadpool.s: src/core/thread/threadpool.cpp.s
+.PHONY : src/core/thread/threadpool.s
+
+# target to generate assembly for a file
+src/core/thread/threadpool.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/thread/threadpool.cpp.s
+.PHONY : src/core/thread/threadpool.cpp.s
+
+src/core/utils/buffer_util.obj: src/core/utils/buffer_util.cpp.obj
+.PHONY : src/core/utils/buffer_util.obj
+
+# target to build an object file
+src/core/utils/buffer_util.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\metrix_test.dir\build.make CMakeFiles/metrix_test.dir/src/core/utils/buffer_util.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\tensor_test.dir\build.make CMakeFiles/tensor_test.dir/src/core/utils/buffer_util.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\nn_test.dir\build.make CMakeFiles/nn_test.dir/src/core/utils/buffer_util.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\thread_test.dir\build.make CMakeFiles/thread_test.dir/src/core/utils/buffer_util.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/utils/buffer_util.cpp.obj
+.PHONY : src/core/utils/buffer_util.cpp.obj
+
+src/core/utils/buffer_util.i: src/core/utils/buffer_util.cpp.i
+.PHONY : src/core/utils/buffer_util.i
+
+# target to preprocess a source file
+src/core/utils/buffer_util.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\metrix_test.dir\build.make CMakeFiles/metrix_test.dir/src/core/utils/buffer_util.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\tensor_test.dir\build.make CMakeFiles/tensor_test.dir/src/core/utils/buffer_util.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\nn_test.dir\build.make CMakeFiles/nn_test.dir/src/core/utils/buffer_util.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\thread_test.dir\build.make CMakeFiles/thread_test.dir/src/core/utils/buffer_util.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/utils/buffer_util.cpp.i
+.PHONY : src/core/utils/buffer_util.cpp.i
+
+src/core/utils/buffer_util.s: src/core/utils/buffer_util.cpp.s
+.PHONY : src/core/utils/buffer_util.s
+
+# target to generate assembly for a file
+src/core/utils/buffer_util.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\metrix_test.dir\build.make CMakeFiles/metrix_test.dir/src/core/utils/buffer_util.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\tensor_test.dir\build.make CMakeFiles/tensor_test.dir/src/core/utils/buffer_util.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\nn_test.dir\build.make CMakeFiles/nn_test.dir/src/core/utils/buffer_util.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\thread_test.dir\build.make CMakeFiles/thread_test.dir/src/core/utils/buffer_util.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/utils/buffer_util.cpp.s
+.PHONY : src/core/utils/buffer_util.cpp.s
+
+src/visual/buttons.obj: src/visual/buttons.cpp.obj
+.PHONY : src/visual/buttons.obj
+
+# target to build an object file
+src/visual/buttons.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/visual/buttons.cpp.obj
+.PHONY : src/visual/buttons.cpp.obj
+
+src/visual/buttons.i: src/visual/buttons.cpp.i
+.PHONY : src/visual/buttons.i
+
+# target to preprocess a source file
+src/visual/buttons.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/visual/buttons.cpp.i
+.PHONY : src/visual/buttons.cpp.i
+
+src/visual/buttons.s: src/visual/buttons.cpp.s
+.PHONY : src/visual/buttons.s
+
+# target to generate assembly for a file
+src/visual/buttons.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/visual/buttons.cpp.s
+.PHONY : src/visual/buttons.cpp.s
 
 # Help Target
 help:
@@ -184,13 +640,58 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... glfw_test
-	@echo ... src/buttons.obj
-	@echo ... src/buttons.i
-	@echo ... src/buttons.s
-	@echo ... test/figure_test.obj
-	@echo ... test/figure_test.i
-	@echo ... test/figure_test.s
+	@echo ... NN_Qt_GUI_autogen
+	@echo ... NN_Qt_GUI_autogen_timestamp_deps
+	@echo ... NN_Qt_GUI
+	@echo ... dnn_test
+	@echo ... draw_nn_test
+	@echo ... dtensor_test
+	@echo ... metrix_test
+	@echo ... nn_test
+	@echo ... tensor_test
+	@echo ... thread_test
+	@echo ... src/core/math/metrix.obj
+	@echo ... src/core/math/metrix.i
+	@echo ... src/core/math/metrix.s
+	@echo ... src/core/nn/model.obj
+	@echo ... src/core/nn/model.i
+	@echo ... src/core/nn/model.s
+	@echo ... src/core/nn/nn.obj
+	@echo ... src/core/nn/nn.i
+	@echo ... src/core/nn/nn.s
+	@echo ... src/core/tensor/dtensor.obj
+	@echo ... src/core/tensor/dtensor.i
+	@echo ... src/core/tensor/dtensor.s
+	@echo ... src/core/tensor/ops.obj
+	@echo ... src/core/tensor/ops.i
+	@echo ... src/core/tensor/ops.s
+	@echo ... src/core/tensor/tensor.obj
+	@echo ... src/core/tensor/tensor.i
+	@echo ... src/core/tensor/tensor.s
+	@echo ... src/core/test/dnn_test.obj
+	@echo ... src/core/test/dnn_test.i
+	@echo ... src/core/test/dnn_test.s
+	@echo ... src/core/test/draw_nn_test.obj
+	@echo ... src/core/test/draw_nn_test.i
+	@echo ... src/core/test/draw_nn_test.s
+	@echo ... src/core/test/dtensor_test.obj
+	@echo ... src/core/test/dtensor_test.i
+	@echo ... src/core/test/dtensor_test.s
+	@echo ... src/core/test/metrix_test.obj
+	@echo ... src/core/test/metrix_test.i
+	@echo ... src/core/test/metrix_test.s
+	@echo ... src/core/test/tensor_test.obj
+	@echo ... src/core/test/tensor_test.i
+	@echo ... src/core/test/tensor_test.s
+	@echo ... src/core/thread/threadpool.obj
+	@echo ... src/core/thread/threadpool.i
+	@echo ... src/core/thread/threadpool.s
+	@echo ... src/core/utils/buffer_util.obj
+	@echo ... src/core/utils/buffer_util.i
+	@echo ... src/core/utils/buffer_util.s
+	@echo ... src/visual/buttons.obj
+	@echo ... src/visual/buttons.i
+	@echo ... src/visual/buttons.s
 .PHONY : help
 
 

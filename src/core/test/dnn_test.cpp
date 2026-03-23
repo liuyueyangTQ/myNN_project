@@ -493,8 +493,9 @@ void test_resnet() {
     //     nn->backward(label1[i], i, loss_type::cross_entropy) ;
     // nn->print_all_layers(0 , 1);
 
-
-
+#ifdef USE_DEBUG 
+    std::cout << "USE_DEBUG activated!!\n"; 
+#endif
     std::cout << "Please input training epoches number: ";
     int epochs; 
     std::cin >> epochs;
@@ -503,6 +504,7 @@ void test_resnet() {
     std::cout << "training finished!\n";
     nn->validate();
     //nn->print_count_n();
+    // 和python运行时间做对比
 }
 int main() {
     // test_Linear_NN();

@@ -1,3 +1,14 @@
-C:/workspace/graph_project/build/CMakeFiles/glfw_test.dir
-C:/workspace/graph_project/build/CMakeFiles/edit_cache.dir
-C:/workspace/graph_project/build/CMakeFiles/rebuild_cache.dir
+C:/workspace/myNN_project/build/CMakeFiles/metrix_test.dir
+C:/workspace/myNN_project/build/CMakeFiles/tensor_test.dir
+C:/workspace/myNN_project/build/CMakeFiles/nn_test.dir
+C:/workspace/myNN_project/build/CMakeFiles/thread_test.dir
+C:/workspace/myNN_project/build/CMakeFiles/dtensor_test.dir
+C:/workspace/myNN_project/build/CMakeFiles/dnn_test.dir
+C:/workspace/myNN_project/build/CMakeFiles/draw_nn_test.dir
+C:/workspace/myNN_project/build/CMakeFiles/edit_cache.dir
+C:/workspace/myNN_project/build/CMakeFiles/rebuild_cache.dir
+C:/workspace/myNN_project/build/src/visual/CMakeFiles/NN_Qt_GUI.dir
+C:/workspace/myNN_project/build/src/visual/CMakeFiles/edit_cache.dir
+C:/workspace/myNN_project/build/src/visual/CMakeFiles/rebuild_cache.dir
+C:/workspace/myNN_project/build/src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir
+C:/workspace/myNN_project/build/src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir

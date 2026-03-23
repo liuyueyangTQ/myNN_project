@@ -53,61 +53,392 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\workspace\graph_project
+CMAKE_SOURCE_DIR = C:\workspace\myNN_project
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\workspace\graph_project\build
+CMAKE_BINARY_DIR = C:\workspace\myNN_project\build
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/glfw_test.dir/all
+all: CMakeFiles/metrix_test.dir/all
+all: CMakeFiles/tensor_test.dir/all
+all: CMakeFiles/nn_test.dir/all
+all: CMakeFiles/thread_test.dir/all
+all: CMakeFiles/dtensor_test.dir/all
+all: CMakeFiles/dnn_test.dir/all
+all: CMakeFiles/draw_nn_test.dir/all
+all: src/visual/all
 .PHONY : all
 
 # The main recursive "codegen" target.
-codegen: CMakeFiles/glfw_test.dir/codegen
+codegen: CMakeFiles/metrix_test.dir/codegen
+codegen: CMakeFiles/tensor_test.dir/codegen
+codegen: CMakeFiles/nn_test.dir/codegen
+codegen: CMakeFiles/thread_test.dir/codegen
+codegen: CMakeFiles/dtensor_test.dir/codegen
+codegen: CMakeFiles/dnn_test.dir/codegen
+codegen: CMakeFiles/draw_nn_test.dir/codegen
+codegen: src/visual/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: src/visual/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/glfw_test.dir/clean
+clean: CMakeFiles/metrix_test.dir/clean
+clean: CMakeFiles/tensor_test.dir/clean
+clean: CMakeFiles/nn_test.dir/clean
+clean: CMakeFiles/thread_test.dir/clean
+clean: CMakeFiles/dtensor_test.dir/clean
+clean: CMakeFiles/dnn_test.dir/clean
+clean: CMakeFiles/draw_nn_test.dir/clean
+clean: src/visual/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/glfw_test.dir
+# Directory level rules for directory src/visual
+
+# Recursive "all" directory target.
+src/visual/all: src/visual/CMakeFiles/NN_Qt_GUI.dir/all
+.PHONY : src/visual/all
+
+# Recursive "codegen" directory target.
+src/visual/codegen: src/visual/CMakeFiles/NN_Qt_GUI.dir/codegen
+.PHONY : src/visual/codegen
+
+# Recursive "preinstall" directory target.
+src/visual/preinstall:
+.PHONY : src/visual/preinstall
+
+# Recursive "clean" directory target.
+src/visual/clean: src/visual/CMakeFiles/NN_Qt_GUI.dir/clean
+src/visual/clean: src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/clean
+src/visual/clean: src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/clean
+.PHONY : src/visual/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/metrix_test.dir
 
 # All Build rule for target.
-CMakeFiles/glfw_test.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\glfw_test.dir\build.make CMakeFiles/glfw_test.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\glfw_test.dir\build.make CMakeFiles/glfw_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\graph_project\build\CMakeFiles --progress-num=1,2,3 "Built target glfw_test"
-.PHONY : CMakeFiles/glfw_test.dir/all
+CMakeFiles/metrix_test.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\metrix_test.dir\build.make CMakeFiles/metrix_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\metrix_test.dir\build.make CMakeFiles/metrix_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=27,28,29,30 "Built target metrix_test"
+.PHONY : CMakeFiles/metrix_test.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/glfw_test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\graph_project\build\CMakeFiles 3
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/glfw_test.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\graph_project\build\CMakeFiles 0
-.PHONY : CMakeFiles/glfw_test.dir/rule
+CMakeFiles/metrix_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/metrix_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 0
+.PHONY : CMakeFiles/metrix_test.dir/rule
 
 # Convenience name for target.
-glfw_test: CMakeFiles/glfw_test.dir/rule
-.PHONY : glfw_test
+metrix_test: CMakeFiles/metrix_test.dir/rule
+.PHONY : metrix_test
 
 # codegen rule for target.
-CMakeFiles/glfw_test.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\glfw_test.dir\build.make CMakeFiles/glfw_test.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\graph_project\build\CMakeFiles --progress-num=1,2,3 "Finished codegen for target glfw_test"
-.PHONY : CMakeFiles/glfw_test.dir/codegen
+CMakeFiles/metrix_test.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\metrix_test.dir\build.make CMakeFiles/metrix_test.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=27,28,29,30 "Finished codegen for target metrix_test"
+.PHONY : CMakeFiles/metrix_test.dir/codegen
 
 # clean rule for target.
-CMakeFiles/glfw_test.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\glfw_test.dir\build.make CMakeFiles/glfw_test.dir/clean
-.PHONY : CMakeFiles/glfw_test.dir/clean
+CMakeFiles/metrix_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\metrix_test.dir\build.make CMakeFiles/metrix_test.dir/clean
+.PHONY : CMakeFiles/metrix_test.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/tensor_test.dir
+
+# All Build rule for target.
+CMakeFiles/tensor_test.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\tensor_test.dir\build.make CMakeFiles/tensor_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\tensor_test.dir\build.make CMakeFiles/tensor_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=36,37,38,39,40 "Built target tensor_test"
+.PHONY : CMakeFiles/tensor_test.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/tensor_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 5
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/tensor_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 0
+.PHONY : CMakeFiles/tensor_test.dir/rule
+
+# Convenience name for target.
+tensor_test: CMakeFiles/tensor_test.dir/rule
+.PHONY : tensor_test
+
+# codegen rule for target.
+CMakeFiles/tensor_test.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\tensor_test.dir\build.make CMakeFiles/tensor_test.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=36,37,38,39,40 "Finished codegen for target tensor_test"
+.PHONY : CMakeFiles/tensor_test.dir/codegen
+
+# clean rule for target.
+CMakeFiles/tensor_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\tensor_test.dir\build.make CMakeFiles/tensor_test.dir/clean
+.PHONY : CMakeFiles/tensor_test.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/nn_test.dir
+
+# All Build rule for target.
+CMakeFiles/nn_test.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\nn_test.dir\build.make CMakeFiles/nn_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\nn_test.dir\build.make CMakeFiles/nn_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=31,32,33,34,35 "Built target nn_test"
+.PHONY : CMakeFiles/nn_test.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/nn_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 5
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/nn_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 0
+.PHONY : CMakeFiles/nn_test.dir/rule
+
+# Convenience name for target.
+nn_test: CMakeFiles/nn_test.dir/rule
+.PHONY : nn_test
+
+# codegen rule for target.
+CMakeFiles/nn_test.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\nn_test.dir\build.make CMakeFiles/nn_test.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=31,32,33,34,35 "Finished codegen for target nn_test"
+.PHONY : CMakeFiles/nn_test.dir/codegen
+
+# clean rule for target.
+CMakeFiles/nn_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\nn_test.dir\build.make CMakeFiles/nn_test.dir/clean
+.PHONY : CMakeFiles/nn_test.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/thread_test.dir
+
+# All Build rule for target.
+CMakeFiles/thread_test.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\thread_test.dir\build.make CMakeFiles/thread_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\thread_test.dir\build.make CMakeFiles/thread_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=41,42,43,44,45 "Built target thread_test"
+.PHONY : CMakeFiles/thread_test.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/thread_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 5
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/thread_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 0
+.PHONY : CMakeFiles/thread_test.dir/rule
+
+# Convenience name for target.
+thread_test: CMakeFiles/thread_test.dir/rule
+.PHONY : thread_test
+
+# codegen rule for target.
+CMakeFiles/thread_test.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\thread_test.dir\build.make CMakeFiles/thread_test.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=41,42,43,44,45 "Finished codegen for target thread_test"
+.PHONY : CMakeFiles/thread_test.dir/codegen
+
+# clean rule for target.
+CMakeFiles/thread_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\thread_test.dir\build.make CMakeFiles/thread_test.dir/clean
+.PHONY : CMakeFiles/thread_test.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/dtensor_test.dir
+
+# All Build rule for target.
+CMakeFiles/dtensor_test.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dtensor_test.dir\build.make CMakeFiles/dtensor_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dtensor_test.dir\build.make CMakeFiles/dtensor_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=22,23,24,25,26 "Built target dtensor_test"
+.PHONY : CMakeFiles/dtensor_test.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/dtensor_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 5
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/dtensor_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 0
+.PHONY : CMakeFiles/dtensor_test.dir/rule
+
+# Convenience name for target.
+dtensor_test: CMakeFiles/dtensor_test.dir/rule
+.PHONY : dtensor_test
+
+# codegen rule for target.
+CMakeFiles/dtensor_test.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dtensor_test.dir\build.make CMakeFiles/dtensor_test.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=22,23,24,25,26 "Finished codegen for target dtensor_test"
+.PHONY : CMakeFiles/dtensor_test.dir/codegen
+
+# clean rule for target.
+CMakeFiles/dtensor_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dtensor_test.dir\build.make CMakeFiles/dtensor_test.dir/clean
+.PHONY : CMakeFiles/dtensor_test.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/dnn_test.dir
+
+# All Build rule for target.
+CMakeFiles/dnn_test.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=8,9,10,11,12,13 "Built target dnn_test"
+.PHONY : CMakeFiles/dnn_test.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/dnn_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 6
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/dnn_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 0
+.PHONY : CMakeFiles/dnn_test.dir/rule
+
+# Convenience name for target.
+dnn_test: CMakeFiles/dnn_test.dir/rule
+.PHONY : dnn_test
+
+# codegen rule for target.
+CMakeFiles/dnn_test.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=8,9,10,11,12,13 "Finished codegen for target dnn_test"
+.PHONY : CMakeFiles/dnn_test.dir/codegen
+
+# clean rule for target.
+CMakeFiles/dnn_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/clean
+.PHONY : CMakeFiles/dnn_test.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/draw_nn_test.dir
+
+# All Build rule for target.
+CMakeFiles/draw_nn_test.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=14,15,16,17,18,19,20,21 "Built target draw_nn_test"
+.PHONY : CMakeFiles/draw_nn_test.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/draw_nn_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 8
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/draw_nn_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 0
+.PHONY : CMakeFiles/draw_nn_test.dir/rule
+
+# Convenience name for target.
+draw_nn_test: CMakeFiles/draw_nn_test.dir/rule
+.PHONY : draw_nn_test
+
+# codegen rule for target.
+CMakeFiles/draw_nn_test.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=14,15,16,17,18,19,20,21 "Finished codegen for target draw_nn_test"
+.PHONY : CMakeFiles/draw_nn_test.dir/codegen
+
+# clean rule for target.
+CMakeFiles/draw_nn_test.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/clean
+.PHONY : CMakeFiles/draw_nn_test.dir/clean
+
+#=============================================================================
+# Target rules for target src/visual/CMakeFiles/NN_Qt_GUI.dir
+
+# All Build rule for target.
+src/visual/CMakeFiles/NN_Qt_GUI.dir/all: src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/all
+src/visual/CMakeFiles/NN_Qt_GUI.dir/all: src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/all
+	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI.dir/depend
+	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=1,2,3,4,5,6 "Built target NN_Qt_GUI"
+.PHONY : src/visual/CMakeFiles/NN_Qt_GUI.dir/all
+
+# Build rule for subdir invocation for target.
+src/visual/CMakeFiles/NN_Qt_GUI.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 7
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 src/visual/CMakeFiles/NN_Qt_GUI.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 0
+.PHONY : src/visual/CMakeFiles/NN_Qt_GUI.dir/rule
+
+# Convenience name for target.
+NN_Qt_GUI: src/visual/CMakeFiles/NN_Qt_GUI.dir/rule
+.PHONY : NN_Qt_GUI
+
+# codegen rule for target.
+src/visual/CMakeFiles/NN_Qt_GUI.dir/codegen: src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/all
+	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=1,2,3,4,5,6 "Finished codegen for target NN_Qt_GUI"
+.PHONY : src/visual/CMakeFiles/NN_Qt_GUI.dir/codegen
+
+# clean rule for target.
+src/visual/CMakeFiles/NN_Qt_GUI.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI.dir/clean
+.PHONY : src/visual/CMakeFiles/NN_Qt_GUI.dir/clean
+
+#=============================================================================
+# Target rules for target src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir
+
+# All Build rule for target.
+src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/all:
+	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI_autogen_timestamp_deps.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/depend
+	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI_autogen_timestamp_deps.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num= "Built target NN_Qt_GUI_autogen_timestamp_deps"
+.PHONY : src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/all
+
+# Build rule for subdir invocation for target.
+src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 0
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 0
+.PHONY : src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/rule
+
+# Convenience name for target.
+NN_Qt_GUI_autogen_timestamp_deps: src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/rule
+.PHONY : NN_Qt_GUI_autogen_timestamp_deps
+
+# codegen rule for target.
+src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI_autogen_timestamp_deps.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num= "Finished codegen for target NN_Qt_GUI_autogen_timestamp_deps"
+.PHONY : src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/codegen
+
+# clean rule for target.
+src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI_autogen_timestamp_deps.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/clean
+.PHONY : src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/clean
+
+#=============================================================================
+# Target rules for target src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir
+
+# All Build rule for target.
+src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/all: src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/all
+	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI_autogen.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/depend
+	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI_autogen.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=7 "Built target NN_Qt_GUI_autogen"
+.PHONY : src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/all
+
+# Build rule for subdir invocation for target.
+src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 1
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\workspace\myNN_project\build\CMakeFiles 0
+.PHONY : src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/rule
+
+# Convenience name for target.
+NN_Qt_GUI_autogen: src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/rule
+.PHONY : NN_Qt_GUI_autogen
+
+# codegen rule for target.
+src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/codegen: src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/all
+	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI_autogen.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=7 "Finished codegen for target NN_Qt_GUI_autogen"
+.PHONY : src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/codegen
+
+# clean rule for target.
+src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI_autogen.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/clean
+.PHONY : src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

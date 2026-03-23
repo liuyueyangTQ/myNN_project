@@ -30,8 +30,6 @@ add_executable(metrix_test
     ${CMAKE_SOURCE_DIR}/test/metrix_test.cpp
     ${CMAKE_SOURCE_DIR}/math/metrix.cpp
     ${CMAKE_SOURCE_DIR}/utils/buffer_util.cpp
-    # src/glad.c
-    # src/Shader.cpp
 )
 target_include_directories(metrix_test PRIVATE
     ${CMAKE_SOURCE_DIR}/math
@@ -46,8 +44,6 @@ add_executable(tensor_test
     ${CMAKE_SOURCE_DIR}/math/metrix.cpp
     ${CMAKE_SOURCE_DIR}/tensor/tensor.cpp
     ${CMAKE_SOURCE_DIR}/utils/buffer_util.cpp
-    # src/glad.c
-    # src/Shader.cpp
 )
 target_include_directories(tensor_test PRIVATE
     ${CMAKE_SOURCE_DIR}/math
@@ -68,8 +64,6 @@ add_executable(nn_test
     ${CMAKE_SOURCE_DIR}/nn/model.cpp
     ${CMAKE_SOURCE_DIR}/thread/threadpool.cpp
     ${CMAKE_SOURCE_DIR}/utils/buffer_util.cpp
-    # src/glad.c
-    # src/Shader.cpp
 )
 target_include_directories(nn_test PRIVATE
     ${CMAKE_SOURCE_DIR}/math
@@ -192,5 +186,4 @@ add_opengl_support(draw_nn_test)
 target_compile_definitions(draw_nn_test
     PRIVATE       # 仅当前目标（tensor_test）的源文件可见
         USE_DEBUG 
-    #    USE_THREAD
 )
