@@ -151,5 +151,5 @@ add_nn_executable(draw_nn_test
 include(${CMAKE_SOURCE_DIR}/cmake/openGLhelper.cmake)
 add_opengl_support(draw_nn_test)
 
-add_subdirectory(src/visual)
-
+# add_subdirectory(src/visual)
+add_subdirectory(api)

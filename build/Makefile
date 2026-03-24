@@ -207,43 +207,43 @@ draw_nn_test/fast:
 .PHONY : draw_nn_test/fast
 
 #=============================================================================
-# Target rules for targets named NN_Qt_GUI
+# Target rules for targets named QT_api
 
 # Build rule for target.
-NN_Qt_GUI: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 NN_Qt_GUI
-.PHONY : NN_Qt_GUI
+QT_api: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 QT_api
+.PHONY : QT_api
 
 # fast build rule for target.
-NN_Qt_GUI/fast:
-	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI.dir/build
-.PHONY : NN_Qt_GUI/fast
+QT_api/fast:
+	$(MAKE) $(MAKESILENT) -f api\CMakeFiles\QT_api.dir\build.make api/CMakeFiles/QT_api.dir/build
+.PHONY : QT_api/fast
 
 #=============================================================================
-# Target rules for targets named NN_Qt_GUI_autogen_timestamp_deps
+# Target rules for targets named QT_api_autogen_timestamp_deps
 
 # Build rule for target.
-NN_Qt_GUI_autogen_timestamp_deps: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 NN_Qt_GUI_autogen_timestamp_deps
-.PHONY : NN_Qt_GUI_autogen_timestamp_deps
+QT_api_autogen_timestamp_deps: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 QT_api_autogen_timestamp_deps
+.PHONY : QT_api_autogen_timestamp_deps
 
 # fast build rule for target.
-NN_Qt_GUI_autogen_timestamp_deps/fast:
-	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI_autogen_timestamp_deps.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/build
-.PHONY : NN_Qt_GUI_autogen_timestamp_deps/fast
+QT_api_autogen_timestamp_deps/fast:
+	$(MAKE) $(MAKESILENT) -f api\CMakeFiles\QT_api_autogen_timestamp_deps.dir\build.make api/CMakeFiles/QT_api_autogen_timestamp_deps.dir/build
+.PHONY : QT_api_autogen_timestamp_deps/fast
 
 #=============================================================================
-# Target rules for targets named NN_Qt_GUI_autogen
+# Target rules for targets named QT_api_autogen
 
 # Build rule for target.
-NN_Qt_GUI_autogen: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 NN_Qt_GUI_autogen
-.PHONY : NN_Qt_GUI_autogen
+QT_api_autogen: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 QT_api_autogen
+.PHONY : QT_api_autogen
 
 # fast build rule for target.
-NN_Qt_GUI_autogen/fast:
-	$(MAKE) $(MAKESILENT) -f src\visual\CMakeFiles\NN_Qt_GUI_autogen.dir\build.make src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/build
-.PHONY : NN_Qt_GUI_autogen/fast
+QT_api_autogen/fast:
+	$(MAKE) $(MAKESILENT) -f api\CMakeFiles\QT_api_autogen.dir\build.make api/CMakeFiles/QT_api_autogen.dir/build
+.PHONY : QT_api_autogen/fast
 
 src/core/math/metrix.obj: src/core/math/metrix.cpp.obj
 .PHONY : src/core/math/metrix.obj
@@ -640,9 +640,9 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... NN_Qt_GUI_autogen
-	@echo ... NN_Qt_GUI_autogen_timestamp_deps
-	@echo ... NN_Qt_GUI
+	@echo ... QT_api_autogen
+	@echo ... QT_api_autogen_timestamp_deps
+	@echo ... QT_api
 	@echo ... dnn_test
 	@echo ... draw_nn_test
 	@echo ... dtensor_test

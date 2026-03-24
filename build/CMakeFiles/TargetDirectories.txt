@@ -7,8 +7,8 @@ C:/workspace/myNN_project/build/CMakeFiles/dnn_test.dir
 C:/workspace/myNN_project/build/CMakeFiles/draw_nn_test.dir
 C:/workspace/myNN_project/build/CMakeFiles/edit_cache.dir
 C:/workspace/myNN_project/build/CMakeFiles/rebuild_cache.dir
-C:/workspace/myNN_project/build/src/visual/CMakeFiles/NN_Qt_GUI.dir
-C:/workspace/myNN_project/build/src/visual/CMakeFiles/edit_cache.dir
-C:/workspace/myNN_project/build/src/visual/CMakeFiles/rebuild_cache.dir
-C:/workspace/myNN_project/build/src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir
-C:/workspace/myNN_project/build/src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir
+C:/workspace/myNN_project/build/api/CMakeFiles/QT_api.dir
+C:/workspace/myNN_project/build/api/CMakeFiles/edit_cache.dir
+C:/workspace/myNN_project/build/api/CMakeFiles/rebuild_cache.dir
+C:/workspace/myNN_project/build/api/CMakeFiles/QT_api_autogen_timestamp_deps.dir
+C:/workspace/myNN_project/build/api/CMakeFiles/QT_api_autogen.dir

@@ -236,13 +236,13 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/Tools/glfw-3.4/lib/cmake/glfw3/glfw3Targets-release.cmake"
   "C:/Tools/glfw-3.4/lib/cmake/glfw3/glfw3Targets.cmake"
   "C:/workspace/myNN_project/CMakeLists.txt"
+  "C:/workspace/myNN_project/api/CMakeLists.txt"
   "CMakeFiles/4.1.0/CMakeCCompiler.cmake"
   "CMakeFiles/4.1.0/CMakeCXXCompiler.cmake"
   "CMakeFiles/4.1.0/CMakeRCCompiler.cmake"
   "CMakeFiles/4.1.0/CMakeSystem.cmake"
   "C:/workspace/myNN_project/cmake/nnhelper.cmake"
   "C:/workspace/myNN_project/cmake/openGLhelper.cmake"
-  "C:/workspace/myNN_project/src/visual/CMakeLists.txt"
   )
 
 # The corresponding makefile is:
@@ -255,9 +255,9 @@ set(CMAKE_MAKEFILE_OUTPUTS
 set(CMAKE_MAKEFILE_PRODUCTS
   ".qt/QtDeployTargets.cmake"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
-  "src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/AutogenInfo.json"
+  "api/CMakeFiles/QT_api_autogen.dir/AutogenInfo.json"
   ".qt/QtDeploySupport.cmake"
-  "src/visual/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "api/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
@@ -269,7 +269,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/dtensor_test.dir/DependInfo.cmake"
   "CMakeFiles/dnn_test.dir/DependInfo.cmake"
   "CMakeFiles/draw_nn_test.dir/DependInfo.cmake"
-  "src/visual/CMakeFiles/NN_Qt_GUI.dir/DependInfo.cmake"
-  "src/visual/CMakeFiles/NN_Qt_GUI_autogen_timestamp_deps.dir/DependInfo.cmake"
-  "src/visual/CMakeFiles/NN_Qt_GUI_autogen.dir/DependInfo.cmake"
+  "api/CMakeFiles/QT_api.dir/DependInfo.cmake"
+  "api/CMakeFiles/QT_api_autogen_timestamp_deps.dir/DependInfo.cmake"
+  "api/CMakeFiles/QT_api_autogen.dir/DependInfo.cmake"
   )

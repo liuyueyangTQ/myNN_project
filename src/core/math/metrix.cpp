@@ -424,7 +424,6 @@ void _matmul_tensors(metrix_float& m1, metrix_float& m2, float* data) { //不指
         assert(m1.shape.first == m2.shape.second);
     
 #endif
-
     float s;
     size_t row, col, l1, l2;
     l1 = m1.shape.second;
@@ -432,14 +431,10 @@ void _matmul_tensors(metrix_float& m1, metrix_float& m2, float* data) { //不指
     if(!m1.t && !m2.t) {
         row = m1.shape.first;
         col = m2.shape.second;
-        for(int i = 0; i < row; ++i)
-            for(int j = 0; j < col; ++j) {
-                s = 0;
-                for(int k = 0; k < m1.shape.second; ++k)
-                    s += m1.data[i * l1 + k] * m2.data[k * l2+j];
-                data[i * col + j] += s;
-                
-            }
+        for(int i = 0; i < row; ++i)  
+            for(int k = 0; k < m1.shape.second; ++k)  // 行优先缓存优化
+                for(int j = 0; j < col; ++j) 
+                    data[i * col + j] += m1.data[i * l1 + k] * m2.data[k * l2 + j];
 #ifdef USE_DEBUG        
         // std::cout << "max index is: " << (col * row - 1) << std::endl;
 #endif  
@@ -452,28 +447,22 @@ void _matmul_tensors(metrix_float& m1, metrix_float& m2, float* data) { //不指
                 s = 0;
                 for(int k = 0; k < m1.shape.second; ++k)
                     s += m1.data[i * l1 + k] * m2.data[j * l2 + k];
-                data[i * col + j] += s;
-
+                data[i * col + j] += s; // 此处保留，因为顺序符合行优先
             }
     }
     else if(m1.t && !m2.t) {
         row = m1.shape.second;
         col = m2.shape.second;
-        // l1 = m1.shape.second;
-
-        for(int i = 0; i < row; ++i)
-            for(int j = 0; j < col; ++j) {
-                s = 0;
-                for(int k = 0; k < m1.shape.first; ++k)
-                    s += m1.data[k * l1 + i] * m2.data[k * l2 + j];
-                data[i * col + j] += s;
-            }
+        for(int k = 0; k < m1.shape.first; ++k)  // k放在最外面
+            for(int i = 0; i < row; ++i)
+                for(int j = 0; j < col; ++j) 
+                    data[i * col + j] += m1.data[k * l1 + i] * m2.data[k * l2 + j];
     }
     else {
         row = m1.shape.second;
         col = m2.shape.first;
         for(int i = 0; i < row; ++i)
-            for(int j = 0; j < col; ++j) {
+            for(int j = 0; j < col; ++j) { //这个先不作优化
                 s = 0;
                 for(int k = 0; k < m1.shape.first; ++k)
                     s += m1.data[k * l1 + i] * m2.data[j * l2 + k];
@@ -508,7 +497,7 @@ void _matmul_tensors(metrix_float& m1, metrix_float& m2, bool t1, bool t2, float
             for(int j = 0; j < col; ++j) {
                 s = 0;
                 for(int k = 0; k < m1.shape.second; ++k)
-                    s += m1.data[i * l1 + k] * m2.data[k * l2+j];
+                    s += m1.data[i * l1 + k] * m2.data[k * l2 + j];
                 //std::cout << (i * col + j) << ' ';
                 data[i * col + j] += s;
                 

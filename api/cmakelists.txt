@@ -1,0 +1,59 @@
+# 设置QT工具源路径
+set(QT_SRC_DIR "C:/Qt/6.10.1")
+# 添加 Qt6 安装路径
+set(CMAKE_PREFIX_PATH "C:/Qt/6.10.1/mingw_64")
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
+
+# 自动生成 MOC 文件（Qt 元对象编译）
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+
+
+include(${CMAKE_SOURCE_DIR}/cmake/nnhelper.cmake) # 引入nn辅助构建工具，帮助构建 nn 神经网络 QT 前端
+add_nn_executable(QT_api
+    MAIN_DIR    
+        ${CORE_DIR} # 为 src/core
+    SRCS
+        ${CMAKE_CURRENT_SOURCE_DIR}/api.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/QT_nn_interface.cpp
+        ${CORE_DIR}/math/metrix.cpp
+        ${CORE_DIR}/tensor/dtensor.cpp
+        ${CORE_DIR}/tensor/ops.cpp
+        ${CORE_DIR}/nn/nn.cpp
+    # 可选：追加自定义宏
+    DEFINES
+        USE_DEBUG 
+        USE_THREAD
+        DEBUG_ASSERT_H
+    # 可选：追加自定义包含目录
+    INCLUDES
+        ${CMAKE_SOURCE_DIR}/api
+    LINKS
+)
+# 链接 Qt 库
+target_link_libraries(QT_api Qt6::Core Qt6::Widgets)
+# 定义 QT_api 的输出路径
+set_target_properties(QT_api PROPERTIES
+    # 可执行文件输出到目录
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
+add_custom_command(
+    TARGET QT_api  # 关联到目标可执行文件
+    POST_BUILD           # 在目标构建完成后执行
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different #复制 QT 动态库文件到当前可执行文件夹下
+        "${QT_SRC_DIR}/mingw_64/bin/Qt6Core.dll"  
+        "${CMAKE_CURRENT_BINARY_DIR}/"  
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different 
+        "${QT_SRC_DIR}/mingw_64/bin/Qt6Gui.dll"  
+        "${CMAKE_CURRENT_BINARY_DIR}/"  
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different 
+        "${QT_SRC_DIR}/mingw_64/bin/Qt6Widgets.dll"  
+        "${CMAKE_CURRENT_BINARY_DIR}/"  
+    COMMAND ${CMAKE_COMMAND} -E make_directory  # 在build文件夹下创建目录 platform用于链接QT
+        "${CMAKE_CURRENT_BINARY_DIR}/platforms"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${QT_SRC_DIR}/mingw_64/plugins/platforms/qwindows.dll"  
+        "${CMAKE_CURRENT_BINARY_DIR}/platforms/"  # 目标目录：exe 所在目录
+    COMMENT "copying QT DLLto executable fold..."  # 构建时显示的提示信息
+)

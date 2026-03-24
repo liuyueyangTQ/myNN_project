@@ -1,11 +1,10 @@
 #pragma once
 #include <GL/glew.h>   // 先include glew 因为其中重定义了glad当中的内容，统一按照glew的要求
 // #include <glad/glad.h> 不用glad，因为glew已经包含了
-// 第二步：定义GLFW_INCLUDE_NONE，阻止GLFW包含<GL/gl.h>
+// 定义GLFW_INCLUDE_NONE，阻止GLFW包含<GL/gl.h>
 #define GLFW_INCLUDE_NONE
 // 再包含GLFW头文件
 #include <GLFW/glfw3.h>
-
 #include <exception>
 #include <cassert>
 #include <string>

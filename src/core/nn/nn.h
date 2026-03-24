@@ -15,6 +15,19 @@ layer* layer_tool(int n, size_t batch_num, sub_type stp);
 }
 namespace nn{
 using namespace dtensor;
+// 神经网络参数结构体（前后台共用）
+struct NNParams {  
+    nn_type model_type;  // 模型类型："LinearNN" / "LinearResnet"
+    std::vector<int> layer_sizes; // 各层神经元数（如 [10, 20, 20, 5]）
+    std::vector<dtensor::sub_type> layer_types; // 各层神经元数 (如 origin, relu, relu, softmax)
+    size_t batch_size;
+    size_t thread_num;
+    int epochs;
+    loss_type lstp;
+    double lr;
+    NNParams() : lstp(loss_type::cross_entropy) , epochs(1000), lr(0.001), thread_num(4), batch_size(4) {}
+};
+
 class module_base{
 protected:
     std::vector<dtensor_base*> inputs; // 模块的参数列表
@@ -96,5 +109,7 @@ public:
     void print_cur_layer() ;
 #endif
 };
+
+void run_model(const NNParams& params);
 
 }

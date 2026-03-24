@@ -44,6 +44,11 @@ enum class tensor_pair{
     tensor2D_tensor2D,
     common_common
 };
-
+}
+namespace nn {
+enum class nn_type {
+    Linear_Resnet,
+    Linear_NN
+};
 
 }
