@@ -6,5 +6,5 @@ CXX_DEFINES = -DDEBUG_ASSERT_H -DUSE_DEBUG -DUSE_THREAD
 
 CXX_INCLUDES = @CMakeFiles/dtensor_test.dir/includes_CXX.rsp
 
-CXX_FLAGS =  -static-libgcc -static-libstdc++ -O3 -flto -march=native -g -g -O0 -std=gnu++17
+CXX_FLAGS =  -static-libgcc -static-libstdc++ -O3 -flto -march=native -O3 -DNDEBUG -O3 -march=native -std=gnu++17
 

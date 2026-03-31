@@ -6,5 +6,5 @@ CXX_DEFINES = -DGLFW_DLL -DUSE_DEBUG
 
 CXX_INCLUDES = @CMakeFiles/draw_nn_test.dir/includes_CXX.rsp
 
-CXX_FLAGS =  -static-libgcc -static-libstdc++ -O3 -flto -march=native -g -g -O0 -std=gnu++17
+CXX_FLAGS =  -static-libgcc -static-libstdc++ -O3 -flto -march=native -O3 -DNDEBUG -O3 -march=native -std=gnu++17
 

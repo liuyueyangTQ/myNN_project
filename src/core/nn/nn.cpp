@@ -6,6 +6,9 @@ using namespace dtensor;
 void module_base::set_learning_rate(double lr) {
     this->lr = lr;
 }
+void module_base::set_thread_pool(dtensor::ThreadPool* pool) {
+    this->thread_pool = pool;
+}
 void module_base::reshuffle_data() {
     assert(samples > 0 && groups > 0);
     assert(samples == (this->train_data).size() * this->batch_num);
@@ -50,7 +53,54 @@ void module_base::train_model(int epochs, double lr) {
         train_one_epoch(lr);
     }
 }
-
+void Linear_Resnet::train_model_multi_thread(int epochs, double lr, int thread_num) { 
+    std::vector<std::thread> threads(thread_num);
+    for(int i = 0; i < epochs; ++i)  {
+        this->reshuffle_data();
+        for(int grp = 0; grp < groups; ++grp) {
+            this->clear_grad();
+            this->clear_samples(); //非常重要！！！因为 _add_tensors 等实现逻辑是累加式的！！
+            this->reset_count();   // 将每个tensor和op的temp_n重置！非常重要！
+            this->set_input_value(this->train_data[grp]);
+            for(int batch_id = 0; batch_id < thread_num; ++batch_id) {
+                threads[batch_id] = std::thread([this, batch_id, grp]() {
+                    this->forward(batch_id);
+                    this->backward(this->train_labels[grp][batch_id], batch_id, loss_type::cross_entropy);
+                });
+            }
+            // std::thread(static_cast<void (Linear_Resnet::*)(size_t)>(&Linear_Resnet::forward), this, (size_t)batch_id);
+            // for(int batch_id = 0; batch_id < thread_num; ++batch_id) {
+            //     threads[batch_id] = std::thread(static_cast<void (Linear_Resnet::*)(std::vector<float>& , size_t , loss_type )>(&Linear_Resnet::backward), this, std::ref(this->train_labels[grp][batch_id]), batch_id, loss_type::cross_entropy);
+            // }
+            for(int t = 0; t < thread_num; ++t) {
+                threads[t].join();
+            } // 省去中间一步join可使速度从12.5s提升到7.5s左右
+            this->update_parameters(lr);
+        }   
+    }
+}
+void Linear_Resnet::train_model_multi_thread_with_pool(int epochs, double lr, int thread_num) {
+    assert(this->thread_pool != nullptr);
+    for(int i = 0; i < epochs; ++i)  {
+        this->reshuffle_data();
+        for(int grp = 0; grp < groups; ++grp) {
+            this->clear_grad();
+            this->clear_samples(); //非常重要！！！因为 _add_tensors 等实现逻辑是累加式的！！
+            this->reset_count();   // 将每个tensor和op的temp_n重置！非常重要！
+            this->set_input_value(this->train_data[grp]);
+            this->thread_pool->set_task_nums(this->batch_num); //设置任务计数用于同步
+            thread_pool->set_task_nums(this->batch_num); //设置任务计数用于同步
+            for(size_t batch_id = 0; batch_id < this->batch_num; ++batch_id) // 并行计算这层每个样本的前向传播
+                this->thread_pool->enqueue(this, &Linear_Resnet::forward, batch_id, true);
+            while(!this->thread_pool->have_finished_works()); // 等待所有任务完成 (高开销)
+            thread_pool->set_task_nums(this->batch_num); //设置任务计数用于同步
+            for(size_t batch_id = 0; batch_id < this->batch_num; ++batch_id) // 并行计算这层每个样本的前向传播
+                this->thread_pool->enqueue(this, &Linear_Resnet::backward, this->train_labels[grp][batch_id], batch_id, loss_type::cross_entropy, true);
+            while(!this->thread_pool->have_finished_works()); // 等待所有任务完成 (高开销)
+            this->update_parameters(lr);
+        }
+    }
+}
 void module_base::get_train_data(std::vector<std::vector<float>>& data, std::vector<std::vector<float>>& labels) {
     assert(data.size() > 0 && data.size() == labels.size() && data.size() % this->batch_num == 0);
     this->samples = data.size();
@@ -127,7 +177,7 @@ void Linear_NN::add_layer(int num, sub_type tp) {
  }
 
 void Linear_NN::forward(size_t batch_id) {
-    cur_layer = first_layer;
+    dtensor_base* cur_layer = first_layer;
     op* cur_op;
     while(cur_layer) {
         cur_op = cur_layer->get_op_next();
@@ -152,7 +202,7 @@ void Linear_NN::forward() {
     }
 }
 void Linear_NN::backward(std::vector<float>& label, size_t batch_id, loss_type tp) {
-    cur_layer = last_layer;
+    dtensor_base* cur_layer = last_layer;
     op* cur_op = cur_layer->get_op_last();
     cur_layer->count_loss_grad(label, tp, batch_id);   
     cur_layer->backward(batch_id);
@@ -186,7 +236,7 @@ void Linear_NN::backward(std::vector<std::vector<float>>& labels, loss_type tp) 
     return;
 }
 void Linear_NN::update_parameters(double lr) {
-    cur_layer = first_layer;
+    dtensor_base* cur_layer = first_layer;
     op* temp_op;
     while(cur_layer) {
         temp_op = cur_layer->get_op_next();
@@ -205,7 +255,7 @@ void Linear_NN::set_input_value(std::vector<std::vector<float>>& data) {
     this->first_layer->set_input_value(data);
 }
 void Linear_NN::clear_grad() {
-    cur_layer = first_layer;
+    dtensor_base* cur_layer = first_layer;
     op* temp_op;
     while(cur_layer) {
         temp_op = cur_layer->get_op_next();
@@ -220,7 +270,7 @@ void Linear_NN::clear_grad() {
     return;
 }
 void Linear_NN::clear_samples() {
-    cur_layer = first_layer;
+    dtensor_base* cur_layer = first_layer;
     op* temp_op;
     while(cur_layer) {
         temp_op = cur_layer->get_op_next();
@@ -316,7 +366,7 @@ void Linear_Resnet::add_res_layer(int num, sub_type tp) {
     return;
 }
 void Linear_Resnet::forward(size_t batch_id) {
-    cur_layer = first_layer;
+    dtensor_base* cur_layer = first_layer;
     op* cur_op;
     //std::cout << "first_layer address is: " << cur_layer << std::endl;
     while(cur_layer) {
@@ -342,7 +392,7 @@ void Linear_Resnet::forward() {
     }
 }
 void Linear_Resnet::backward(std::vector<float>& label, size_t batch_id, loss_type tp) {
-    cur_layer = last_layer;
+    dtensor_base* cur_layer = last_layer;
     op* cur_op = cur_layer->get_op_last();
     cur_layer->count_loss_grad(label, tp, batch_id);   
     cur_layer->backward(batch_id);
@@ -380,7 +430,7 @@ void Linear_Resnet::backward(std::vector<std::vector<float>>& labels, loss_type 
     return;
 }
 void Linear_Resnet::print_all_layers(size_t batch_id, bool inc_grad) {
-    cur_layer = first_layer;
+    dtensor_base* cur_layer = first_layer;
     op* cur_op;
     //std::cout << "first_layer address is: " << cur_layer << std::endl;
     while(cur_layer) {
@@ -400,7 +450,7 @@ void Linear_Resnet::print_all_layers(size_t batch_id, bool inc_grad) {
 }
 
 void Linear_Resnet::clear_grad() {
-    cur_layer = first_layer;
+    dtensor_base* cur_layer = first_layer;
     op* temp_op;
     while(cur_layer) {
         temp_op = cur_layer->get_op_next();
@@ -415,7 +465,7 @@ void Linear_Resnet::clear_grad() {
     return;
 }
 void Linear_Resnet::clear_samples() {
-    cur_layer = first_layer;
+    dtensor_base* cur_layer = first_layer;
     op* temp_op;
     while(cur_layer) {
         temp_op = cur_layer->get_op_next();
@@ -446,7 +496,7 @@ void Linear_Resnet::set_input_value(std::vector<std::vector<float>>& data) {
     this->first_layer->set_input_value(data);
 }
 void Linear_Resnet::update_parameters(double lr) {
-    cur_layer = first_layer;
+    dtensor_base* cur_layer = first_layer;
     op* temp_op;
     while(cur_layer) {
         temp_op = cur_layer->get_op_next();

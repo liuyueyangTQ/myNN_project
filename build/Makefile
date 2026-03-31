@@ -553,6 +553,7 @@ src/core/thread/threadpool.obj: src/core/thread/threadpool.cpp.obj
 
 # target to build an object file
 src/core/thread/threadpool.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/thread/threadpool.cpp.obj
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/thread/threadpool.cpp.obj
 .PHONY : src/core/thread/threadpool.cpp.obj
 
@@ -561,6 +562,7 @@ src/core/thread/threadpool.i: src/core/thread/threadpool.cpp.i
 
 # target to preprocess a source file
 src/core/thread/threadpool.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/thread/threadpool.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/thread/threadpool.cpp.i
 .PHONY : src/core/thread/threadpool.cpp.i
 
@@ -569,6 +571,7 @@ src/core/thread/threadpool.s: src/core/thread/threadpool.cpp.s
 
 # target to generate assembly for a file
 src/core/thread/threadpool.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\dnn_test.dir\build.make CMakeFiles/dnn_test.dir/src/core/thread/threadpool.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\draw_nn_test.dir\build.make CMakeFiles/draw_nn_test.dir/src/core/thread/threadpool.cpp.s
 .PHONY : src/core/thread/threadpool.cpp.s
 

@@ -669,6 +669,8 @@ CMakeFiles/dtensor_test.dir/src/core/tensor/ops.cpp.obj: C:/workspace/myNN_proje
 
 CMakeFiles/dtensor_test.dir/src/core/test/dtensor_test.cpp.obj: C:/workspace/myNN_project/src/core/test/dtensor_test.cpp \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/algorithm \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/array \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/atomic \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/backward/auto_ptr.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/backward/binders.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bit \
@@ -678,6 +680,7 @@ CMakeFiles/dtensor_test.dir/src/core/test/dtensor_test.cpp.obj: C:/workspace/myN
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/allocated_ptr.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/allocator.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/atomic_base.h \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/atomic_futex.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/atomic_lockfree_defines.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/basic_ios.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/basic_ios.tcc \
@@ -690,6 +693,8 @@ CMakeFiles/dtensor_test.dir/src/core/test/dtensor_test.cpp.obj: C:/workspace/myN
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/cpp_type_traits.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/cxxabi_forced.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/cxxabi_init_exception.h \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/deque.tcc \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/enable_special_members.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/erase_if.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/exception.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/exception_defines.h \
@@ -697,6 +702,8 @@ CMakeFiles/dtensor_test.dir/src/core/test/dtensor_test.cpp.obj: C:/workspace/myN
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/functexcept.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/functional_hash.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/hash_bytes.h \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/hashtable.h \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/hashtable_policy.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/invoke.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/ios_base.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/istream.tcc \
@@ -728,11 +735,14 @@ CMakeFiles/dtensor_test.dir/src/core/test/dtensor_test.cpp.obj: C:/workspace/myN
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/shared_ptr_base.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/specfun.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/std_abs.h \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/std_function.h \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/std_mutex.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/std_thread.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_algo.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_algobase.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_bvector.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_construct.h \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_deque.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_function.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_heap.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_iterator.h \
@@ -742,6 +752,7 @@ CMakeFiles/dtensor_test.dir/src/core/test/dtensor_test.cpp.obj: C:/workspace/myN
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_multimap.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_numeric.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_pair.h \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_queue.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_raw_storage_iter.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_tempbuf.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_tree.h \
@@ -753,7 +764,9 @@ CMakeFiles/dtensor_test.dir/src/core/test/dtensor_test.cpp.obj: C:/workspace/myN
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stringfwd.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/this_thread_sleep.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/uniform_int_dist.h \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/unique_lock.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/unique_ptr.h \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/unordered_map.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/uses_allocator.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/uses_allocator_args.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/utility.h \
@@ -765,7 +778,9 @@ CMakeFiles/dtensor_test.dir/src/core/test/dtensor_test.cpp.obj: C:/workspace/myN
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/chrono \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/clocale \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/cmath \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/compare \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/concepts \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/condition_variable \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/cstddef \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/cstdint \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/cstdio \
@@ -775,6 +790,7 @@ CMakeFiles/dtensor_test.dir/src/core/test/dtensor_test.cpp.obj: C:/workspace/myN
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/cwctype \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/debug/assertions.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/debug/debug.h \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/deque \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/exception \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ext/aligned_buffer.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ext/alloc_traits.h \
@@ -783,6 +799,8 @@ CMakeFiles/dtensor_test.dir/src/core/test/dtensor_test.cpp.obj: C:/workspace/myN
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ext/numeric_traits.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ext/string_conversions.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ext/type_traits.h \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/functional \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/future \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/initializer_list \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ios \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/iosfwd \
@@ -791,6 +809,7 @@ CMakeFiles/dtensor_test.dir/src/core/test/dtensor_test.cpp.obj: C:/workspace/myN
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/limits \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/map \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/memory \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/mutex \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/new \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/numeric \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ostream \
@@ -799,6 +818,7 @@ CMakeFiles/dtensor_test.dir/src/core/test/dtensor_test.cpp.obj: C:/workspace/myN
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/pstl/glue_memory_defs.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/pstl/glue_numeric_defs.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/pstl/pstl_config.h \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/queue \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/random \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ratio \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/stdexcept \
@@ -823,6 +843,7 @@ CMakeFiles/dtensor_test.dir/src/core/test/dtensor_test.cpp.obj: C:/workspace/myN
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/tuple \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/type_traits \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/typeinfo \
+  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/unordered_map \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/vector \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/x86_64-w64-mingw32/bits/atomic_word.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/x86_64-w64-mingw32/bits/c++allocator.h \
@@ -888,10 +909,13 @@ CMakeFiles/dtensor_test.dir/src/core/test/dtensor_test.cpp.obj: C:/workspace/myN
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/x86_64-w64-mingw32/include/wchar.h \
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/x86_64-w64-mingw32/include/wctype.h \
   C:/workspace/myNN_project/src/core/math/metrix.h \
+  C:/workspace/myNN_project/src/core/nn/model.h \
   C:/workspace/myNN_project/src/core/nn/nn.h \
   C:/workspace/myNN_project/src/core/tensor/dtensor.h \
   C:/workspace/myNN_project/src/core/tensor/enum_type.h \
   C:/workspace/myNN_project/src/core/tensor/ops.h \
+  C:/workspace/myNN_project/src/core/tensor/tensor.h \
+  C:/workspace/myNN_project/src/core/thread/threadpool.h \
   C:/workspace/myNN_project/src/core/utils/buffer_util.h
 
 
@@ -921,6 +945,8 @@ C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_
 
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/std_thread.h:
 
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/std_function.h:
+
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ext/alloc_traits.h:
 
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/basic_string.h:
@@ -946,6 +972,8 @@ C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/charconv.h:
 
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/basic_ios.h:
+
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/atomic_futex.h:
 
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/x86_64-w64-mingw32/include/ctype.h:
 
@@ -1181,6 +1209,8 @@ C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_
 
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/ratio:
 
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/enable_special_members.h:
+
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/stdexcept:
 
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/streambuf:
@@ -1190,6 +1220,8 @@ C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/x86_64-w64-m
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/string:
 
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/string_view:
+
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/unordered_map.h:
 
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/system_error:
 
@@ -1217,6 +1249,8 @@ C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_
 
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/type_traits:
 
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/std_mutex.h:
+
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/typeinfo:
 
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/vector:
@@ -1234,6 +1268,8 @@ C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/x86_64-w64-mingw32/bits/ctype_inline.h:
 
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/x86_64-w64-mingw32/bits/error_constants.h:
+
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/hashtable_policy.h:
 
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/x86_64-w64-mingw32/bits/gthr-default.h:
 
@@ -1347,8 +1383,44 @@ C:/workspace/myNN_project/src/core/tensor/dtensor.h:
 
 C:/workspace/myNN_project/src/core/tensor/enum_type.h:
 
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/hashtable.h:
+
 C:/workspace/myNN_project/src/core/tensor/ops.h:
 
 C:/workspace/myNN_project/src/core/tensor/ops.cpp:
 
 C:/workspace/myNN_project/src/core/test/dtensor_test.cpp:
+
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/array:
+
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/atomic:
+
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/deque.tcc:
+
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_deque.h:
+
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_queue.h:
+
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/unique_lock.h:
+
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/compare:
+
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/condition_variable:
+
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/deque:
+
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/functional:
+
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/queue:
+
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/future:
+
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/mutex:
+
+C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/unordered_map:
+
+C:/workspace/myNN_project/src/core/nn/model.h:
+
+C:/workspace/myNN_project/src/core/tensor/tensor.h:
+
+C:/workspace/myNN_project/src/core/thread/threadpool.h:

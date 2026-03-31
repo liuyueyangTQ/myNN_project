@@ -196,6 +196,7 @@ CMakeFiles/draw_nn_test.dir/src/core/thread/threadpool.cpp.obj: \
  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/compare \
  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/cassert \
  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/x86_64-w64-mingw32/include/assert.h \
+ C:/workspace/myNN_project/src/core/tensor/enum_type.h \
  C:/workspace/myNN_project/src/core/math/metrix.h \
  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/algorithm \
  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_algo.h \
@@ -239,9 +240,12 @@ CMakeFiles/draw_nn_test.dir/src/core/thread/threadpool.cpp.obj: \
  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/backward/auto_ptr.h \
  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/pstl/glue_memory_defs.h \
  C:/workspace/myNN_project/src/core/tensor/tensor.h \
- C:/workspace/myNN_project/src/core/nn/model.h \
+ C:/workspace/myNN_project/src/core/tensor/dtensor.h \
  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/map \
  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_tree.h \
  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_map.h \
  C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_multimap.h \
- C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/chrono
+ C:/workspace/myNN_project/src/core/tensor/ops.h \
+ C:/workspace/myNN_project/src/core/nn/nn.h \
+ C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/chrono \
+ C:/workspace/myNN_project/src/core/nn/model.h

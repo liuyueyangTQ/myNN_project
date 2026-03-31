@@ -71,7 +71,7 @@ api/QT_api_autogen/timestamp: C:/Qt/6.10.1/mingw_64/bin/moc.exe
 api/QT_api_autogen/timestamp: C:/Qt/6.10.1/mingw_64/bin/uic.exe
 api/QT_api_autogen/timestamp: api/CMakeFiles/QT_api_autogen.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\workspace\myNN_project\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target QT_api"
-	cd /d C:\workspace\myNN_project\build\api && "C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/workspace/myNN_project/build/api/CMakeFiles/QT_api_autogen.dir/AutogenInfo.json Debug
+	cd /d C:\workspace\myNN_project\build\api && "C:\Program Files\CMake\bin\cmake.exe" -E cmake_autogen C:/workspace/myNN_project/build/api/CMakeFiles/QT_api_autogen.dir/AutogenInfo.json Release
 	cd /d C:\workspace\myNN_project\build\api && "C:\Program Files\CMake\bin\cmake.exe" -E touch C:/workspace/myNN_project/build/api/QT_api_autogen/timestamp
 
 api/CMakeFiles/QT_api_autogen.dir/codegen:

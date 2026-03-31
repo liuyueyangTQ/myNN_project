@@ -10,11 +10,14 @@
 #include <atomic>
 #include <stdexcept>
 #include <cassert>
+#include "enum_type.h"
 #include "metrix.h"
 #include "tensor.h"
+#include "dtensor.h"
+#include "nn.h"
 #include "model.h"
 
-namespace tensor{
+namespace tensor {
 
 using func = void (*)(tensor::loss_type, size_t);
 using func2 = void (*)(size_t);
@@ -26,7 +29,6 @@ public:
         : stop(false), task_nums(0)
     {
         if (threads == 0) threads = 1; // 至少1个线程
-
         for (size_t i = 0; i < threads; ++i) {
             workers.emplace_back([this] {
                 while (true) {
@@ -47,10 +49,8 @@ public:
                         task = std::move(this->tasks.front());
                         this->tasks.pop();
                     }
-
                     // 执行任务
                     task();
-                    
                     int current_num = task_nums--;  // 原子递减，获取递减前的值
                     // 当任务计数变为0时，唤醒等待线程
                     if (current_num == 1) {  // 递减前是1，递减后为0
@@ -61,8 +61,6 @@ public:
                 });
         }
     }
-
-
     // 添加任务到线程池
     void enqueue(func f, tensor::loss_type loss_tp, size_t batch_id);//Linear_NN::forward(std::vector<float>& sample, size_t batch_id)
     void enqueue(layer* obj, void (layer::*mem_func)(size_t), size_t batch_id); 
@@ -77,7 +75,6 @@ public:
             std::unique_lock<std::mutex> lock(queue_mutex);
             stop = true;
         }
-
         // 通知所有线程
         condition.notify_all();
 
@@ -85,7 +82,6 @@ public:
         for (std::thread& worker : workers)
             worker.join();
     }
-
     // 获取线程池大小
     size_t size();
     void set_task_nums(size_t num);
@@ -93,7 +89,6 @@ public:
     bool have_finished_works();
     // 等待所有任务完成（低开销，替代外部while轮询）
     void wait_for_finish();
-
 
 private:
     void enqueue_impl(std::function<void()> task_core);
@@ -114,3 +109,81 @@ private:
 };
 
 } // namespace tensor
+namespace nn{
+    class Linear_Resnet;
+    class module_base;
+    class Linear_NN;
+}
+namespace dtensor {
+using namespace nn;
+class ThreadPool {
+public:
+    // 构造函数：创建指定数量的工作线程
+    explicit ThreadPool(size_t threads = std::thread::hardware_concurrency())
+        : stop(false), task_nums(0)
+    {
+        if (threads == 0) threads = 1; // 至少1个线程
+        for (size_t i = 0; i < threads; ++i) {
+            workers.emplace_back([this] {
+                while (true) {
+                    std::function<void()> task;
+                    {
+                        // 等待任务或停止信号
+                        std::unique_lock<std::mutex> lock(this->queue_mutex);
+                        this->condition.wait(lock, [this] {
+                            return this->stop || !this->tasks.empty();
+                            });
+                        // 如果收到停止信号且任务队列为空，则退出线程
+                        if (this->stop && this->tasks.empty())
+                            return;
+                        // 获取下一个任务
+                        task = std::move(this->tasks.front());
+                        this->tasks.pop();
+                    }
+                    // 执行任务
+                    task();
+                }
+                });
+        }
+    }
+
+
+    // 添加任务到线程池
+    void enqueue(Linear_Resnet* obj, void (Linear_Resnet::*func)(size_t), size_t batch_id, bool sub_count);
+    void enqueue(Linear_Resnet* obj, void (Linear_Resnet::*func)(std::vector<float>&, size_t, loss_type), std::vector<float>& label, size_t batch_id, loss_type tp, bool sub_count);
+    // 析构函数：停止所有线程
+    ~ThreadPool() {
+        {
+            std::unique_lock<std::mutex> lock(queue_mutex);
+            stop = true;
+        }
+        condition.notify_all();
+        // 等待所有线程完成
+        for (std::thread& worker : workers)
+            worker.join();
+    }
+
+    // 获取线程池大小
+    size_t size();
+    void set_task_nums(size_t num);
+    void add_task_nums(size_t num);
+    bool have_finished_works();
+    // 等待所有任务完成（低开销，替代外部while轮询）
+    void wait_for_finish();
+
+private:
+    void enqueue_impl(std::function<void()> task_core);
+    // 工作线程集合
+    std::vector<std::thread> workers;
+    // 任务队列
+    std::queue<std::function<void()>> tasks; //function
+    // 同步原语
+    std::mutex queue_mutex;
+    std::mutex finish_mutex;  // 配合条件变量的互斥锁
+    std::condition_variable condition;
+    std::condition_variable finish_cv;  // 用于等待所有任务完成
+    // 停止标志
+    std::atomic<bool> stop;
+    std::atomic<size_t> task_nums;
+};
+}

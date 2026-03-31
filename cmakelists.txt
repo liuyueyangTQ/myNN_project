@@ -5,7 +5,11 @@ project(Metrix_test)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # 1. 先设置构建类型为 Debug（关键！CMake 会自动适配 Debug 模式的默认编译选项）
-set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
+# set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
+# 🔥 强制开启 Release 模式
+set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type" FORCE)
+# 🔥 开启最高级优化
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -march=native")
 
 # 2. 强制为 C/C++ 设置 Debug 模式的编译选项（覆盖默认，确保 -g -O0 生效）
 # 针对 C++ 文件
@@ -118,6 +122,7 @@ add_nn_executable(dnn_test
         ${CORE_DIR}/tensor/dtensor.cpp
         ${CORE_DIR}/tensor/ops.cpp
         ${CORE_DIR}/nn/nn.cpp
+        ${CORE_DIR}/thread/threadpool.cpp
     # 可选：追加自定义宏
     DEFINES
         USE_DEBUG 

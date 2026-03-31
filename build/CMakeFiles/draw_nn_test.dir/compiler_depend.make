@@ -1133,6 +1133,10 @@ CMakeFiles/draw_nn_test.dir/src/core/thread/threadpool.cpp.obj: C:/workspace/myN
   C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/x86_64-w64-mingw32/include/wctype.h \
   C:/workspace/myNN_project/src/core/math/metrix.h \
   C:/workspace/myNN_project/src/core/nn/model.h \
+  C:/workspace/myNN_project/src/core/nn/nn.h \
+  C:/workspace/myNN_project/src/core/tensor/dtensor.h \
+  C:/workspace/myNN_project/src/core/tensor/enum_type.h \
+  C:/workspace/myNN_project/src/core/tensor/ops.h \
   C:/workspace/myNN_project/src/core/tensor/tensor.h \
   C:/workspace/myNN_project/src/core/utils/buffer_util.h \
   C:/workspace/myNN_project/src/core/thread/threadpool.h
@@ -1882,6 +1886,8 @@ C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_
 
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/x86_64-w64-mingw32/bits/gthr.h:
 
+C:/workspace/myNN_project/src/core/nn/nn.h:
+
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/x86_64-w64-mingw32/bits/opt_random.h:
 
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/x86_64-w64-mingw32/bits/os_defines.h:
@@ -2008,6 +2014,8 @@ C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_
 
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/deque.tcc:
 
+C:/workspace/myNN_project/src/core/tensor/ops.h:
+
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/hashtable.h:
 
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/bits/stl_deque.h:
@@ -2029,5 +2037,9 @@ C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/mutex:
 
 C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/c++/unordered_map:
+
+C:/workspace/myNN_project/src/core/tensor/dtensor.h:
+
+C:/workspace/myNN_project/src/core/tensor/enum_type.h:
 
 C:/workspace/myNN_project/src/core/thread/threadpool.h:

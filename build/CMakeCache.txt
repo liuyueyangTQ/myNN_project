@@ -21,7 +21,7 @@ CMAKE_ADDR2LINE:FILEPATH=C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-
 CMAKE_AR:FILEPATH=C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/bin/ar.exe
 
 //Build type
-CMAKE_BUILD_TYPE:STRING=Debug
+CMAKE_BUILD_TYPE:STRING=Release
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON

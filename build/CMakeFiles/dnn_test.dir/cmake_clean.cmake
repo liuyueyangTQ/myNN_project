@@ -9,6 +9,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/dnn_test.dir/src/core/tensor/ops.cpp.obj.d"
   "CMakeFiles/dnn_test.dir/src/core/test/dnn_test.cpp.obj"
   "CMakeFiles/dnn_test.dir/src/core/test/dnn_test.cpp.obj.d"
+  "CMakeFiles/dnn_test.dir/src/core/thread/threadpool.cpp.obj"
+  "CMakeFiles/dnn_test.dir/src/core/thread/threadpool.cpp.obj.d"
   "dnn_test.exe"
   "dnn_test.exe.manifest"
   "dnn_test.pdb"

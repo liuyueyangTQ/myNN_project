@@ -1,4 +1,5 @@
 #include "enum_type.h"
+#include "threadpool.h"
 #include "metrix.h"
 #include "dtensor.h"  //要先包含dtensor.h， 因为ops.h 依赖于 dtensor.h 中的定义
 #include "ops.h"
@@ -500,9 +501,31 @@ void test_resnet() {
     std::cout << "Please input training epoches number: ";
     int epochs; 
     std::cin >> epochs;
+    std::cout << "Use multithread training (Y / N): ";
+    char use_multithread;
+    std::cin >> use_multithread;
+    int num_threads = 4; // 可以根据需要调整线程数量
+    if(use_multithread == 'Y' || use_multithread == 'y') {
+        std::cout << "Number of threads: ";
+        std::cin >> num_threads;
+    }
+
     std::cout << "start training data...\n";
     auto start = std::chrono::high_resolution_clock::now();
-    nn->train_model(epochs, 0.001);
+    if(use_multithread == 'Y' || use_multithread == 'y') {
+        char use_threadpool;
+        std::cout << "Use thread pool (Y / N): ";
+        cin >> use_threadpool;
+        if(use_threadpool == 'Y' || use_threadpool == 'y') {
+            ThreadPool* pool = new ThreadPool(num_threads);
+            nn->set_thread_pool(pool);
+            nn->train_model_multi_thread_with_pool(epochs, 0.001, num_threads);
+        } else {
+            nn->train_model_multi_thread(epochs, 0.001, num_threads);
+        }
+    } else {
+        nn->train_model(epochs, 0.001);
+    }
     std::cout << "training finished!\n";
     nn->validate();
     auto end = std::chrono::high_resolution_clock::now();
@@ -522,3 +545,9 @@ int main() {
 // training finished!
 // the validate precision rate is: 0.96
 // Training time: 1835 ms
+
+// 采用线程池：(train_model_multi_thread_with_pool)
+// Use thread pool (Y / N): y
+// training finished!
+// the validate precision rate is: 1
+// Training time: 6267 ms

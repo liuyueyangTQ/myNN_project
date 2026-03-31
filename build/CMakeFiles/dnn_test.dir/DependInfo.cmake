@@ -13,6 +13,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/workspace/myNN_project/src/core/tensor/dtensor.cpp" "CMakeFiles/dnn_test.dir/src/core/tensor/dtensor.cpp.obj" "gcc" "CMakeFiles/dnn_test.dir/src/core/tensor/dtensor.cpp.obj.d"
   "C:/workspace/myNN_project/src/core/tensor/ops.cpp" "CMakeFiles/dnn_test.dir/src/core/tensor/ops.cpp.obj" "gcc" "CMakeFiles/dnn_test.dir/src/core/tensor/ops.cpp.obj.d"
   "C:/workspace/myNN_project/src/core/test/dnn_test.cpp" "CMakeFiles/dnn_test.dir/src/core/test/dnn_test.cpp.obj" "gcc" "CMakeFiles/dnn_test.dir/src/core/test/dnn_test.cpp.obj.d"
+  "C:/workspace/myNN_project/src/core/thread/threadpool.cpp" "CMakeFiles/dnn_test.dir/src/core/thread/threadpool.cpp.obj" "gcc" "CMakeFiles/dnn_test.dir/src/core/thread/threadpool.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

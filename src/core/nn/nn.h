@@ -5,6 +5,8 @@
 #include<cmath>
 #include<cassert>
 #include<chrono>
+#include<thread>
+#include"threadpool.h"
 #include"enum_type.h"
 #include"metrix.h"
 #include"dtensor.h"
@@ -12,6 +14,7 @@
 namespace dtensor{
 class tensor_base;
 layer* layer_tool(int n, size_t batch_num, sub_type stp);
+class ThreadPool;
 }
 namespace nn{
 using namespace dtensor;
@@ -35,9 +38,10 @@ protected:
     std::vector<std::vector<std::vector<float>>> train_data, train_labels;
     int batch_num, samples, groups;
     double lr;
+    ThreadPool* thread_pool;
 public:
     module_base(int batch_num) : 
-        batch_num(batch_num) , lr(0.001), samples(0), groups(0)
+        batch_num(batch_num) , lr(0.001), samples(0), groups(0), thread_pool(nullptr)
         {}
     virtual void forward(size_t batch_id) = 0;
     virtual void forward() = 0;
@@ -54,12 +58,13 @@ public:
     void reshuffle_data();
     void train_one_epoch(double lr);
     void train_model(int epochs, double lr);
+    void set_thread_pool(ThreadPool* pool);
     virtual void reset_count() = 0; 
     virtual void print_all_layers(size_t batch_id, bool inc_grad = false) = 0;
 };
 class Linear_NN : public module_base {
 private:
-    dtensor_base *first_layer, *last_layer, *cur_layer;
+    dtensor_base *first_layer, *last_layer; //*cur_layer;
 public:
     Linear_NN(int batch_num) : 
         first_layer(nullptr), last_layer(nullptr), module_base(batch_num)
@@ -85,7 +90,7 @@ public:
 
 class Linear_Resnet : public module_base {
 private:
-    dtensor_base *first_layer, *last_layer, *cur_layer;
+    dtensor_base *first_layer, *last_layer; //*cur_layer;
 public:
     Linear_Resnet(int batch_num) :
         first_layer(nullptr), last_layer(nullptr), module_base(batch_num) 
@@ -105,6 +110,9 @@ public:
     void reset_count() override;
     void print_count_n();
     void print_all_layers(size_t batch_id, bool inc_grad = false);
+    void train_model_multi_thread(int epochs, double lr, int thread_num);
+    void train_model_multi_thread_with_pool(int epochs, double lr, int thread_num);
+    
 #ifdef USE_DEBUG
     void print_cur_layer() ;
 #endif
