@@ -41,7 +41,6 @@ void module_base::train_one_epoch(double lr) {
         //std::cout << " input set...\n";
         this->forward();
         //std::cout << " forward finished!!!!!!!!!!!!...\n";        
-        
         this->backward(this->train_labels[i], loss_type::cross_entropy);
         //std::cout << " backward finished...\n";
         this->update_parameters(lr);
@@ -53,7 +52,32 @@ void module_base::train_model(int epochs, double lr) {
         train_one_epoch(lr);
     }
 }
-void Linear_Resnet::train_model_multi_thread(int epochs, double lr, int thread_num) { 
+void module_base::train_one_epoch_mul(double lr) {
+    this->reshuffle_data();
+    for(int i = 0; i < groups; ++i) {
+        this->clear_grad();
+        this->clear_samples(); //非常重要！！！因为 _add_tensors 等实现逻辑是累加式的！！
+        this->reset_count();   // 将每个tensor和op的temp_n重置！非常重要！
+        this->set_input_value(this->train_data[i]);
+        // 设置同步任务数，等待前向传播全部完成后才能继续
+        thread_pool->set_task_nums(this->batch_num); //设置任务计数用于同步
+        for(size_t batch_id = 0; batch_id < this->batch_num; ++batch_id) // 并行计算这层每个样本的前向传播
+            this->thread_pool->enqueue(this, &module_base::forward, batch_id, true);
+        while(!this->thread_pool->have_finished_works()); // 等待所有任务完成 (高开销)
+        thread_pool->set_task_nums(this->batch_num); //设置任务计数用于同步
+        for(size_t batch_id = 0; batch_id < this->batch_num; ++batch_id) // 并行计算这层每个样本的前向传播
+            this->thread_pool->enqueue(this, &module_base::backward, this->train_labels[i][batch_id], batch_id, loss_type::cross_entropy, true);
+        while(!this->thread_pool->have_finished_works()); // 等待所有任务完成 (高开销)
+        this->update_parameters(lr);
+    }
+}
+void module_base::train_model_mul_with_pool(int epochs, double lr, int thread_num) {
+    assert(this->thread_pool != nullptr);
+    for(int i = 0; i < epochs; ++i)  {
+        train_one_epoch_mul(lr);
+    }
+}
+void module_base::train_model_multi_thread(int epochs, double lr, int thread_num) { 
     std::vector<std::thread> threads(thread_num);
     for(int i = 0; i < epochs; ++i)  {
         this->reshuffle_data();
@@ -79,28 +103,6 @@ void Linear_Resnet::train_model_multi_thread(int epochs, double lr, int thread_n
         }   
     }
 }
-void Linear_Resnet::train_model_multi_thread_with_pool(int epochs, double lr, int thread_num) {
-    assert(this->thread_pool != nullptr);
-    for(int i = 0; i < epochs; ++i)  {
-        this->reshuffle_data();
-        for(int grp = 0; grp < groups; ++grp) {
-            this->clear_grad();
-            this->clear_samples(); //非常重要！！！因为 _add_tensors 等实现逻辑是累加式的！！
-            this->reset_count();   // 将每个tensor和op的temp_n重置！非常重要！
-            this->set_input_value(this->train_data[grp]);
-            this->thread_pool->set_task_nums(this->batch_num); //设置任务计数用于同步
-            thread_pool->set_task_nums(this->batch_num); //设置任务计数用于同步
-            for(size_t batch_id = 0; batch_id < this->batch_num; ++batch_id) // 并行计算这层每个样本的前向传播
-                this->thread_pool->enqueue(this, &Linear_Resnet::forward, batch_id, true);
-            while(!this->thread_pool->have_finished_works()); // 等待所有任务完成 (高开销)
-            thread_pool->set_task_nums(this->batch_num); //设置任务计数用于同步
-            for(size_t batch_id = 0; batch_id < this->batch_num; ++batch_id) // 并行计算这层每个样本的前向传播
-                this->thread_pool->enqueue(this, &Linear_Resnet::backward, this->train_labels[grp][batch_id], batch_id, loss_type::cross_entropy, true);
-            while(!this->thread_pool->have_finished_works()); // 等待所有任务完成 (高开销)
-            this->update_parameters(lr);
-        }
-    }
-}
 void module_base::get_train_data(std::vector<std::vector<float>>& data, std::vector<std::vector<float>>& labels) {
     assert(data.size() > 0 && data.size() == labels.size() && data.size() % this->batch_num == 0);
     this->samples = data.size();
@@ -123,26 +125,22 @@ void module_base::get_train_data(std::vector<std::vector<float>>& data, std::vec
         this->train_labels.push_back(temp_label);
 
     }
-    std::cout << "trandata size: " << train_data.size() << ' ' << train_data[0].size() << ' ' << train_data[0][0].size() <<std::endl;
-    std::cout << "tranlabel size: " << train_labels.size() << ' ' << train_labels[0].size() << ' ' << train_labels[0][0].size() <<std::endl;
-    std::cout << "Finished clearing!\n";
+    // std::cout << "trandata size: " << train_data.size() << ' ' << train_data[0].size() << ' ' << train_data[0][0].size() <<std::endl;
+    // std::cout << "tranlabel size: " << train_labels.size() << ' ' << train_labels[0].size() << ' ' << train_labels[0][0].size() <<std::endl;
+    // std::cout << "Finished clearing!\n";
     return;
 }
-void Linear_NN::validate() {
+void module_base::validate() {
     assert(this->train_data.size() && this->train_labels.size());
     double precision_rate = 0.0;
     for(int i = 0; i < groups; ++i) {
         this->clear_samples();
-        this->reset_count(); // 非常重要
-        //std::cout << "finished clearing\n";
+        this->reset_count(); // 非常重要！！！
         this->set_input_value(train_data[i]);
-        //std::cout << "succesfully set input\n";
         this->forward();
-        //std::cout << "finished forward\n";
         for(int batch_id = 0; batch_id < this->batch_num; ++batch_id) {
             auto output_logits = this->last_layer->get_output_metrix_ptr() + batch_id;
             auto label = (this->train_labels)[i][batch_id]; // 标准类别
-
             int pred_label = 0; // 预测标签所在类别的索引
             float max_logit = output_logits->data[0];
             for(int j = 1; j < this->last_layer->get_n(); ++j) {
@@ -151,7 +149,6 @@ void Linear_NN::validate() {
                     pred_label = j;
                 }
             }
-
             if(label[pred_label] == 1.0)
                 precision_rate += 1.0;
         }
@@ -160,8 +157,6 @@ void Linear_NN::validate() {
     std::cout << "the validate precision rate is: " << precision_rate << std::endl;
     return;
 }
-
-
 void Linear_NN::add_layer(int num, sub_type tp) {
     if(!this->first_layer) {
         first_layer = layer_tool(num, batch_num, sub_type::origin);
@@ -174,8 +169,7 @@ void Linear_NN::add_layer(int num, sub_type tp) {
     dtensor_base* new_layer = mat_op->set_output(tensor_type::layer, tp); 
     last_layer = new_layer;
     return;
- }
-
+}
 void Linear_NN::forward(size_t batch_id) {
     dtensor_base* cur_layer = first_layer;
     op* cur_op;
@@ -191,7 +185,6 @@ void Linear_NN::forward(size_t batch_id) {
     cur_layer->forward(batch_id);
     return;
 }
-
 void Linear_NN::forward() {
 #ifdef USE_DEBUG 
 
@@ -208,21 +201,17 @@ void Linear_NN::backward(std::vector<float>& label, size_t batch_id, loss_type t
     cur_layer->backward(batch_id);
     do {
         cur_op = cur_layer->get_op_last();
-        //std::cout << "1111\n";
         if(cur_op) {
             // 最后一层无next_op
             cur_op->backward(batch_id);
         } else break;
-        //std::cout << "2222\n";
         auto last_tensors = cur_op->get_inputs();
         if(!last_tensors.size()) 
             break;
         for(auto &ts : last_tensors)
             ts->backward(batch_id);
-        //std::cout << "3333\n";
         cur_layer = last_tensors[1]; // 得到op inputs的第 2 个元素
     } while(cur_layer);
-    //std::cout << "batch_id: "<< batch_id << " FINISHED BACKWARD!!\n";
     return;
 }
 void Linear_NN::backward(std::vector<std::vector<float>>& labels, loss_type tp) {
@@ -250,7 +239,6 @@ void Linear_NN::update_parameters(double lr) {
     cur_layer->update(lr); // 最后一层输出层更新
     return;
 }
-
 void Linear_NN::set_input_value(std::vector<std::vector<float>>& data) {
     this->first_layer->set_input_value(data);
 }
@@ -284,7 +272,6 @@ void Linear_NN::clear_samples() {
     cur_layer->clear_value();
     return;
 }
-
 void Linear_NN::check_net() { // 待完善！！！
     std::cout << "start checking the net size...\n";
     auto p = this->first_layer;
@@ -530,38 +517,6 @@ void Linear_Resnet::check_net() { // 待完善！！！
     // 以及所有 layer 的 next 和 last 不为空
     std::cout << "check finished!\n";
 }
-void Linear_Resnet::validate() {
-    assert(this->train_data.size() && this->train_labels.size());
-    double precision_rate = 0.0;
-    for(int i = 0; i < groups; ++i) {
-        this->clear_samples();
-        this->reset_count(); // 非常重要
-        //std::cout << "finished clearing\n";
-        this->set_input_value(train_data[i]);
-        //std::cout << "succesfully set input\n";
-        this->forward();
-        //std::cout << "finished forward\n";
-        for(int batch_id = 0; batch_id < this->batch_num; ++batch_id) {
-            auto output_logits = this->last_layer->get_output_metrix_ptr() + batch_id;
-            auto label = (this->train_labels)[i][batch_id]; // 标准类别
-
-            int pred_label = 0; // 预测标签所在类别的索引
-            float max_logit = output_logits->data[0];
-            for(int j = 1; j < this->last_layer->get_n(); ++j) {
-                if(output_logits->data[j] > max_logit) {
-                    max_logit = output_logits->data[j];
-                    pred_label = j;
-                }
-            }
-
-            if(label[pred_label] == 1.0)
-                precision_rate += 1.0;
-        }
-    }
-    precision_rate /= samples;
-    std::cout << "the validate precision rate is: " << precision_rate << std::endl;
-    return;
-}
 void Linear_Resnet::print_count_n() {
     auto p = this->first_layer;
     op* temp_op;
@@ -582,7 +537,6 @@ void Linear_Resnet::print_count_n() {
     std::cout << "LAST LAYER address n is: " << p <<std::endl;
 }
 void run_model(const NNParams& params) {
-    
     std::vector<std::vector<float>> data = 
     {
         {-0.287988, -0.557928, -0.247772, -0.367708, 0.302466, -0.189167, -0.591368, -0.255528, -0.301317, -0.185512},

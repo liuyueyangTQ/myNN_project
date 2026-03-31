@@ -149,8 +149,8 @@ public:
 
 
     // 添加任务到线程池
-    void enqueue(Linear_Resnet* obj, void (Linear_Resnet::*func)(size_t), size_t batch_id, bool sub_count);
-    void enqueue(Linear_Resnet* obj, void (Linear_Resnet::*func)(std::vector<float>&, size_t, loss_type), std::vector<float>& label, size_t batch_id, loss_type tp, bool sub_count);
+    void enqueue(module_base* obj, void (module_base::*func)(size_t), size_t batch_id, bool sub_count);
+    void enqueue(module_base* obj, void (module_base::*func)(std::vector<float>&, size_t, loss_type), std::vector<float>& label, size_t batch_id, loss_type tp, bool sub_count);
     // 析构函数：停止所有线程
     ~ThreadPool() {
         {

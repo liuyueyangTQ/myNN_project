@@ -512,26 +512,27 @@ void test_resnet() {
 
     std::cout << "start training data...\n";
     auto start = std::chrono::high_resolution_clock::now();
+    auto nn_ptr = static_cast<nn::module_base*>(nn);
     if(use_multithread == 'Y' || use_multithread == 'y') {
         char use_threadpool;
         std::cout << "Use thread pool (Y / N): ";
         cin >> use_threadpool;
         if(use_threadpool == 'Y' || use_threadpool == 'y') {
             ThreadPool* pool = new ThreadPool(num_threads);
-            nn->set_thread_pool(pool);
-            nn->train_model_multi_thread_with_pool(epochs, 0.001, num_threads);
+            nn_ptr->set_thread_pool(pool);
+            nn_ptr->train_model_mul_with_pool(epochs, 0.001, num_threads);
         } else {
-            nn->train_model_multi_thread(epochs, 0.001, num_threads);
+            nn_ptr->train_model_multi_thread(epochs, 0.001, num_threads);
         }
     } else {
-        nn->train_model(epochs, 0.001);
+        nn_ptr->train_model(epochs, 0.001);
     }
     std::cout << "training finished!\n";
-    nn->validate();
+    nn_ptr->validate();
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     std::cout << "Training time: " << duration.count() << " ms" << std::endl;
-    //nn->print_count_n();
+    //nn_ptr->print_count_n();
     // 和python运行时间做对比
 }
 int main() {

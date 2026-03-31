@@ -261,7 +261,7 @@ bool ThreadPool::have_finished_works() {
 
 
 namespace dtensor {
-void ThreadPool::enqueue(Linear_Resnet* obj, void (Linear_Resnet::*func)(size_t), size_t batch_id, bool sub_count) {
+void ThreadPool::enqueue(module_base* obj, void (module_base::*func)(size_t), size_t batch_id, bool sub_count) {
     // 线程池已停止 → 拒绝提交
     if (stop) {
         throw std::runtime_error("enqueue on stopped ThreadPool");
@@ -277,7 +277,7 @@ void ThreadPool::enqueue(Linear_Resnet* obj, void (Linear_Resnet::*func)(size_t)
     // 通知一个等待的线程
     condition.notify_one();
 }
-void ThreadPool::enqueue(Linear_Resnet* obj, void (Linear_Resnet::*func)(std::vector<float>&, size_t, loss_type), std::vector<float>& label, size_t batch_id, loss_type tp, bool sub_count) {
+void ThreadPool::enqueue(module_base* obj, void (module_base::*func)(std::vector<float>&, size_t, loss_type), std::vector<float>& label, size_t batch_id, loss_type tp, bool sub_count) {
     // 线程池已停止 → 拒绝提交
     if (stop) {
         throw std::runtime_error("enqueue on stopped ThreadPool");
