@@ -4,6 +4,7 @@
 #include "ops.h"
 #include "nn.h"
 #include <iostream>
+#include <time.h>
 using namespace std;
 using namespace dtensor;
 void test_Linear_NN() {
@@ -466,9 +467,9 @@ void test_resnet() {
     nn::Linear_Resnet* nn = new nn::Linear_Resnet(batch_size);
     nn->add_layer(data[0].size(), sub_type::origin); // 第 0 层 输入层
     //nn->add_layer(5, layer_type::sigmoid, true);
-    nn->add_layer(20, sub_type::relu); // 第 1 层 隐藏层
-    nn->add_res_layer(20, sub_type::relu); // 第 2 层 隐藏层
-    nn->add_res_layer(20, sub_type::relu); // 第 3 层 隐藏层
+    nn->add_layer(100, sub_type::relu); // 第 1 层 隐藏层
+    nn->add_res_layer(100, sub_type::relu); // 第 2 层 隐藏层
+    nn->add_res_layer(100, sub_type::relu); // 第 3 层 隐藏层
     nn->add_layer(labels[0].size(), sub_type::softmax); // 第 4 层 输出层
     //nn->check_net();
     nn->print_count_n();
@@ -500,14 +501,24 @@ void test_resnet() {
     int epochs; 
     std::cin >> epochs;
     std::cout << "start training data...\n";
+    auto start = std::chrono::high_resolution_clock::now();
     nn->train_model(epochs, 0.001);
     std::cout << "training finished!\n";
     nn->validate();
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    std::cout << "Training time: " << duration.count() << " ms" << std::endl;
     //nn->print_count_n();
     // 和python运行时间做对比
 }
 int main() {
     // test_Linear_NN();
     test_resnet();
+
     return 0;
 }
+// Please input training epoches number: 1000
+// start training data...
+// training finished!
+// the validate precision rate is: 0.96
+// Training time: 1835 ms
