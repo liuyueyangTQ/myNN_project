@@ -410,6 +410,9 @@ void layer::clear_value() {
         }
     }
 }
+float* layer::get_bias_data() {
+    return this->b->data;
+}
 void multi_dim_tensor::update(double lr) {
     // 目前没有参数需要更新，后续如果有了再实现
 }

@@ -16,7 +16,7 @@ class tensor_base;
 layer* layer_tool(int n, size_t batch_num, sub_type stp);
 class ThreadPool;
 }
-namespace nn{
+namespace nn {
 using namespace dtensor;
 // 神经网络参数结构体（前后台共用）
 struct NNParams {  
@@ -24,13 +24,28 @@ struct NNParams {
     std::vector<int> layer_sizes; // 各层神经元数（如 [10, 20, 20, 5]）
     std::vector<dtensor::sub_type> layer_types; // 各层神经元数 (如 origin, relu, relu, softmax)
     size_t batch_size;
+    bool use_multithread; // 是否采用多线程训练
     size_t thread_num;
     int epochs;
     loss_type lstp;
     double lr;
-    NNParams() : lstp(loss_type::cross_entropy), epochs(1000), lr(0.001), thread_num(4), batch_size(4) {}
+    NNParams() : lstp(loss_type::cross_entropy), epochs(1000), lr(0.001), thread_num(4), use_multithread(false), batch_size(4) {}
 };
-
+class module_base;
+class model_data {
+private:
+    module_base* model_ptr;
+public:
+    std::vector<int> layer_sizes; // 各层神经元数（如 [10, 20, 20, 5]）
+    std::vector<dtensor::sub_type> layer_types; // 各层神经元数 (如 origin, relu, relu, softmax)
+    std::vector<std::vector<std::vector<float>>> outputs;
+    std::vector<std::vector<float>> param_b;
+    std::vector<std::vector<std::vector<float>>> param_w;
+    module_base* get_model();
+    void check_model();
+    void set_model(module_base* m);
+    model_data() : model_ptr(nullptr) {}
+};
 class module_base{
 protected:
     std::vector<dtensor_base*> inputs; // 模块的参数列表
@@ -65,6 +80,9 @@ public:
     void set_thread_pool(ThreadPool* pool);
     virtual void reset_count() = 0; 
     virtual void print_all_layers(size_t batch_id, bool inc_grad = false) = 0;
+    std::vector<std::vector<float>> get_param_b();
+    std::vector<std::vector<std::vector<float>>> get_outputs();
+    std::vector<std::vector<std::vector<float>>> get_param_w();
 };
 class Linear_NN : public module_base {
 public:
@@ -114,6 +132,6 @@ public:
 #endif
 };
 
-void run_model(const NNParams& params);
+model_data run_model(const NNParams& params);
 
-}
+} // namespace nn

@@ -3,6 +3,22 @@
 namespace nn{
 using namespace dtensor;
 
+module_base* model_data::get_model() {
+    return this->model_ptr;
+}
+void model_data::set_model(module_base* nn) {
+    this->model_ptr = nn;
+}
+void model_data::check_model() {
+    assert(this->model_ptr != nullptr);
+    assert(this->layer_sizes.size() == this->layer_types.size());
+    assert(this->layer_sizes.size() == this->outputs[0].size() && this->layer_sizes.size() == this->param_b.size() && this->layer_sizes.size() == this->param_w.size() + 1);
+    for(int i = 0; i < this->layer_sizes.size(); ++i) {
+        assert(this->param_w[i].size() == this->layer_sizes[i + 1] && this->param_w[i][0].size() == this->layer_sizes[i]);
+    }
+    return;
+}
+
 void module_base::set_learning_rate(double lr) {
     this->lr = lr;
 }
@@ -154,9 +170,77 @@ void module_base::validate() {
         }
     }
     precision_rate /= samples;
-    std::cout << "the validate precision rate is: " << precision_rate << std::endl;
+    std::cout << "Validation precision: " << precision_rate * 100.0 << "%\n";
     return;
 }
+std::vector<std::vector<float>> module_base::get_param_b() {
+    auto p = this->first_layer;
+    std::vector<std::vector<float>> res;
+    while(p) {
+        int n = p->get_n();
+        std::vector<float> temp(n);
+        auto q = dynamic_cast<layer*>(p);
+        if (!q) {
+            std::cout << "Error: Tensor is not of type 'layer'. Cannot retrieve bias data.\n";
+            return res; // 或者抛出异常，根据你的错误处理策略
+        }
+        float* data = q->get_bias_data();
+        for(int i = 0; i < n; ++i) {
+            temp[i] = data[i];
+        }
+        res.push_back(temp);
+        p = p->get_op_next() ? p->get_op_next()->get_output() : nullptr;
+    }
+    return res;
+}
+std::vector<std::vector<std::vector<float>>> module_base::get_outputs() {
+    std::vector<std::vector<std::vector<float>>> res;
+    for(int batch_id = 0; batch_id < this->batch_num; ++batch_id) {
+        dtensor_base* p = this->first_layer;
+        std::vector<std::vector<float>> batch_outputs;
+        while(p) {
+            int n = p->get_n();
+            std::vector<float> temp(n);
+            auto q = dynamic_cast<layer*>(p);
+            if (!q) {
+                std::cout << "Error: Tensor is not of type 'layer'. Cannot retrieve bias data.\n";
+                return res; // 或者抛出异常，根据你的错误处理策略
+            }
+            float* data = p->get_output_data_ptr(batch_id); // 获取当前层第batch_id个batch的输出数据指针
+            for(int i = 0; i < n; ++i) {
+                temp[i] = data[i];
+            }
+            batch_outputs.push_back(temp);
+            p = p->get_op_next() ? p->get_op_next()->get_output() : nullptr;
+        }
+        res.push_back(batch_outputs);
+    }
+    return res;
+}
+std::vector<std::vector<std::vector<float>>> module_base::get_param_w() {
+    dtensor_base* p = this->first_layer;
+    std::vector<std::vector<std::vector<float>>> res;
+    while(p) {
+        op* op_next = p->get_op_next();
+        if(!op_next)
+            break;
+        dtensor_base* wm = op_next->get_inputs()[0]; // 当前层的权重矩阵
+        float* data = wm->get_input_metrix_ptr()->data;
+        std::vector<size_t> shape = wm->get_shape();
+        assert(shape.size() == 2);
+        int h = shape[0], w = shape[1];
+        std::vector<std::vector<float>> temp(h, std::vector<float>(w));
+        for(int i = 0; i < h; ++i) {
+            for(int j = 0; j < w; ++j) {
+                temp[i][j] = data[i * w + j];
+            }
+        }
+        res.push_back(temp);
+        p = op_next->get_output();
+    }
+    return res;
+}
+
 void Linear_NN::add_layer(int num, sub_type tp) {
     if(!this->first_layer) {
         first_layer = layer_tool(num, batch_num, sub_type::origin);
@@ -536,7 +620,8 @@ void Linear_Resnet::print_count_n() {
     std::cout << "LAST LAYER count n is: " << p->get_count_n() <<std::endl;
     std::cout << "LAST LAYER address n is: " << p <<std::endl;
 }
-void run_model(const NNParams& params) {
+model_data run_model(const NNParams& params) {
+    model_data res;
     std::vector<std::vector<float>> data = 
     {
         {-0.287988, -0.557928, -0.247772, -0.367708, 0.302466, -0.189167, -0.591368, -0.255528, -0.301317, -0.185512},
@@ -767,9 +852,18 @@ void run_model(const NNParams& params) {
     for(int i = 0; i < layer_num; ++i) {
         nn->add_layer(layer_sizes[i], layer_types[i]);
     }
+
     nn->get_train_data(data, labels);
     nn->train_model(epochs, lr);
     nn->validate();
+    auto nn_ptr =  static_cast<nn::module_base*>(nn);
+    res.layer_sizes = layer_sizes;
+    res.layer_types = layer_types;
+    res.set_model(nn_ptr);
+    res.param_b = nn->get_param_b();
+    res.param_w = nn->get_param_w();
+    res.outputs = nn->get_outputs();
+    return res;
 }
 
 } // namespace nn

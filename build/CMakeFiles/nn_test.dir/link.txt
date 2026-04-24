@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\nn_test.dir/objects.a
-C:\Dev-Cpp\x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0\mingw64\bin\ar.exe qc CMakeFiles\nn_test.dir/objects.a @CMakeFiles\nn_test.dir\objects1.rsp
-C:\Dev-Cpp\x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0\mingw64\bin\c++.exe  -static-libgcc -static-libstdc++ -O3 -flto -march=native -O3 -DNDEBUG -O3 -march=native  -flto -Wl,--whole-archive CMakeFiles\nn_test.dir/objects.a -Wl,--no-whole-archive -o nn_test.exe -Wl,--out-implib,libnn_test.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\nn_test.dir\linkLibs.rsp

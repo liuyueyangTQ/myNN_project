@@ -218,12 +218,14 @@ void test_Linear_NN() {
     };
 
     std::cout <<"label size is: " << labels.size() <<std::endl;
-    int batch_size = 4;
+    std::cout << "please input batch size: ";
+    int batch_size; 
+    std::cin >> batch_size;
     nn::Linear_NN* nn = new nn::Linear_NN(batch_size);
     nn->add_layer(data[0].size(), sub_type::origin); // 第 0 层 输入层
     //nn->add_layer(5, layer_type::sigmoid, true);
-    nn->add_layer(20, sub_type::relu); // 第 1 层 隐藏层
-    nn->add_layer(20, sub_type::relu); // 第 2 层 隐藏层
+    nn->add_layer(100, sub_type::relu); // 第 1 层 隐藏层
+    nn->add_layer(100, sub_type::relu); // 第 2 层 隐藏层
     //nn->add_layer(10, sub_type::relu); // 第 3 层 隐藏层
     nn->add_layer(labels[0].size(), sub_type::softmax); // 第 4 层 输出层
     /*
@@ -244,15 +246,39 @@ void test_Linear_NN() {
     std::cout << "Please input training epoches number: ";
     int epochs; 
     std::cin >> epochs;
-    std::cout << "start training data...\n";
-#ifndef USE_THREAD
+    std::cout << "Use multithread training (Y / N): ";
+    char use_multithread;
+    std::cin >> use_multithread;
+    int num_threads; // 可以根据需要调整线程数量
+    if(use_multithread == 'Y' || use_multithread == 'y') {
+        std::cout << "Number of threads: ";
+        std::cin >> num_threads;
+    }
 
-#endif
-    nn->print_count_n();
-    nn->train_model(epochs, 0.001);
+    std::cout << "start training data...\n";
+    auto start = std::chrono::high_resolution_clock::now();
+    auto nn_ptr = static_cast<nn::module_base*>(nn);
+    if(use_multithread == 'Y' || use_multithread == 'y') {
+        char use_threadpool;
+        std::cout << "Use thread pool (Y / N): ";
+        cin >> use_threadpool;
+        if(use_threadpool == 'Y' || use_threadpool == 'y') {
+            ThreadPool* pool = new ThreadPool(num_threads);
+            nn_ptr->set_thread_pool(pool);
+            nn_ptr->train_model_mul_with_pool(epochs, 0.001, num_threads);
+        } else {
+            nn_ptr->train_model_multi_thread(epochs, 0.001, num_threads);
+        }
+    } else {
+        nn_ptr->train_model(epochs, 0.001);
+    }
     std::cout << "training finished!\n";
-    nn->validate();
-    //nn->check_net();
+    nn_ptr->validate();
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    std::cout << "Training time: " << duration.count() << " ms" << std::endl;
+    //nn_ptr->print_count_n();
+    // 和python运行时间做对比
 }
 void test_resnet() {
      vector<vector<float>> data = 
@@ -464,7 +490,9 @@ void test_resnet() {
     };
 
     std::cout <<"label size is: " << labels.size() <<std::endl;
-    int batch_size = 4;
+    std::cout << "Please input batch size (<= data size): ";
+    int batch_size;
+    std::cin >> batch_size;
     nn::Linear_Resnet* nn = new nn::Linear_Resnet(batch_size);
     nn->add_layer(data[0].size(), sub_type::origin); // 第 0 层 输入层
     //nn->add_layer(5, layer_type::sigmoid, true);
@@ -536,9 +564,9 @@ void test_resnet() {
     // 和python运行时间做对比
 }
 int main() {
-    // test_Linear_NN();
-    test_resnet();
-
+    test_Linear_NN();
+    //test_resnet();
+//test_Linear_NN();
     return 0;
 }
 // Please input training epoches number: 1000

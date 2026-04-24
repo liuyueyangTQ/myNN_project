@@ -457,7 +457,7 @@ public:
     void print_grad();
     void clear_grad() override;
     void clear_value() override;
-
+    float* get_bias_data();
     friend class tensor2D_float;
     friend class op;
 #ifdef USE_DEBUG 
