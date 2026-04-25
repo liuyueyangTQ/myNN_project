@@ -226,7 +226,7 @@ void test_Linear_NN() {
     //nn->add_layer(5, layer_type::sigmoid, true);
     nn->add_layer(100, sub_type::relu); // 第 1 层 隐藏层
     nn->add_layer(100, sub_type::relu); // 第 2 层 隐藏层
-    //nn->add_layer(10, sub_type::relu); // 第 3 层 隐藏层
+    nn->add_layer(100, sub_type::relu); // 第 3 层 隐藏层
     nn->add_layer(labels[0].size(), sub_type::softmax); // 第 4 层 输出层
     /*
     // RESIDUAL NET
@@ -263,15 +263,26 @@ void test_Linear_NN() {
         std::cout << "Use thread pool (Y / N): ";
         cin >> use_threadpool;
         if(use_threadpool == 'Y' || use_threadpool == 'y') {
-            ThreadPool* pool = new ThreadPool(num_threads);
-            nn_ptr->set_thread_pool(pool);
-            nn_ptr->train_model_mul_with_pool(epochs, 0.001, num_threads);
-        } else {
-            nn_ptr->train_model_multi_thread(epochs, 0.001, num_threads);
-        }
+            char pool_type;
+            std::cout << "Pool type? (1: common pool / 2: atomic pool): ";
+            cin >> pool_type;
+            if(pool_type == '1') {
+                ThreadPool* pool = new ThreadPool(num_threads);
+                nn_ptr->set_thread_pool(pool);
+                start = std::chrono::high_resolution_clock::now();
+                nn_ptr->train_model_mul_with_pool(epochs, 0.001, batch_size, 1);
+            } else if(pool_type == '2') {
+                ThreadPoolImp* pool = new ThreadPoolImp(num_threads);
+                nn_ptr->set_thread_pool(pool);
+                start = std::chrono::high_resolution_clock::now();
+                nn_ptr->train_model_mul_with_pool(epochs, 0.001, batch_size, 2);
+            }
+        } 
     } else {
+        start = std::chrono::high_resolution_clock::now();
         nn_ptr->train_model(epochs, 0.001);
     }
+    
     std::cout << "training finished!\n";
     nn_ptr->validate();
     auto end = std::chrono::high_resolution_clock::now();
@@ -546,13 +557,26 @@ void test_resnet() {
         std::cout << "Use thread pool (Y / N): ";
         cin >> use_threadpool;
         if(use_threadpool == 'Y' || use_threadpool == 'y') {
-            ThreadPool* pool = new ThreadPool(num_threads);
-            nn_ptr->set_thread_pool(pool);
-            nn_ptr->train_model_mul_with_pool(epochs, 0.001, num_threads);
+            char pool_type;
+            std::cout << "Pool type? (1: common pool / 2: atomic pool): ";
+            cin >> pool_type;
+            if(pool_type == '1') {
+                ThreadPool* pool = new ThreadPool(num_threads);
+                nn_ptr->set_thread_pool(pool);
+                start = std::chrono::high_resolution_clock::now();
+                nn_ptr->train_model_mul_with_pool(epochs, 0.001, batch_size, 1);
+            } else if(pool_type == '2') {
+                ThreadPoolImp* pool = new ThreadPoolImp(num_threads);
+                nn_ptr->set_thread_pool(pool);
+                start = std::chrono::high_resolution_clock::now();
+                nn_ptr->train_model_mul_with_pool(epochs, 0.001, batch_size, 2);
+            }
         } else {
+                start = std::chrono::high_resolution_clock::now();
             nn_ptr->train_model_multi_thread(epochs, 0.001, num_threads);
         }
     } else {
+        start = std::chrono::high_resolution_clock::now();
         nn_ptr->train_model(epochs, 0.001);
     }
     std::cout << "training finished!\n";

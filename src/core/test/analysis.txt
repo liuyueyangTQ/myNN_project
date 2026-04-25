@@ -1,0 +1,6 @@
+线程池          ThreadPool线程池： 采用锁 + 条件变量 + 任务队列   vs  改进版 ThreadPoolImp线程池： 无锁，采用atomic_flag控制函数槽开关
+性能对比   30 * 30 * 30 LinearNN（batch_size 4）    1800 ~ 1900 ms   :  770 ~ 800 ms
+          30 * 30 * 30 LinearNN（batch_size 10）   1800 ~ 1860 ms   :  730 ~ 800 ms
+       100 * 100 * 100 LinearNN（batch_size 4）          5600 ms   :  5000~5300 ms
+       100 * 100 * 100 LinearNN（batch_size 10）    4700 ~ 5100 ms : 4480 ~ 4520 ms
+总结： 无锁线程池在任务粒度较小情况下，性能比有锁快 1倍，任务粒度大时快 5%~10%

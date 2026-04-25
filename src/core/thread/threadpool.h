@@ -186,4 +186,56 @@ private:
     std::atomic<bool> stop;
     std::atomic<size_t> task_nums;
 };
+
+class ThreadPoolImp {
+public:
+    // 构造函数：创建指定数量的工作线程
+    explicit ThreadPoolImp(size_t threads = std::thread::hardware_concurrency())
+        :  task_nums(0)
+    {
+
+        if (threads == 0) threads = 1; // 至少1个线程
+        tasks = std::vector<std::function<void()>>(threads);
+        for (size_t i = 0; i < threads; ++i) 
+            locks[i].clear();
+        for (size_t i = 0; i < threads; ++i) {
+            workers.emplace_back([this, i] {
+                while (true) {
+                    std::function<void()> task;
+                    while(locks[i].test_and_set(std::memory_order_acquire)); // 等待获取锁, 只能由外部清零
+                    task = this->tasks[i];
+                    // 执行任务2
+                    task();
+                    this->task_nums.fetch_sub(1, std::memory_order_release);
+                }
+            }
+            );
+        }
+    }
+
+
+    // 添加任务到线程池
+    void enqueue(module_base* obj, void (module_base::*func)(size_t), size_t batch_id, bool sub_count);
+    void enqueue(module_base* obj, void (module_base::*func)(std::vector<float>&, size_t, loss_type), std::vector<float>& label, size_t batch_id, loss_type tp, bool sub_count);
+    // 析构函数：停止所有线程/
+    ~ThreadPoolImp() {
+        for (std::thread& worker : workers)
+            worker.join();
+    }
+
+    void set_task_nums(size_t num);
+    bool have_finished_works();
+
+private:
+    // 工作线程集合
+    std::vector<std::thread> workers;
+    // 任务槽
+    std::vector<std::function<void()>> tasks; //function
+    // 任务槽开关
+    std::atomic_flag locks[24];
+    // 任务数
+    std::atomic<size_t> task_nums;
+};
+
+
 }

@@ -22,8 +22,11 @@ void model_data::check_model() {
 void module_base::set_learning_rate(double lr) {
     this->lr = lr;
 }
-void module_base::set_thread_pool(dtensor::ThreadPool* pool) {
+void module_base::set_thread_pool(ThreadPool* pool) {
     this->thread_pool = pool;
+}
+void module_base::set_thread_pool(ThreadPoolImp* pool) {
+    this->thread_pool_imp = pool;
 }
 void module_base::reshuffle_data() {
     assert(samples > 0 && groups > 0);
@@ -68,29 +71,42 @@ void module_base::train_model(int epochs, double lr) {
         train_one_epoch(lr);
     }
 }
-void module_base::train_one_epoch_mul(double lr) {
+void module_base::train_one_epoch_mul(double lr, size_t pool_type) {
     this->reshuffle_data();
     for(int i = 0; i < groups; ++i) {
         this->clear_grad();
         this->clear_samples(); //非常重要！！！因为 _add_tensors 等实现逻辑是累加式的！！
         this->reset_count();   // 将每个tensor和op的temp_n重置！非常重要！
         this->set_input_value(this->train_data[i]);
-        // 设置同步任务数，等待前向传播全部完成后才能继续
-        thread_pool->set_task_nums(this->batch_num); //设置任务计数用于同步
-        for(size_t batch_id = 0; batch_id < this->batch_num; ++batch_id) // 并行计算这层每个样本的前向传播
-            this->thread_pool->enqueue(this, &module_base::forward, batch_id, true);
-        while(!this->thread_pool->have_finished_works()); // 等待所有任务完成 (高开销)
-        thread_pool->set_task_nums(this->batch_num); //设置任务计数用于同步
-        for(size_t batch_id = 0; batch_id < this->batch_num; ++batch_id) // 并行计算这层每个样本的前向传播
-            this->thread_pool->enqueue(this, &module_base::backward, this->train_labels[i][batch_id], batch_id, loss_type::cross_entropy, true);
-        while(!this->thread_pool->have_finished_works()); // 等待所有任务完成 (高开销)
+        if(pool_type == 1) {
+            // 设置同步任务数，等待前向传播全部完成后才能继续
+            thread_pool->set_task_nums(this->batch_num); //设置任务计数用于同步
+            for(size_t batch_id = 0; batch_id < this->batch_num; ++batch_id) // 并行计算这层每个样本的前向传播
+                this->thread_pool->enqueue(this, &module_base::forward, batch_id, true);
+            while(!this->thread_pool->have_finished_works()); // 等待所有任务完成 
+            thread_pool->set_task_nums(this->batch_num); //设置任务计数用于同步
+            for(size_t batch_id = 0; batch_id < this->batch_num; ++batch_id) // 并行计算这层每个样本的前向传播
+                this->thread_pool->enqueue(this, &module_base::backward, this->train_labels[i][batch_id], batch_id, loss_type::cross_entropy, true);
+            while(!this->thread_pool->have_finished_works());
+        } else if(pool_type == 2) {
+            // 设置同步任务数，等待前向传播全部完成后才能继续
+            thread_pool_imp->set_task_nums(this->batch_num); //设置任务计数用于同步
+            for(size_t batch_id = 0; batch_id < this->batch_num; ++batch_id) // 并行计算这层每个样本的前向传播
+                this->thread_pool_imp->enqueue(this, &module_base::forward, batch_id, true);
+            while(!this->thread_pool_imp->have_finished_works()); // 等待所有任务完成 
+            thread_pool_imp->set_task_nums(this->batch_num); //设置任务计数用于同步
+            for(size_t batch_id = 0; batch_id < this->batch_num; ++batch_id) // 并行计算这层每个样本的前向传播
+                this->thread_pool_imp->enqueue(this, &module_base::backward, this->train_labels[i][batch_id], batch_id, loss_type::cross_entropy, true);
+            while(!this->thread_pool_imp->have_finished_works());
+        } else throw(1);
+ 
         this->update_parameters(lr);
     }
 }
-void module_base::train_model_mul_with_pool(int epochs, double lr, int thread_num) {
+void module_base::train_model_mul_with_pool(int epochs, double lr, int thread_num, size_t pool_type) {
     assert(this->thread_pool != nullptr);
     for(int i = 0; i < epochs; ++i)  {
-        train_one_epoch_mul(lr);
+        train_one_epoch_mul(lr, pool_type);
     }
 }
 void module_base::train_model_multi_thread(int epochs, double lr, int thread_num) { 

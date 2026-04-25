@@ -15,6 +15,7 @@ namespace dtensor{
 class tensor_base;
 layer* layer_tool(int n, size_t batch_num, sub_type stp);
 class ThreadPool;
+class ThreadPoolImp;
 }
 namespace nn {
 using namespace dtensor;
@@ -54,10 +55,11 @@ protected:
     int batch_num, samples, groups;
     double lr;
     ThreadPool* thread_pool;
+    ThreadPoolImp* thread_pool_imp;
     dtensor_base *first_layer, *last_layer; //*cur_layer;
 public:
     module_base(int batch_num) : 
-        batch_num(batch_num) , lr(0.001), samples(0), groups(0), thread_pool(nullptr), first_layer(nullptr), last_layer(nullptr) 
+        batch_num(batch_num) , lr(0.001), samples(0), groups(0), thread_pool(nullptr), thread_pool_imp(nullptr), first_layer(nullptr), last_layer(nullptr) 
         {}
     virtual void forward(size_t batch_id) = 0;
     virtual void forward() = 0;
@@ -74,10 +76,11 @@ public:
     void reshuffle_data();
     void train_one_epoch(double lr);
     void train_model(int epochs, double lr);
-    void train_one_epoch_mul(double lr);
-    void train_model_mul_with_pool(int epochs, double lr, int thread_num);
+    void train_one_epoch_mul(double lr, size_t pool_type);
+    void train_model_mul_with_pool(int epochs, double lr, int thread_num, size_t pool_type);
     void train_model_multi_thread(int epochs, double lr, int thread_num);
     void set_thread_pool(ThreadPool* pool);
+    void set_thread_pool(ThreadPoolImp* pool);
     virtual void reset_count() = 0; 
     virtual void print_all_layers(size_t batch_id, bool inc_grad = false) = 0;
     std::vector<std::vector<float>> get_param_b();
