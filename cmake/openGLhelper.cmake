@@ -8,20 +8,11 @@ function(add_opengl_support TARGET_NAME)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++")
     endif()
 
-
-    # # set(GLFW_ROOT "C:/Tools/glfw-3.4")
     set(GLFW_INSTALL_DIR "C:/Tools/glfw-3.4")
     list(APPEND CMAKE_PREFIX_PATH "${GLFW_INSTALL_DIR}")
     # 查找必要的包
     find_package(glfw3 3.4 REQUIRED)
 
-    # # get_target_property(_libs glfw IMPORTED LOCATION)
-    # get_property(all_targets GLOBAL PROPERTY TARGETS)
-    # # get_property(all_targets GLOBAL PROPERTY TARGETS)
-
-
-    # message(STATUS "glfw3 lib location: ${_libs}")
-    # find_package(OpenGL REQUIRED)
     # 打印查找结果
     message(STATUS "=== OpenGL 库信息 ===")
     message(STATUS "是否找到 OpenGL: ${OPENGL_FOUND}")
@@ -34,77 +25,47 @@ function(add_opengl_support TARGET_NAME)
 
     get_filename_component(PARENT_SOURCE_DIR ${CMAKE_SOURCE_DIR} DIRECTORY)
     get_filename_component(PARENT_SOURCE_DIR ${PARENT_SOURCE_DIR} DIRECTORY)
+
+
     target_include_directories(${TARGET_NAME} PRIVATE "C:/Tools/glfw-3.4/include")
     target_include_directories(${TARGET_NAME} PRIVATE "C:/Tools/glew-2.2.0/include")
-    target_include_directories(${TARGET_NAME} PRIVATE ${PARENT_SOURCE_DIR}/inc)# ??????????????????????
-    # 定义 GLEW_STATIC
-    # add_definitions(-DGLEW_STATIC)
-
-
-
-    # 添加可执行文件
-    # add_executable(glfw_test
-    #     src/main.cpp
-    #     # src/glad.c
-    #     # src/Shader.cpp
-    # )
-    # add_executable(glfw_test
-    #     test/figure_test.cpp
-    #     src/visual/buttons.cpp
-    #     # src/glad.c
-    #     # src/Shader.cpp
-    # )
+    target_include_directories(${TARGET_NAME} PRIVATE ${PARENT_SOURCE_DIR}/inc)
     target_include_directories(${TARGET_NAME} PRIVATE
         ${GLFW_INSTALL_DIR}/src/visual
         ${GLFW_INSTALL_DIR}/test
+        ${GLFW_INSTALL_DIR}/inc  
+        ${PARENT_SOURCE_DIR}/inc   # glad所在目录  
     )
+
+    # 3. 编译器差异化处理 (关键点)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+        # 如果是 Clang，强制它遵循 MinGW 行为 (解决 -l 找不到库的问题)
+        add_compile_options("--target=x86_64-w64-windows-gnu")
+        add_link_options("--target=x86_64-w64-windows-gnu")
+        
+        # Clang 链接时通常不需要手动指定 .dll 名字，而是寻找 .lib 或 .dll.a 导入库
+        set(GLEW_LIB_NAME "C:/Tools/glew-2.2.0/lib/Release/x64/glew32.lib")
+        set(GLFW_LIB_NAME "C:/Tools/glfw-3.4/lib/glfw3dll.lib")
+    else()
+        # 如果是 GCC (MinGW)
+        set(GLEW_LIB_NAME "glew32.dll")
+        set(GLFW_LIB_NAME "glfw3.dll")
+    endif()
 
     target_link_directories(${TARGET_NAME} PRIVATE "C:/Tools/glew-2.2.0/bin/Release/x64")  # 先指定链接的动态库路径 ！！！！
     target_link_directories(${TARGET_NAME} PRIVATE "C:/Tools/glfw-3.4/bin")
 
-    target_link_libraries(${TARGET_NAME} PRIVATE glew32.dll) # 再指定链接的动态库名字 ！！！！ 必须包含
+    # target_link_libraries(${TARGET_NAME} PRIVATE glew32.dll) # 再指定链接的动态库名字 ！！！！ 必须包含
 
-    target_link_libraries(${TARGET_NAME} PRIVATE glfw3.dll)
-    # 链接目录
-    # target_link_directories(glfw_test PRIVATE
-    #     ${GLFW_INSTALL_DIR}/build_glfw_install/src/Release
-    # )
-
-    # 链接库
-    # target_link_directories(glfw_test PRIVATE
-    #     ${GLFW_INSTALL_DIR}/lib
-    # )
-
-    # 包含目录
-    target_include_directories(${TARGET_NAME} PRIVATE
-        ${GLFW_INSTALL_DIR}/inc      #   ???????????
-    )
-
-    target_include_directories(${TARGET_NAME} PRIVATE 
-        ${PARENT_SOURCE_DIR}/inc       #   ???????????
-    )  # glad所在目录
+    # target_link_libraries(${TARGET_NAME} PRIVATE glfw3.dll)
 
 
-    # # 包含目录
-    # target_include_directories(glfw_test PRIVATE
-    #     ${CMAKE_SOURCE_DIR}/include
-    # )
+
     target_link_libraries(${TARGET_NAME} PRIVATE
         glfw # 链接 GLFW 库本身（提供窗口创建、事件处理等核心功能）。 包含一下（不包含问题也不大）
-        opengl32 # Windows 系统 OpenGL 库, 若不包含会缺少必要的系统库链接   !!!!!!!!
-        
-                # 报错信息：
-            # 如： C:/Dev-Cpp/x86_64-15.1.0-release-posix-seh-ucrt-rt_v12-rev0/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/bin/ld.exe: CMakeFiles\glfw_test.dir/objects.a(main.cpp.obj):main.cpp:(.text+0x439): undefined reference to `glDrawArrays'
-                # collect2.exe: error: ld returned 1 exit status
-                # mingw32-make[2]: *** [CMakeFiles\glfw_test.dir\build.make:136: glfw_test.exe] Error 1
-                # mingw32-make[1]: *** [CMakeFiles\Makefile2:86: CMakeFiles/glfw_test.dir/all] Error 2
-                # mingw32-make: *** [Makefile:90: all] Error 2
-                # glViewport、glClear 等 OpenGL 核心函数未定义：未链接 Windows 系统自带的 OpenGL 库 opengl32；
-                # wglGetProcAddress、wglGetCurrentDC 等 WGL 函数未定义：WGL 是 Windows 专属的 OpenGL 扩展接口，依赖 opengl32 库，未链接则找不到这些函数。
-        # opengl32  不需要find_package(OpenGL REQUIRED) 也能链接成功
-        # 或者 通过 find_package(OpenGL REQUIRED) 后使用
-            # OpenGL::GL # CMake 提供的 “导入目标”，本质上是对系统 OpenGL 库（如opengl32）的封装，在 Windows 上通常等价于opengl32。
-            # 或者使用 ${OPENGL_LIBRARIES} 变量来链接 OpenGL 库。
+        opengl32 # Windows 系统 OpenGL 库, 若不包含会缺少必要的系统库链接   !!!!!!!!  
+        ${GLEW_LIB_NAME}
+        ${GLFW_LIB_NAME}    
         ws2_32                # Windows 网络库（GLFW 依赖）   这些不需要！！
         mswsock               # Windows Winsock 扩展库（GLFW 依赖）
     )
@@ -123,3 +84,4 @@ function(add_opengl_support TARGET_NAME)
         COMMENT "copying libglew32.dll to executable fold"  # 构建时显示的提示信息
     )
 endfunction()
+# cmake -G "MinGW Makefiles" -DCMAKE_C_COMPILER="C:/Program Files/LLVM/bin/clang.exe" -DCMAKE_CXX_COMPILER="C:/Program Files/LLVM/bin/clang++.exe" ..

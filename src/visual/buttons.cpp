@@ -2,8 +2,8 @@
 #include <cmath>
 #include <vector>
 #include <memory>
+#include <numbers>
 #include "buttons.h"
-
 // --- Button 的静态成员定义 ---
 constexpr const char* Button::fragmentShaderSource;
 constexpr const char* Button::vertexShaderSource;
@@ -302,7 +302,7 @@ void CircleButton::generateVertices() {
 
     // 圆周上的点
     for (int i = 0; i <= CircleButton::numSegments; ++i) {
-        float theta = 2.0f * (float)M_PI * (float)i / (float)CircleButton::numSegments;
+        float theta = 2.0f * std::numbers::pi * (float)i / (float)CircleButton::numSegments;
         float x = NDCcenter.first  + (NDCradius * cosf(theta)) * hw_rate; //要乘以一个横向的缩放系数
         float y = NDCcenter.second + NDCradius * sinf(theta);
 

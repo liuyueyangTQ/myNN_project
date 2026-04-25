@@ -1,8 +1,21 @@
 # 设置QT工具源路径
 set(QT_SRC_DIR "C:/Qt/6.10.1")
 # 添加 Qt6 安装路径
-set(CMAKE_PREFIX_PATH "C:/Qt/6.10.1/mingw_64")
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU") 
+    # 适配 GCC (MinGW)
+    message(STATUS "Detected GCC: Using standard mingw_64 path")
+    set(CMAKE_PREFIX_PATH "C:/Qt/6.10.1/mingw_64")
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    # 适配 Clang (包括 Clang-cl 或 llvm-mingw)
+    message(STATUS "Detected Clang: Using llvm-mingw_64 path")
+    set(CMAKE_PREFIX_PATH "C:/Qt/6.10.1/llvm-mingw_64")
+else()
+    message(WARNING "Unknown compiler: ${CMAKE_CXX_COMPILER_ID}. Defaulting to mingw_64")
+    set(CMAKE_PREFIX_PATH "C:/Qt/6.10.1/mingw_64")
+endif()
+
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
+message(STATUS "Current Linker Flags: ${CMAKE_EXE_LINKER_FLAGS}")
 
 # 自动生成 MOC 文件（Qt 元对象编译）
 set(CMAKE_AUTOMOC ON)
@@ -32,7 +45,7 @@ add_nn_executable(QT_api
     LINKS
 )
 # 链接 Qt 库
-target_link_libraries(QT_api Qt6::Core Qt6::Widgets)
+target_link_libraries(QT_api Qt6::Core Qt6::Widgets) 
 # 定义 QT_api 的输出路径
 set_target_properties(QT_api PROPERTIES
     # 可执行文件输出到目录
