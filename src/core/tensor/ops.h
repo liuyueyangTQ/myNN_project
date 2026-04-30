@@ -51,9 +51,6 @@ namespace base {
 namespace dtensor{
 layer* layer_tool(int n, size_t batch_num, layer_type ltp);
 
-
-
-
 class op {
     friend class dtensor_base;
 protected:
@@ -65,11 +62,11 @@ protected:
     std::vector<size_t> shape_output;
 
     std::vector<dtensor_base*> inputs;
-    float* data_output;
     std::vector<metrix_float*> metrix_inputs; // 存储每个输入张量（不是每个batch，而是组成算子的不同张量）的 **首个** 输出metrix指针
     std::vector<metrix_float*> metrix_inputs_grad; // 存储每个输入张量的 **首个** 梯度metrix指针
     size_t count_n, *temp_n; // 指向op的count_n个算子，这些算子已经有temp_n个完成传递
-    bool *have_backwarded;
+    float* data_output;
+    bool* have_backwarded;
 public:
     op(std::string name, dtensor_base* a, dtensor_base* b) ;
     op(std::string name, std::vector<dtensor_base*>& inputs) ;
@@ -85,7 +82,10 @@ public:
     virtual void _forward(size_t batch_id) = 0;
     virtual void _backward() = 0;
     virtual void _backward(size_t batch_id) = 0;
-    virtual ~op() {}
+    virtual ~op() {
+        delete[] temp_n;
+        delete[] have_backwarded;
+    }
     tensor_type get_type(std::vector<dtensor::dtensor_base*>& tensors);
     inline dtensor_base* get_output() {
         return this->output;
@@ -94,7 +94,6 @@ public:
     dtensor_base* set_output(tensor_type tp, sub_type stp); // 生成输出张量，并将其类型设置为tp
     virtual void _check_type(dtensor_base* a, dtensor_base* b) {}
     std::vector<dtensor_base*> get_inputs();
-
 };
 
 class add_op : public op {

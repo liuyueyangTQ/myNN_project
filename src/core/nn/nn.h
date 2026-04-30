@@ -6,16 +6,14 @@
 #include<cassert>
 #include<chrono>
 #include<thread>
-#include"threadpool.h"
 #include"enum_type.h"
-#include"metrix.h"
-#include"dtensor.h"
-#include"ops.h"
 namespace dtensor{
-class tensor_base;
+class layer;
+class dtensor_base;
 layer* layer_tool(int n, size_t batch_num, sub_type stp);
 class ThreadPool;
 class ThreadPoolImp;
+class op;
 }
 namespace nn {
 using namespace dtensor;
@@ -47,7 +45,7 @@ public:
     void set_model(module_base* m);
     model_data() : model_ptr(nullptr) {}
 };
-class module_base{
+class module_base {
 protected:
     std::vector<dtensor_base*> inputs; // 模块的参数列表
     std::vector<std::vector<float>> data, labels;
@@ -91,6 +89,7 @@ class Linear_NN : public module_base {
 public:
     Linear_NN(int batch_num) : module_base(batch_num)
         {}
+    ~Linear_NN();
     void forward(size_t batch_id) override;
     void forward() override;
     void backward(std::vector<float>& label, size_t batch_id, loss_type tp) override;
@@ -113,6 +112,7 @@ class Linear_Resnet : public module_base {
 public:
     Linear_Resnet(int batch_num) : module_base(batch_num) 
         {}
+    ~Linear_Resnet();
     void add_layer(int num, sub_type tp);
     void add_res_layer(int num, sub_type tp);
     void forward(size_t batch_id) override;

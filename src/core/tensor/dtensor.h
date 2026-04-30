@@ -73,6 +73,10 @@ public:
         : is_param(is_param),lock_grad(lock_grad), tstp(type), batch_num(batch_num), n(n),
         count_n(0), temp_n(new size_t[batch_num]()), have_forwarded(new bool[batch_num]()), have_updated(false), have_printed(false)
         {}
+    ~dtensor_base() {
+        delete[] temp_n;
+        delete[] have_forwarded;
+    }
     //tensor(metrix_float &m) : w(m),shape(m.shape),lock_grad(true),is_pram(false) {}
     virtual void set_input_value(float* data, size_t batch_id) = 0;
     virtual void set_input_value(std::vector<std::vector<float>>& data) = 0;
@@ -208,8 +212,6 @@ private:
     metrix_float* batch_val; 
     std::vector<size_t> shape;
     void** pMemory; // 辅助变量
-
-
     metrix_float* _allocdata(size_t bias);
 public:
     multi_dim_tensor(std::vector<size_t> shape, size_t batch_num) : 
@@ -500,6 +502,7 @@ public:
             _release_data(this->batch_grad, 0);
             _release_data(this->batch_input, 1);
             _release_data(this->batch_output, 2); 
+            delete b;
         } catch (const char* err) { // 捕获字符串类型异常
             std::cout << "exception when releasing layer!: " << err << std::endl;
         } catch (...) { // 兜底捕获其他异常

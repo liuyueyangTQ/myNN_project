@@ -1,5 +1,8 @@
+#include"metrix.h"
+#include"dtensor.h"
+#include"ops.h"
+#include"threadpool.h"
 #include"nn.h"
-
 namespace nn{
 using namespace dtensor;
 
@@ -256,7 +259,22 @@ std::vector<std::vector<std::vector<float>>> module_base::get_param_w() {
     }
     return res;
 }
-
+Linear_NN::~Linear_NN() {
+    dtensor_base* cur_layer = first_layer;
+    op *cur_op, *temp_op;
+    while(cur_layer) {
+        cur_op = cur_layer->get_op_next();
+        temp_op = cur_op;
+        if(!cur_op) {// 最后一层无next_op
+            delete cur_layer;
+            break;
+        }
+        for(auto &input : cur_op->get_inputs()) // 先让计算图输入tensor前向传播
+            delete input;
+        cur_layer = cur_op->get_output();
+        delete temp_op;
+    } 
+}
 void Linear_NN::add_layer(int num, sub_type tp) {
     if(!this->first_layer) {
         first_layer = layer_tool(num, batch_num, sub_type::origin);
@@ -426,6 +444,21 @@ void Linear_NN::reset_count() {
 }
 void Linear_NN::print_all_layers(size_t batch_id, bool inc_grad) {
 
+}
+Linear_Resnet::~Linear_Resnet() {
+    dtensor_base* cur_layer = first_layer;
+    op *cur_op, *temp_op;
+    while(cur_layer) {
+        cur_op = cur_layer->get_op_next();
+        temp_op = cur_op;
+        if(!cur_op) {// 最后一层无next_op
+            delete cur_layer;
+            break;
+        }
+        delete cur_op->get_inputs()[0];// 待完善！！！
+        cur_layer = cur_op->get_output();
+        delete temp_op;
+    } 
 }
 void Linear_Resnet::add_layer(int num, sub_type tp) {
     if(!this->first_layer) {

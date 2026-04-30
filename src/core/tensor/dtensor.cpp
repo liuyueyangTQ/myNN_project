@@ -103,7 +103,6 @@ void dtensor_base::forward(size_t batch_id) { // 变量tensor前向传播可使�
     if(!is_param) {//动态tensor
         for(auto &otpt : op_next) {
             (otpt->temp_n)[batch_id]++;
-        // std::cout << " next op temp_n value is: " << (otpt->temp_n)[batch_id] << std::endl;
         }
     }
     have_forwarded[batch_id] = true;
@@ -116,8 +115,6 @@ void dtensor_base::backward(size_t batch_id) {
     // 如果 is_param 如weight metrix， 直接退出
     if(is_param || temp_n[batch_id] != 0) //尚未就绪
         return;
-    // std::cout << " backward by count n = : " << this->count_n << std::endl;
-    // std::cout << "temp n is : " << temp_n[batch_id] <<std::endl;
     this->_backward(batch_id);
 }
 
@@ -133,7 +130,6 @@ void dtensor_base::forward_D(size_t batch_id) {
     if(!is_param) {//动态tensor
         for(auto &otpt : op_next) {
             (otpt->temp_n)[batch_id]++;
-        // std::cout << " next op temp_n value is: " << (otpt->temp_n)[batch_id] << std::endl;
         }
     }
     have_forwarded[batch_id] = true;

@@ -112,7 +112,23 @@ add_nn_executable(dtensor_test
     # 可选：追加自定义包含目录
     INCLUDES
 )
-
+add_nn_executable(memory_test 
+    MAIN_DIR    
+        ${CORE_DIR}
+    SRCS
+        ${CORE_DIR}/test/memory_test.cpp
+        ${CORE_DIR}/math/metrix.cpp
+        ${CORE_DIR}/tensor/dtensor.cpp
+        ${CORE_DIR}/tensor/ops.cpp
+        ${CORE_DIR}/nn/nn.cpp
+    # 可选：追加自定义宏
+    DEFINES
+        USE_DEBUG 
+        USE_THREAD
+        DEBUG_ASSERT_H
+    # 可选：追加自定义包含目录
+    INCLUDES
+)
 add_nn_executable(dnn_test 
     MAIN_DIR    
         ${CORE_DIR}
