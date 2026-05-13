@@ -70,3 +70,4 @@ add_custom_command(
         "${CMAKE_CURRENT_BINARY_DIR}/platforms/"  # 目标目录：exe 所在目录
     COMMENT "copying QT DLLto executable fold..."  # 构建时显示的提示信息
 )
+add_subdirectory(netService)

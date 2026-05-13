@@ -1,0 +1,9 @@
+add_executable(server_test 
+    server_test.cpp
+    server.cpp
+)
+if(WIN32)
+    target_link_libraries(server_test PRIVATE Ws2_32) # 链接 Winsock 库
+elseif(UNIX)
+
+endif()
