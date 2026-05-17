@@ -397,5 +397,10 @@ void concat_op::_backward(size_t batch_id) {
     // 拼接操作的反向计算逻辑
     assert(0);
 }
-
+void concat_op::_backward() {
+    // 拼接操作的反向计算逻辑
+    assert(0);
+    for(int i = 0; i < this->batch_num; ++i)
+        this->_backward(i);
+}
 } // namespace dtensor

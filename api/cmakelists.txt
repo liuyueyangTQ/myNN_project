@@ -30,10 +30,6 @@ add_nn_executable(QT_api
     SRCS
         ${CMAKE_CURRENT_SOURCE_DIR}/api.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/QT_nn_interface.cpp
-        ${CORE_DIR}/math/metrix.cpp
-        ${CORE_DIR}/tensor/dtensor.cpp
-        ${CORE_DIR}/tensor/ops.cpp
-        ${CORE_DIR}/nn/nn.cpp
     # 可选：追加自定义宏
     DEFINES
         USE_DEBUG 
@@ -43,9 +39,10 @@ add_nn_executable(QT_api
     INCLUDES
         ${CMAKE_SOURCE_DIR}/api
     LINKS
+        math_libs
 )
 # 链接 Qt 库
-target_link_libraries(QT_api Qt6::Core Qt6::Widgets) 
+target_link_libraries(QT_api PRIVATE Qt6::Core Qt6::Widgets) 
 # 定义 QT_api 的输出路径
 set_target_properties(QT_api PROPERTIES
     # 可执行文件输出到目录

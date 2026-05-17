@@ -6,7 +6,6 @@
 #include<random>
 #include<vector>
 #include"buffer_util.h"
-// #include"tensor.h" // 不能include， 不然编译会报错
 
 namespace tensor{
 class tensor_base;   

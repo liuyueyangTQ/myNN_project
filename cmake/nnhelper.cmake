@@ -3,7 +3,7 @@ function(add_nn_executable NAME)
     # 解析参数：支持可选的自定义宏和包含目录
     set(options "")
     set(oneValueArgs "")
-    set(multiValueArgs SRCS DEFINES INCLUDES MAIN_DIR)
+    set(multiValueArgs SRCS DEFINES INCLUDES MAIN_DIR LINKS)
     cmake_parse_arguments(ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
     # 创建可执行文件
     add_executable(${NAME} ${ARGS_SRCS})

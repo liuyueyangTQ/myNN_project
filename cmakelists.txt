@@ -21,13 +21,13 @@ set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -g -O0")
 if(MINGW)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++")
 endif()
-# 编译阶段：添加-flto
-if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -flto -march=native")
-    # 链接阶段：添加-flto
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -flto")
-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -flto")
-endif()
+# 编译阶段：添加-flto !!不能加-flto，否则mingw与静态链接不兼容
+# if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+#     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -flto -march=native")
+#     链接阶段：添加-flto
+#     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -flto")
+#     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -flto")
+# endif()
 
 # 引入封装的函数文件
 include(${CMAKE_SOURCE_DIR}/cmake/nnhelper.cmake)
@@ -35,19 +35,45 @@ include(${CMAKE_SOURCE_DIR}/cmake/nnhelper.cmake)
 set(CORE_DIR "${CMAKE_SOURCE_DIR}/src/core")
 message(STATUS "CORE_DIR: ${CORE_DIR}")
 
+# 设置静态库输出目录（关键！指定 build 下的文件夹）
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+# 收集库源文件
+file(GLOB MATH_LIB_SOURCES 
+    ${CORE_DIR}/math/metrix.cpp
+    ${CORE_DIR}/tensor/tensor.cpp
+    ${CORE_DIR}/tensor/dtensor.cpp
+    ${CORE_DIR}/tensor/ops.cpp
+    ${CORE_DIR}/thread/threadpool.cpp
+    ${CORE_DIR}/nn/nn.cpp
+    ${CORE_DIR}/utils/buffer_util.cpp
+)
+
+# 生成静态库（名字：math_libs）
+add_library(math_libs STATIC ${MATH_LIB_SOURCES})
+# 指定宏
+target_compile_definitions(math_libs PUBLIC USE_DEBUG)
+
+# 指定包含文件路径
+target_include_directories(math_libs PUBLIC
+    ${CORE_DIR}/math
+    ${CORE_DIR}/tensor
+    ${CORE_DIR}/thread
+    ${CORE_DIR}/nn
+    ${CORE_DIR}/utils
+)
 
 add_nn_executable(metrix_test 
     MAIN_DIR    
         ${CORE_DIR}
     SRCS
         ${CORE_DIR}/test/metrix_test.cpp
-        ${CORE_DIR}/math/metrix.cpp
-        ${CORE_DIR}/utils/buffer_util.cpp
     # 可选：追加自定义宏
     DEFINES
         USE_DEBUG 
-    # 可选：追加自定义包含目录
-    INCLUDES
+    # 链接库文件
+    LINKS
+        math_libs
 )
 
 add_nn_executable(tensor_test 
@@ -55,14 +81,12 @@ add_nn_executable(tensor_test
         ${CORE_DIR}
     SRCS
         ${CORE_DIR}/test/tensor_test.cpp
-        ${CORE_DIR}/math/metrix.cpp
-        ${CORE_DIR}/tensor/tensor.cpp
-        ${CORE_DIR}/utils/buffer_util.cpp
     # 可选：追加自定义宏
     DEFINES
         USE_DEBUG 
-    # 可选：追加自定义包含目录
-    INCLUDES
+    # 链接库文件
+    LINKS
+        math_libs
 )
 
 add_nn_executable(nn_test 
@@ -70,30 +94,28 @@ add_nn_executable(nn_test
         ${CORE_DIR}
     SRCS
         ${CORE_DIR}/test/tensor_test.cpp
-        ${CORE_DIR}/math/metrix.cpp
-        ${CORE_DIR}/tensor/tensor.cpp
         ${CORE_DIR}/utils/buffer_util.cpp
     # 可选：追加自定义宏
     DEFINES
         USE_DEBUG 
         USE_THREAD
-    # 可选：追加自定义包含目录
-    INCLUDES
+    # 链接库文件
+    LINKS
+        math_libs
 )
 add_nn_executable(thread_test 
     MAIN_DIR    
         ${CORE_DIR}
     SRCS
         ${CORE_DIR}/test/tensor_test.cpp
-        ${CORE_DIR}/math/metrix.cpp
-        ${CORE_DIR}/tensor/tensor.cpp
         ${CORE_DIR}/utils/buffer_util.cpp
     # 可选：追加自定义宏
     DEFINES
         USE_DEBUG 
         USE_THREAD
-    # 可选：追加自定义包含目录
-    INCLUDES
+    # 链接库文件
+    LINKS
+        math_libs
 )
 
 add_nn_executable(dtensor_test
@@ -101,42 +123,35 @@ add_nn_executable(dtensor_test
         ${CORE_DIR}
     SRCS
         ${CORE_DIR}/test/dtensor_test.cpp
-        ${CORE_DIR}/math/metrix.cpp
-        ${CORE_DIR}/tensor/dtensor.cpp
-        ${CORE_DIR}/tensor/ops.cpp
     # 可选：追加自定义宏
     DEFINES
         USE_DEBUG 
         USE_THREAD
         DEBUG_ASSERT_H
-    # 可选：追加自定义包含目录
-    INCLUDES
+    # 链接库文件
+    LINKS
+        math_libs
 )
 add_nn_executable(memory_test 
     MAIN_DIR    
         ${CORE_DIR}
     SRCS
         ${CORE_DIR}/test/memory_test.cpp
-        ${CORE_DIR}/math/metrix.cpp
-        ${CORE_DIR}/tensor/dtensor.cpp
-        ${CORE_DIR}/tensor/ops.cpp
         ${CORE_DIR}/nn/nn.cpp
     # 可选：追加自定义宏
     DEFINES
         USE_DEBUG 
         USE_THREAD
         DEBUG_ASSERT_H
-    # 可选：追加自定义包含目录
-    INCLUDES
+    # 链接库文件
+    LINKS
+        math_libs
 )
 add_nn_executable(dnn_test 
     MAIN_DIR    
         ${CORE_DIR}
     SRCS
         ${CORE_DIR}/test/dnn_test.cpp
-        ${CORE_DIR}/math/metrix.cpp
-        ${CORE_DIR}/tensor/dtensor.cpp
-        ${CORE_DIR}/tensor/ops.cpp
         ${CORE_DIR}/nn/nn.cpp
         ${CORE_DIR}/thread/threadpool.cpp
     # 可选：追加自定义宏
@@ -144,8 +159,9 @@ add_nn_executable(dnn_test
         USE_DEBUG 
         USE_THREAD
         DEBUG_ASSERT_H
-    # 可选：追加自定义包含目录
-    INCLUDES
+    # 链接库文件
+    LINKS
+        math_libs
 )
 
 
@@ -154,12 +170,8 @@ add_nn_executable(draw_nn_test
         ${CORE_DIR}
     SRCS
         ${CORE_DIR}/test/draw_nn_test.cpp
-        ${CORE_DIR}/math/metrix.cpp
-        ${CORE_DIR}/tensor/tensor.cpp
         ${CORE_DIR}/nn/model.cpp
-        ${CORE_DIR}/thread/threadpool.cpp
         ${CORE_DIR}/utils/buffer_util.cpp
-
         ${CMAKE_SOURCE_DIR}/src/visual/buttons.cpp
     # 可选：追加自定义宏
     DEFINES
@@ -168,6 +180,9 @@ add_nn_executable(draw_nn_test
     # 可选：追加自定义包含目录
     INCLUDES
         ${CMAKE_SOURCE_DIR}/inc
+    # 链接库文件
+    LINKS
+        math_libs
 )
 include(${CMAKE_SOURCE_DIR}/cmake/openGLhelper.cmake)
 add_opengl_support(draw_nn_test)
