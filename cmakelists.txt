@@ -31,10 +31,12 @@ endif()
 
 # 引入封装的函数文件
 include(${CMAKE_SOURCE_DIR}/cmake/nnhelper.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/protobuf_helper.cmake)
 
 set(CORE_DIR "${CMAKE_SOURCE_DIR}/src/core")
+set(TOOLS_DIR "${CMAKE_SOURCE_DIR}/src/tools")
 message(STATUS "CORE_DIR: ${CORE_DIR}")
-
+message(STATUS "TOOLS_DIR: ${TOOLS_DIR}")
 # 设置静态库输出目录（关键！指定 build 下的文件夹）
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
@@ -63,11 +65,41 @@ target_include_directories(math_libs PUBLIC
     ${CORE_DIR}/utils
 )
 
-add_nn_executable(metrix_test 
+# 生成静态库（名字：proto_libs）
+
+# 设置 Protobuf 测试文件
+add_executable(proto_test 
+    ${TOOLS_DIR}/protobuf/proto_test.cpp
+    ${TOOLS_DIR}/protobuf/proto_utils.cpp
+    ${TOOLS_DIR}/protobuf/network.pb.cc
+)
+setup_protobuf(proto_test
+    INCLUDES 
+        ${TOOLS_DIR}/protobuf
+)
+add_nn_support(proto_test
     MAIN_DIR    
         ${CORE_DIR}
-    SRCS
-        ${CORE_DIR}/test/metrix_test.cpp
+    DEFINES
+        USE_DEBUG 
+    LINKS
+        math_libs
+)
+
+add_executable(metrix_test ${CORE_DIR}/test/metrix_test.cpp)
+add_nn_support(metrix_test 
+    MAIN_DIR    
+        ${CORE_DIR}
+    DEFINES
+        USE_DEBUG 
+    LINKS
+        math_libs
+)
+
+add_executable(tensor_test ${CORE_DIR}/test/tensor_test.cpp)   
+add_nn_support(tensor_test 
+    MAIN_DIR    
+        ${CORE_DIR}
     # 可选：追加自定义宏
     DEFINES
         USE_DEBUG 
@@ -76,116 +108,99 @@ add_nn_executable(metrix_test
         math_libs
 )
 
-add_nn_executable(tensor_test 
+add_executable(nn_test 
+    ${CORE_DIR}/test/tensor_test.cpp
+    ${CORE_DIR}/utils/buffer_util.cpp
+)  
+add_nn_support(nn_test 
     MAIN_DIR    
         ${CORE_DIR}
-    SRCS
-        ${CORE_DIR}/test/tensor_test.cpp
-    # 可选：追加自定义宏
     DEFINES
         USE_DEBUG 
-    # 链接库文件
+        USE_THREAD
     LINKS
         math_libs
 )
 
-add_nn_executable(nn_test 
+add_executable(thread_test 
+    ${CORE_DIR}/test/tensor_test.cpp
+    ${CORE_DIR}/utils/buffer_util.cpp
+)  
+add_nn_support(thread_test 
     MAIN_DIR    
         ${CORE_DIR}
-    SRCS
-        ${CORE_DIR}/test/tensor_test.cpp
-        ${CORE_DIR}/utils/buffer_util.cpp
-    # 可选：追加自定义宏
     DEFINES
         USE_DEBUG 
         USE_THREAD
-    # 链接库文件
-    LINKS
-        math_libs
-)
-add_nn_executable(thread_test 
-    MAIN_DIR    
-        ${CORE_DIR}
-    SRCS
-        ${CORE_DIR}/test/tensor_test.cpp
-        ${CORE_DIR}/utils/buffer_util.cpp
-    # 可选：追加自定义宏
-    DEFINES
-        USE_DEBUG 
-        USE_THREAD
-    # 链接库文件
     LINKS
         math_libs
 )
 
-add_nn_executable(dtensor_test
+add_executable(dtensor_test 
+    ${CORE_DIR}/test/dtensor_test.cpp
+)  
+add_nn_support(dtensor_test
     MAIN_DIR    
         ${CORE_DIR}
-    SRCS
-        ${CORE_DIR}/test/dtensor_test.cpp
-    # 可选：追加自定义宏
-    DEFINES
-        USE_DEBUG 
-        USE_THREAD
-        DEBUG_ASSERT_H
-    # 链接库文件
-    LINKS
-        math_libs
-)
-add_nn_executable(memory_test 
-    MAIN_DIR    
-        ${CORE_DIR}
-    SRCS
-        ${CORE_DIR}/test/memory_test.cpp
-        ${CORE_DIR}/nn/nn.cpp
-    # 可选：追加自定义宏
-    DEFINES
-        USE_DEBUG 
-        USE_THREAD
-        DEBUG_ASSERT_H
-    # 链接库文件
-    LINKS
-        math_libs
-)
-add_nn_executable(dnn_test 
-    MAIN_DIR    
-        ${CORE_DIR}
-    SRCS
-        ${CORE_DIR}/test/dnn_test.cpp
-        ${CORE_DIR}/nn/nn.cpp
-        ${CORE_DIR}/thread/threadpool.cpp
-    # 可选：追加自定义宏
     DEFINES
         USE_DEBUG 
         USE_THREAD
         DEBUG_ASSERT_H
-    # 链接库文件
     LINKS
         math_libs
 )
 
-
-add_nn_executable(draw_nn_test 
+add_executable(memory_test 
+    ${CORE_DIR}/test/memory_test.cpp
+    ${CORE_DIR}/nn/nn.cpp
+)  
+add_nn_support(memory_test 
     MAIN_DIR    
         ${CORE_DIR}
-    SRCS
-        ${CORE_DIR}/test/draw_nn_test.cpp
-        ${CORE_DIR}/nn/model.cpp
-        ${CORE_DIR}/utils/buffer_util.cpp
-        ${CMAKE_SOURCE_DIR}/src/visual/buttons.cpp
-    # 可选：追加自定义宏
     DEFINES
         USE_DEBUG 
-        # USE_THREAD
-    # 可选：追加自定义包含目录
+        USE_THREAD
+        DEBUG_ASSERT_H
+    LINKS
+        math_libs
+)
+
+add_executable(dnn_test 
+    ${CORE_DIR}/test/dnn_test.cpp
+    ${CORE_DIR}/nn/nn.cpp
+    ${CORE_DIR}/thread/threadpool.cpp
+)  
+add_nn_support(dnn_test 
+    MAIN_DIR    
+        ${CORE_DIR}
+    DEFINES
+        USE_DEBUG 
+        USE_THREAD
+        DEBUG_ASSERT_H
+    LINKS
+        math_libs
+)
+
+add_executable(draw_nn_test 
+    ${CORE_DIR}/test/draw_nn_test.cpp
+    ${CORE_DIR}/nn/model.cpp
+    ${CORE_DIR}/utils/buffer_util.cpp
+    ${CMAKE_SOURCE_DIR}/src/visual/buttons.cpp
+)  
+add_nn_support(draw_nn_test 
+    MAIN_DIR    
+        ${CORE_DIR}
+    DEFINES
+        USE_DEBUG 
     INCLUDES
         ${CMAKE_SOURCE_DIR}/inc
-    # 链接库文件
     LINKS
         math_libs
 )
+
 include(${CMAKE_SOURCE_DIR}/cmake/openGLhelper.cmake)
 add_opengl_support(draw_nn_test)
 
 # add_subdirectory(src/visual)
 add_subdirectory(api)
+add_subdirectory(src)

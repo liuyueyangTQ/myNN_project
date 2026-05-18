@@ -24,18 +24,18 @@ set(CMAKE_AUTORCC ON)
 
 
 include(${CMAKE_SOURCE_DIR}/cmake/nnhelper.cmake) # 引入nn辅助构建工具，帮助构建 nn 神经网络 QT 前端
-add_nn_executable(QT_api
+
+add_executable(QT_api 
+    ${CMAKE_CURRENT_SOURCE_DIR}/api.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/QT_nn_interface.cpp
+)
+add_nn_support(QT_api
     MAIN_DIR    
         ${CORE_DIR} # 为 src/core
-    SRCS
-        ${CMAKE_CURRENT_SOURCE_DIR}/api.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/QT_nn_interface.cpp
-    # 可选：追加自定义宏
     DEFINES
         USE_DEBUG 
         USE_THREAD
         DEBUG_ASSERT_H
-    # 可选：追加自定义包含目录
     INCLUDES
         ${CMAKE_SOURCE_DIR}/api
     LINKS

@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package nn_proto;
+
+// 激活函数类型
+enum ActivationType {
+    ACT_NONE = 0;
+    ACT_RELU = 1;
+    ACT_SIGMOID = 2;
+    ACT_TANH = 3;
+    ACT_LEAKY_RELU = 4;
+}
+
+// 单个权重矩阵 W
+message WeightMatrix {
+    int32 rows = 1;
+    int32 cols = 2;
+    bytes data = 3;
+}
+
+// 单个偏置向量 b
+message BiasVector {
+    int32 size = 1;
+    bytes data = 2;
+}
+
+// 一层网络
+message Layer {
+    int32 neuron_count = 1;
+    ActivationType activation = 2;
+    WeightMatrix w = 3;
+    BiasVector b = 4;
+}
+
+// 整个神经网络
+message Network {
+    int32 layer_count = 1;
+    repeated Layer layers = 2;
+}

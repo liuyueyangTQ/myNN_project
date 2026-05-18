@@ -55,12 +55,6 @@ function(add_opengl_support TARGET_NAME)
     target_link_directories(${TARGET_NAME} PRIVATE "C:/Tools/glew-2.2.0/bin/Release/x64")  # 先指定链接的动态库路径 ！！！！
     target_link_directories(${TARGET_NAME} PRIVATE "C:/Tools/glfw-3.4/bin")
 
-    # target_link_libraries(${TARGET_NAME} PRIVATE glew32.dll) # 再指定链接的动态库名字 ！！！！ 必须包含
-
-    # target_link_libraries(${TARGET_NAME} PRIVATE glfw3.dll)
-
-
-
     target_link_libraries(${TARGET_NAME} PRIVATE
         glfw # 链接 GLFW 库本身（提供窗口创建、事件处理等核心功能）。 包含一下（不包含问题也不大）
         opengl32 # Windows 系统 OpenGL 库, 若不包含会缺少必要的系统库链接   !!!!!!!!  
@@ -69,7 +63,6 @@ function(add_opengl_support TARGET_NAME)
         ws2_32                # Windows 网络库（GLFW 依赖）   这些不需要！！
         mswsock               # Windows Winsock 扩展库（GLFW 依赖）
     )
-
 
     # 4.2 添加构建后事件：复制 DLL 到 exe 所在目录（CMAKE_CURRENT_BINARY_DIR 即 build 目录）
     add_custom_command(
