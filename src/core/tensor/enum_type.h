@@ -22,11 +22,11 @@ enum class tensor_type{
 };
 
 enum class sub_type {
-    sigmoid,
+    origin,
     relu,
+    sigmoid,
     softmax,
     layer_norm,
-    origin,
     none
 };
 

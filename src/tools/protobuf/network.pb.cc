@@ -29,9 +29,7 @@ namespace _fl = ::google::protobuf::internal::field_layout;
 namespace {
 PROTOBUF_CONSTINIT ::google::protobuf::internal::ReflectionData
     file_reflection_data[] = {
-        // ::nn_proto::WeightMatrix
-        {&::_pbi::kDescriptorMethods, &::descriptor_table_network_2eproto, /* tracker*/ nullptr,},
-        // ::nn_proto::BiasVector
+        // ::nn_proto::WeightMetrix
         {&::_pbi::kDescriptorMethods, &::descriptor_table_network_2eproto, /* tracker*/ nullptr,},
         // ::nn_proto::Layer
         {&::_pbi::kDescriptorMethods, &::descriptor_table_network_2eproto, /* tracker*/ nullptr,},
@@ -41,17 +39,17 @@ PROTOBUF_CONSTINIT ::google::protobuf::internal::ReflectionData
 }  // namespace
 #endif
 namespace nn_proto {
-class WeightMatrix::_Internal {
+class WeightMetrix::_Internal {
  public:
-  using HasBits = decltype(::std::declval<WeightMatrix>()._impl_._has_bits_);
+  using HasBits = decltype(::std::declval<WeightMetrix>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(WeightMatrix, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(WeightMetrix, _impl_._has_bits_);
 };
 
-constexpr WeightMatrix::ParseTableT_ WeightMatrix::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
+constexpr WeightMetrix::ParseTableT_ WeightMetrix::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
   return ParseTableT_{
     {
-      PROTOBUF_FIELD_OFFSET(WeightMatrix, _impl_._has_bits_),
+      PROTOBUF_FIELD_OFFSET(WeightMetrix, _impl_._has_bits_),
       0, // no _extensions_
       3, 24,  // max_field_number, fast_idx_mask
       offsetof(ParseTableT_, field_lookup_table),
@@ -64,31 +62,31 @@ constexpr WeightMatrix::ParseTableT_ WeightMatrix::InternalGenerateParseTable_(c
       nullptr,  // post_loop_handler
       ::_pbi::TcParser::GenericFallback,  // fallback
       #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-      ::_pbi::TcParser::GetTable<::nn_proto::WeightMatrix>(),  // to_prefetch
+      ::_pbi::TcParser::GetTable<::nn_proto::WeightMetrix>(),  // to_prefetch
       #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
     }, {{
       {::_pbi::TcParser::MiniParse, {}},
       // int32 rows = 1;
-      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(WeightMatrix, _impl_.rows_), 1>(),
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(WeightMetrix, _impl_.rows_), 1>(),
        {8, 1, 0,
-        PROTOBUF_FIELD_OFFSET(WeightMatrix, _impl_.rows_)}},
+        PROTOBUF_FIELD_OFFSET(WeightMetrix, _impl_.rows_)}},
       // int32 cols = 2;
-      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(WeightMatrix, _impl_.cols_), 2>(),
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(WeightMetrix, _impl_.cols_), 2>(),
        {16, 2, 0,
-        PROTOBUF_FIELD_OFFSET(WeightMatrix, _impl_.cols_)}},
+        PROTOBUF_FIELD_OFFSET(WeightMetrix, _impl_.cols_)}},
       // bytes data = 3;
       {::_pbi::TcParser::FastBS1,
        {26, 0, 0,
-        PROTOBUF_FIELD_OFFSET(WeightMatrix, _impl_.data_)}},
+        PROTOBUF_FIELD_OFFSET(WeightMetrix, _impl_.data_)}},
     }}, {{
       65535, 65535
     }}, {{
       // int32 rows = 1;
-      {PROTOBUF_FIELD_OFFSET(WeightMatrix, _impl_.rows_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
+      {PROTOBUF_FIELD_OFFSET(WeightMetrix, _impl_.rows_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
       // int32 cols = 2;
-      {PROTOBUF_FIELD_OFFSET(WeightMatrix, _impl_.cols_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
+      {PROTOBUF_FIELD_OFFSET(WeightMetrix, _impl_.cols_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
       // bytes data = 3;
-      {PROTOBUF_FIELD_OFFSET(WeightMatrix, _impl_.data_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kBytes | ::_fl::kRepAString)},
+      {PROTOBUF_FIELD_OFFSET(WeightMetrix, _impl_.data_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kBytes | ::_fl::kRepAString)},
     }},
     // no aux_entries
     {{
@@ -97,7 +95,7 @@ constexpr WeightMatrix::ParseTableT_ WeightMatrix::InternalGenerateParseTable_(c
 }
 
 
-inline constexpr WeightMatrix::Impl_::Impl_(
+inline constexpr WeightMetrix::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
     ::_pbi::ConstantInitialized) noexcept
       : data_(
@@ -107,7 +105,7 @@ inline constexpr WeightMatrix::Impl_::Impl_(
         cols_{0} {}
 
 template <typename>
-constexpr WeightMatrix::WeightMatrix(::_pbi::ConstantInitialized,
+constexpr WeightMetrix::WeightMetrix(::_pbi::ConstantInitialized,
                        const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
     : ::google::protobuf::Message(
 #if defined(PROTOBUF_CUSTOM_VTABLE)
@@ -116,15 +114,15 @@ constexpr WeightMatrix::WeightMatrix(::_pbi::ConstantInitialized,
           ),
       _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
 }
-inline void* PROTOBUF_NONNULL WeightMatrix::PlacementNew_(
+inline void* PROTOBUF_NONNULL WeightMetrix::PlacementNew_(
     const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) WeightMatrix(arena);
+  return ::new (mem) WeightMetrix(arena);
 }
-constexpr auto WeightMatrix::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(WeightMatrix), alignof(WeightMatrix));
+constexpr auto WeightMetrix::InternalNewImpl_() {
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(WeightMetrix), alignof(WeightMetrix));
 }
-constexpr auto WeightMatrix::InternalGenerateClassData_(
+constexpr auto WeightMetrix::InternalGenerateClassData_(
     const MessageLite& prototype,
     const ::google::protobuf::internal::TcParseTableBase* tc_table) {
   return ::google::protobuf::internal::ClassDataFull{
@@ -136,14 +134,14 @@ constexpr auto WeightMatrix::InternalGenerateClassData_(
           tc_table,
 #endif
           nullptr,  // IsInitialized
-          &WeightMatrix::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<WeightMatrix>(),
+          &WeightMetrix::MergeImpl,
+          ::google::protobuf::Message::GetNewImpl<WeightMetrix>(),
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-          &WeightMatrix::SharedDtor,
-          ::google::protobuf::Message::GetClearImpl<WeightMatrix>(), &WeightMatrix::ByteSizeLong,
-              &WeightMatrix::_InternalSerialize,
+          &WeightMetrix::SharedDtor,
+          ::google::protobuf::Message::GetClearImpl<WeightMetrix>(), &WeightMetrix::ByteSizeLong,
+              &WeightMetrix::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(WeightMatrix, _impl_._cached_size_),
+          PROTOBUF_FIELD_OFFSET(WeightMetrix, _impl_._cached_size_),
           false,
       },
 #ifdef PROTOBUF_MESSAGE_GLOBALS
@@ -155,194 +153,45 @@ constexpr auto WeightMatrix::InternalGenerateClassData_(
 #endif  // PROTOBUF_MESSAGE_GLOBALS
   };
 }
-struct WeightMatrixGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
-  constexpr WeightMatrixGlobalsTypeInternal()
+struct WeightMetrixGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
+  constexpr WeightMetrixGlobalsTypeInternal()
       :
 #ifndef PROTOBUF_MESSAGE_GLOBALS
         _default(::_pbi::ConstantInitialized{},
-                 WeightMatrix_class_data_.base())
+                 WeightMetrix_class_data_.base())
 #else   // !PROTOBUF_MESSAGE_GLOBALS
-        MessageGlobalsBase(WeightMatrix::InternalGenerateClassData_(
-            _default, &WeightMatrix_globals_._table.header)),
+        MessageGlobalsBase(WeightMetrix::InternalGenerateClassData_(
+            _default, &WeightMetrix_globals_._table.header)),
         _default(::_pbi::ConstantInitialized{}, GetClassData()),
-        _table(::_pbi::PrivateAccess::GenerateParseTable<WeightMatrix>(
+        _table(::_pbi::PrivateAccess::GenerateParseTable<WeightMetrix>(
             GetClassData()))
 #endif  // PROTOBUF_MESSAGE_GLOBALS
   {
   }
-  ~WeightMatrixGlobalsTypeInternal() {}
+  ~WeightMetrixGlobalsTypeInternal() {}
   union {
-    alignas(::_pbi::kMaxMessageAlignment) WeightMatrix _default;
+    alignas(::_pbi::kMaxMessageAlignment) WeightMetrix _default;
   };
 #ifdef PROTOBUF_MESSAGE_GLOBALS
-  decltype(::_pbi::PrivateAccess::GenerateParseTable<WeightMatrix>(
+  decltype(::_pbi::PrivateAccess::GenerateParseTable<WeightMetrix>(
       ::std::declval<const ::_pbi::ClassData*>())) _table;
 #endif
 };
 #ifdef PROTOBUF_MESSAGE_GLOBALS
-static_assert(PROTOBUF_FIELD_OFFSET(WeightMatrixGlobalsTypeInternal, _default) ==
+static_assert(PROTOBUF_FIELD_OFFSET(WeightMetrixGlobalsTypeInternal, _default) ==
               ::_pbi::MessageGlobalsBase::OffsetToDefault());
 #endif  // PROTOBUF_MESSAGE_GLOBALS
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST WeightMatrixGlobalsTypeInternal WeightMatrix_globals_
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST WeightMetrixGlobalsTypeInternal WeightMetrix_globals_
         PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
 #if defined(PROTOBUF_CUSTOM_VTABLE)
 namespace {
-const ::_pbi::ClassData* WeightMatrix_get_class_data() {
+const ::_pbi::ClassData* WeightMetrix_get_class_data() {
 #ifdef PROTOBUF_MESSAGE_GLOBALS
-  return WeightMatrix_globals_.GetClassData();
+  return WeightMetrix_globals_.GetClassData();
 #else
-  return WeightMatrix_class_data_.base();
-#endif  // PROTOBUF_MESSAGE_GLOBALS
-}
-}  // namespace
-#endif  // PROTOBUF_CUSTOM_VTABLE
-class BiasVector::_Internal {
- public:
-  using HasBits = decltype(::std::declval<BiasVector>()._impl_._has_bits_);
-  static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(BiasVector, _impl_._has_bits_);
-};
-
-constexpr BiasVector::ParseTableT_ BiasVector::InternalGenerateParseTable_(const ::_pbi::ClassData* class_data) {
-  return ParseTableT_{
-    {
-      PROTOBUF_FIELD_OFFSET(BiasVector, _impl_._has_bits_),
-      0, // no _extensions_
-      2, 8,  // max_field_number, fast_idx_mask
-      offsetof(ParseTableT_, field_lookup_table),
-      4294967292,  // skipmap
-      offsetof(ParseTableT_, field_entries),
-      2,  // num_field_entries
-      0,  // num_aux_entries
-      offsetof(ParseTableT_, field_names),  // no aux_entries
-      class_data,
-      nullptr,  // post_loop_handler
-      ::_pbi::TcParser::GenericFallback,  // fallback
-      #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-      ::_pbi::TcParser::GetTable<::nn_proto::BiasVector>(),  // to_prefetch
-      #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
-    }, {{
-      // bytes data = 2;
-      {::_pbi::TcParser::FastBS1,
-       {18, 0, 0,
-        PROTOBUF_FIELD_OFFSET(BiasVector, _impl_.data_)}},
-      // int32 size = 1;
-      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(BiasVector, _impl_.size_), 1>(),
-       {8, 1, 0,
-        PROTOBUF_FIELD_OFFSET(BiasVector, _impl_.size_)}},
-    }}, {{
-      65535, 65535
-    }}, {{
-      // int32 size = 1;
-      {PROTOBUF_FIELD_OFFSET(BiasVector, _impl_.size_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
-      // bytes data = 2;
-      {PROTOBUF_FIELD_OFFSET(BiasVector, _impl_.data_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kBytes | ::_fl::kRepAString)},
-    }},
-    // no aux_entries
-    {{
-    }},
-  };
-}
-
-
-inline constexpr BiasVector::Impl_::Impl_(
-    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
-    ::_pbi::ConstantInitialized) noexcept
-      : data_(
-            &::google::protobuf::internal::fixed_address_empty_string,
-            ::_pbi::ConstantInitialized()),
-        size_{0} {}
-
-template <typename>
-constexpr BiasVector::BiasVector(::_pbi::ConstantInitialized,
-                       const ::_pbi::ClassData* PROTOBUF_NONNULL class_data)
-    : ::google::protobuf::Message(
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-          class_data
-#endif  // PROTOBUF_CUSTOM_VTABLE
-          ),
-      _impl_(internal_visibility(), ::_pbi::ConstantInitialized()) {
-}
-inline void* PROTOBUF_NONNULL BiasVector::PlacementNew_(
-    const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena) {
-  return ::new (mem) BiasVector(arena);
-}
-constexpr auto BiasVector::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(BiasVector), alignof(BiasVector));
-}
-constexpr auto BiasVector::InternalGenerateClassData_(
-    const MessageLite& prototype,
-    const ::google::protobuf::internal::TcParseTableBase* tc_table) {
-  return ::google::protobuf::internal::ClassDataFull{
-      ::google::protobuf::internal::ClassData{
-          &prototype,
-#ifndef PROTOBUF_MESSAGE_GLOBALS
-          &_table_.header,
-#else
-          tc_table,
-#endif
-          nullptr,  // IsInitialized
-          &BiasVector::MergeImpl,
-          ::google::protobuf::Message::GetNewImpl<BiasVector>(),
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-          &BiasVector::SharedDtor,
-          ::google::protobuf::Message::GetClearImpl<BiasVector>(), &BiasVector::ByteSizeLong,
-              &BiasVector::_InternalSerialize,
-#endif  // PROTOBUF_CUSTOM_VTABLE
-          PROTOBUF_FIELD_OFFSET(BiasVector, _impl_._cached_size_),
-          false,
-      },
-#ifdef PROTOBUF_MESSAGE_GLOBALS
-      &file_reflection_data[1],
-#else   // !PROTOBUF_MESSAGE_GLOBALS
-      &::_pbi::kDescriptorMethods,
-      &descriptor_table_network_2eproto,
-      nullptr,  // tracker
-#endif  // PROTOBUF_MESSAGE_GLOBALS
-  };
-}
-struct BiasVectorGlobalsTypeInternal : ::_pbi::MessageGlobalsBase {
-  constexpr BiasVectorGlobalsTypeInternal()
-      :
-#ifndef PROTOBUF_MESSAGE_GLOBALS
-        _default(::_pbi::ConstantInitialized{},
-                 BiasVector_class_data_.base())
-#else   // !PROTOBUF_MESSAGE_GLOBALS
-        MessageGlobalsBase(BiasVector::InternalGenerateClassData_(
-            _default, &BiasVector_globals_._table.header)),
-        _default(::_pbi::ConstantInitialized{}, GetClassData()),
-        _table(::_pbi::PrivateAccess::GenerateParseTable<BiasVector>(
-            GetClassData()))
-#endif  // PROTOBUF_MESSAGE_GLOBALS
-  {
-  }
-  ~BiasVectorGlobalsTypeInternal() {}
-  union {
-    alignas(::_pbi::kMaxMessageAlignment) BiasVector _default;
-  };
-#ifdef PROTOBUF_MESSAGE_GLOBALS
-  decltype(::_pbi::PrivateAccess::GenerateParseTable<BiasVector>(
-      ::std::declval<const ::_pbi::ClassData*>())) _table;
-#endif
-};
-#ifdef PROTOBUF_MESSAGE_GLOBALS
-static_assert(PROTOBUF_FIELD_OFFSET(BiasVectorGlobalsTypeInternal, _default) ==
-              ::_pbi::MessageGlobalsBase::OffsetToDefault());
-#endif  // PROTOBUF_MESSAGE_GLOBALS
-
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PROTOBUF_MESSAGE_GLOBALS_CONST BiasVectorGlobalsTypeInternal BiasVector_globals_
-        PROTOBUF_MESSAGE_GLOBALS_SECTION(.data.rel.ro);
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-namespace {
-const ::_pbi::ClassData* BiasVector_get_class_data() {
-#ifdef PROTOBUF_MESSAGE_GLOBALS
-  return BiasVector_globals_.GetClassData();
-#else
-  return BiasVector_class_data_.base();
+  return WeightMetrix_class_data_.base();
 #endif  // PROTOBUF_MESSAGE_GLOBALS
 }
 }  // namespace
@@ -359,13 +208,13 @@ constexpr Layer::ParseTableT_ Layer::InternalGenerateParseTable_(const ::_pbi::C
     {
       PROTOBUF_FIELD_OFFSET(Layer, _impl_._has_bits_),
       0, // no _extensions_
-      4, 24,  // max_field_number, fast_idx_mask
+      3, 24,  // max_field_number, fast_idx_mask
       offsetof(ParseTableT_, field_lookup_table),
-      4294967280,  // skipmap
+      4294967288,  // skipmap
       offsetof(ParseTableT_, field_entries),
-      4,  // num_field_entries
-      2,  // num_aux_entries
-      offsetof(ParseTableT_, aux_entries),
+      3,  // num_field_entries
+      0,  // num_aux_entries
+      offsetof(ParseTableT_, field_names),  // no aux_entries
       class_data,
       nullptr,  // post_loop_handler
       ::_pbi::TcParser::GenericFallback,  // fallback
@@ -373,46 +222,30 @@ constexpr Layer::ParseTableT_ Layer::InternalGenerateParseTable_(const ::_pbi::C
       ::_pbi::TcParser::GetTable<::nn_proto::Layer>(),  // to_prefetch
       #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
     }, {{
-      // .nn_proto.BiasVector b = 4;
-      {::_pbi::TcParser::FastMtS1,
-       {34, 1, 1,
-        PROTOBUF_FIELD_OFFSET(Layer, _impl_.b_)}},
+      {::_pbi::TcParser::MiniParse, {}},
       // int32 neuron_count = 1;
-      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(Layer, _impl_.neuron_count_), 2>(),
-       {8, 2, 0,
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(Layer, _impl_.neuron_count_), 1>(),
+       {8, 1, 0,
         PROTOBUF_FIELD_OFFSET(Layer, _impl_.neuron_count_)}},
       // .nn_proto.ActivationType activation = 2;
-      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(Layer, _impl_.activation_), 3>(),
-       {16, 3, 0,
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(Layer, _impl_.activation_), 2>(),
+       {16, 2, 0,
         PROTOBUF_FIELD_OFFSET(Layer, _impl_.activation_)}},
-      // .nn_proto.WeightMatrix w = 3;
-      {::_pbi::TcParser::FastMtS1,
+      // bytes b = 3;
+      {::_pbi::TcParser::FastBS1,
        {26, 0, 0,
-        PROTOBUF_FIELD_OFFSET(Layer, _impl_.w_)}},
+        PROTOBUF_FIELD_OFFSET(Layer, _impl_.b_)}},
     }}, {{
       65535, 65535
     }}, {{
       // int32 neuron_count = 1;
-      {PROTOBUF_FIELD_OFFSET(Layer, _impl_.neuron_count_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
+      {PROTOBUF_FIELD_OFFSET(Layer, _impl_.neuron_count_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
       // .nn_proto.ActivationType activation = 2;
-      {PROTOBUF_FIELD_OFFSET(Layer, _impl_.activation_), _Internal::kHasBitsOffset + 3, 0, (0 | ::_fl::kFcOptional | ::_fl::kOpenEnum)},
-      // .nn_proto.WeightMatrix w = 3;
-      {PROTOBUF_FIELD_OFFSET(Layer, _impl_.w_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
-      // .nn_proto.BiasVector b = 4;
-      {PROTOBUF_FIELD_OFFSET(Layer, _impl_.b_), _Internal::kHasBitsOffset + 1, 1, (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+      {PROTOBUF_FIELD_OFFSET(Layer, _impl_.activation_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kOpenEnum)},
+      // bytes b = 3;
+      {PROTOBUF_FIELD_OFFSET(Layer, _impl_.b_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcOptional | ::_fl::kBytes | ::_fl::kRepAString)},
     }},
-    {{
-        #ifndef PROTOBUF_MESSAGE_GLOBALS
-        {::_pbi::TcParser::GetTable<::nn_proto::WeightMatrix>()},
-        #else
-        {::_pbi::FieldAuxMessageGlobals(), &::nn_proto::WeightMatrix_globals_},
-        #endif
-        #ifndef PROTOBUF_MESSAGE_GLOBALS
-        {::_pbi::TcParser::GetTable<::nn_proto::BiasVector>()},
-        #else
-        {::_pbi::FieldAuxMessageGlobals(), &::nn_proto::BiasVector_globals_},
-        #endif
-    }},
+    // no aux_entries
     {{
     }},
   };
@@ -422,8 +255,9 @@ constexpr Layer::ParseTableT_ Layer::InternalGenerateParseTable_(const ::_pbi::C
 inline constexpr Layer::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
     ::_pbi::ConstantInitialized) noexcept
-      : w_{nullptr},
-        b_{nullptr},
+      : b_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
         neuron_count_{0},
         activation_{static_cast< ::nn_proto::ActivationType >(0)} {}
 
@@ -443,7 +277,7 @@ inline void* PROTOBUF_NONNULL Layer::PlacementNew_(
   return ::new (mem) Layer(arena);
 }
 constexpr auto Layer::InternalNewImpl_() {
-  return ::google::protobuf::internal::MessageCreator::ZeroInit(sizeof(Layer), alignof(Layer));
+  return ::google::protobuf::internal::MessageCreator::CopyInit(sizeof(Layer), alignof(Layer));
 }
 constexpr auto Layer::InternalGenerateClassData_(
     const MessageLite& prototype,
@@ -468,7 +302,7 @@ constexpr auto Layer::InternalGenerateClassData_(
           false,
       },
 #ifdef PROTOBUF_MESSAGE_GLOBALS
-      &file_reflection_data[2],
+      &file_reflection_data[1],
 #else   // !PROTOBUF_MESSAGE_GLOBALS
       &::_pbi::kDescriptorMethods,
       &descriptor_table_network_2eproto,
@@ -531,12 +365,12 @@ constexpr Network::ParseTableT_ Network::InternalGenerateParseTable_(const ::_pb
     {
       PROTOBUF_FIELD_OFFSET(Network, _impl_._has_bits_),
       0, // no _extensions_
-      2, 8,  // max_field_number, fast_idx_mask
+      3, 24,  // max_field_number, fast_idx_mask
       offsetof(ParseTableT_, field_lookup_table),
-      4294967292,  // skipmap
+      4294967288,  // skipmap
       offsetof(ParseTableT_, field_entries),
-      2,  // num_field_entries
-      1,  // num_aux_entries
+      3,  // num_field_entries
+      2,  // num_aux_entries
       offsetof(ParseTableT_, aux_entries),
       class_data,
       nullptr,  // post_loop_handler
@@ -545,27 +379,39 @@ constexpr Network::ParseTableT_ Network::InternalGenerateParseTable_(const ::_pb
       ::_pbi::TcParser::GetTable<::nn_proto::Network>(),  // to_prefetch
       #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
     }, {{
+      {::_pbi::TcParser::MiniParse, {}},
+      // int32 layer_count = 1;
+      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(Network, _impl_.layer_count_), 2>(),
+       {8, 2, 0,
+        PROTOBUF_FIELD_OFFSET(Network, _impl_.layer_count_)}},
       // repeated .nn_proto.Layer layers = 2;
       {::_pbi::TcParser::FastMtR1,
        {18, 0, 0,
         PROTOBUF_FIELD_OFFSET(Network, _impl_.layers_)}},
-      // int32 layer_count = 1;
-      {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(Network, _impl_.layer_count_), 1>(),
-       {8, 1, 0,
-        PROTOBUF_FIELD_OFFSET(Network, _impl_.layer_count_)}},
+      // repeated .nn_proto.WeightMetrix metrixs = 3;
+      {::_pbi::TcParser::FastMtR1,
+       {26, 1, 1,
+        PROTOBUF_FIELD_OFFSET(Network, _impl_.metrixs_)}},
     }}, {{
       65535, 65535
     }}, {{
       // int32 layer_count = 1;
-      {PROTOBUF_FIELD_OFFSET(Network, _impl_.layer_count_), _Internal::kHasBitsOffset + 1, 0, (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
+      {PROTOBUF_FIELD_OFFSET(Network, _impl_.layer_count_), _Internal::kHasBitsOffset + 2, 0, (0 | ::_fl::kFcOptional | ::_fl::kInt32)},
       // repeated .nn_proto.Layer layers = 2;
       {PROTOBUF_FIELD_OFFSET(Network, _impl_.layers_), _Internal::kHasBitsOffset + 0, 0, (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+      // repeated .nn_proto.WeightMetrix metrixs = 3;
+      {PROTOBUF_FIELD_OFFSET(Network, _impl_.metrixs_), _Internal::kHasBitsOffset + 1, 1, (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
     }},
     {{
         #ifndef PROTOBUF_MESSAGE_GLOBALS
         {::_pbi::TcParser::GetTable<::nn_proto::Layer>()},
         #else
         {::_pbi::FieldAuxMessageGlobals(), &::nn_proto::Layer_globals_},
+        #endif
+        #ifndef PROTOBUF_MESSAGE_GLOBALS
+        {::_pbi::TcParser::GetTable<::nn_proto::WeightMetrix>()},
+        #else
+        {::_pbi::FieldAuxMessageGlobals(), &::nn_proto::WeightMetrix_globals_},
         #endif
     }},
     {{
@@ -580,6 +426,11 @@ inline constexpr Network::Impl_::Impl_(
       : layers_ { visibility, ::_pbi::InternalMetadataOffset::Build<
             ::nn_proto::Network,
             PROTOBUF_FIELD_OFFSET(::nn_proto::Network, _impl_.layers_)>()
+         }
+        ,
+        metrixs_ { visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::nn_proto::Network,
+            PROTOBUF_FIELD_OFFSET(::nn_proto::Network, _impl_.metrixs_)>()
          }
         ,
         layer_count_{0} {}
@@ -625,7 +476,7 @@ constexpr auto Network::InternalGenerateClassData_(
           false,
       },
 #ifdef PROTOBUF_MESSAGE_GLOBALS
-      &file_reflection_data[3],
+      &file_reflection_data[2],
 #else   // !PROTOBUF_MESSAGE_GLOBALS
       &::_pbi::kDescriptorMethods,
       &descriptor_table_network_2eproto,
@@ -685,81 +536,70 @@ const ::uint32_t
     TableStruct_network_2eproto::offsets[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
         protodesc_cold) = {
         0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::nn_proto::WeightMatrix, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::nn_proto::WeightMetrix, _impl_._has_bits_),
         6, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::nn_proto::WeightMatrix, _impl_.rows_),
-        PROTOBUF_FIELD_OFFSET(::nn_proto::WeightMatrix, _impl_.cols_),
-        PROTOBUF_FIELD_OFFSET(::nn_proto::WeightMatrix, _impl_.data_),
+        PROTOBUF_FIELD_OFFSET(::nn_proto::WeightMetrix, _impl_.rows_),
+        PROTOBUF_FIELD_OFFSET(::nn_proto::WeightMetrix, _impl_.cols_),
+        PROTOBUF_FIELD_OFFSET(::nn_proto::WeightMetrix, _impl_.data_),
         1,
         2,
-        0,
-        0x081, // bitmap
-        PROTOBUF_FIELD_OFFSET(::nn_proto::BiasVector, _impl_._has_bits_),
-        5, // hasbit index offset
-        PROTOBUF_FIELD_OFFSET(::nn_proto::BiasVector, _impl_.size_),
-        PROTOBUF_FIELD_OFFSET(::nn_proto::BiasVector, _impl_.data_),
-        1,
         0,
         0x081, // bitmap
         PROTOBUF_FIELD_OFFSET(::nn_proto::Layer, _impl_._has_bits_),
-        7, // hasbit index offset
+        6, // hasbit index offset
         PROTOBUF_FIELD_OFFSET(::nn_proto::Layer, _impl_.neuron_count_),
         PROTOBUF_FIELD_OFFSET(::nn_proto::Layer, _impl_.activation_),
-        PROTOBUF_FIELD_OFFSET(::nn_proto::Layer, _impl_.w_),
         PROTOBUF_FIELD_OFFSET(::nn_proto::Layer, _impl_.b_),
-        2,
-        3,
-        0,
         1,
+        2,
+        0,
         0x081, // bitmap
         PROTOBUF_FIELD_OFFSET(::nn_proto::Network, _impl_._has_bits_),
-        5, // hasbit index offset
+        6, // hasbit index offset
         PROTOBUF_FIELD_OFFSET(::nn_proto::Network, _impl_.layer_count_),
         PROTOBUF_FIELD_OFFSET(::nn_proto::Network, _impl_.layers_),
-        1,
+        PROTOBUF_FIELD_OFFSET(::nn_proto::Network, _impl_.metrixs_),
+        2,
         0,
+        1,
 };
 
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-        {0, sizeof(::nn_proto::WeightMatrix)},
-        {9, sizeof(::nn_proto::BiasVector)},
-        {16, sizeof(::nn_proto::Layer)},
-        {27, sizeof(::nn_proto::Network)},
+        {0, sizeof(::nn_proto::WeightMetrix)},
+        {9, sizeof(::nn_proto::Layer)},
+        {18, sizeof(::nn_proto::Network)},
 };
 static const ::_pbi::MessageGlobalsBase* PROTOBUF_NONNULL const
     file_message_globals[] = {
-        &::nn_proto::WeightMatrix_globals_,
-        &::nn_proto::BiasVector_globals_,
+        &::nn_proto::WeightMetrix_globals_,
         &::nn_proto::Layer_globals_,
         &::nn_proto::Network_globals_,
 };
 const char descriptor_table_protodef_network_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\rnetwork.proto\022\010nn_proto\"8\n\014WeightMatri"
+    "\n\rnetwork.proto\022\010nn_proto\"8\n\014WeightMetri"
     "x\022\014\n\004rows\030\001 \001(\005\022\014\n\004cols\030\002 \001(\005\022\014\n\004data\030\003 "
-    "\001(\014\"(\n\nBiasVector\022\014\n\004size\030\001 \001(\005\022\014\n\004data\030"
-    "\002 \001(\014\"\217\001\n\005Layer\022\024\n\014neuron_count\030\001 \001(\005\022,\n"
-    "\nactivation\030\002 \001(\0162\030.nn_proto.ActivationT"
-    "ype\022!\n\001w\030\003 \001(\0132\026.nn_proto.WeightMatrix\022\037"
-    "\n\001b\030\004 \001(\0132\024.nn_proto.BiasVector\"\?\n\007Netwo"
-    "rk\022\023\n\013layer_count\030\001 \001(\005\022\037\n\006layers\030\002 \003(\0132"
-    "\017.nn_proto.Layer*_\n\016ActivationType\022\014\n\010AC"
-    "T_NONE\020\000\022\014\n\010ACT_RELU\020\001\022\017\n\013ACT_SIGMOID\020\002\022"
-    "\014\n\010ACT_TANH\020\003\022\022\n\016ACT_LEAKY_RELU\020\004b\006proto"
-    "3"
+    "\001(\014\"V\n\005Layer\022\024\n\014neuron_count\030\001 \001(\005\022,\n\nac"
+    "tivation\030\002 \001(\0162\030.nn_proto.ActivationType"
+    "\022\t\n\001b\030\003 \001(\014\"h\n\007Network\022\023\n\013layer_count\030\001 "
+    "\001(\005\022\037\n\006layers\030\002 \003(\0132\017.nn_proto.Layer\022\'\n\007"
+    "metrixs\030\003 \003(\0132\026.nn_proto.WeightMetrix*q\n"
+    "\016ActivationType\022\016\n\nACT_ORIGIN\020\000\022\014\n\010ACT_R"
+    "ELU\020\001\022\017\n\013ACT_SIGMOID\020\002\022\017\n\013ACT_SOFTMAX\020\003\022"
+    "\021\n\rACT_LAYERNORM\020\004\022\014\n\010ACT_NONE\020\005b\006proto3"
 };
 static ::absl::once_flag descriptor_table_network_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_network_2eproto = {
     false,
     false,
-    441,
+    400,
     descriptor_table_protodef_network_2eproto,
     "network.proto",
     &descriptor_table_network_2eproto_once,
     nullptr,
     0,
-    4,
+    3,
     schemas,
     file_message_globals,
     TableStruct_network_2eproto::offsets,
@@ -773,35 +613,35 @@ ActivationType_descriptor() {
   return file_level_enum_descriptors_network_2eproto[0];
 }
 PROTOBUF_CONSTINIT const uint32_t ActivationType_internal_data_[] = {
-    327680u, 0u, };
+    393216u, 0u, };
 // ===================================================================
 
-WeightMatrix::WeightMatrix(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
+WeightMetrix::WeightMetrix(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, WeightMatrix_get_class_data()) {
+    : ::google::protobuf::Message(arena, WeightMetrix_get_class_data()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:nn_proto.WeightMatrix)
+  // @@protoc_insertion_point(arena_constructor:nn_proto.WeightMetrix)
 }
-PROTOBUF_NDEBUG_INLINE WeightMatrix::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE WeightMetrix::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
     [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    [[maybe_unused]] const ::nn_proto::WeightMatrix& from_msg)
+    [[maybe_unused]] const ::nn_proto::WeightMetrix& from_msg)
       : _has_bits_{from._has_bits_},
         data_(arena, from.data_) {}
 
-WeightMatrix::WeightMatrix(
+WeightMetrix::WeightMetrix(
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const WeightMatrix& from)
+    const WeightMetrix& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, WeightMatrix_get_class_data()) {
+    : ::google::protobuf::Message(arena, WeightMetrix_get_class_data()) {
 
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  WeightMatrix* const _this = this;
+  WeightMetrix* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
@@ -814,14 +654,14 @@ WeightMatrix::WeightMatrix(
                offsetof(Impl_, rows_) +
                sizeof(Impl_::cols_));
 
-  // @@protoc_insertion_point(copy_constructor:nn_proto.WeightMatrix)
+  // @@protoc_insertion_point(copy_constructor:nn_proto.WeightMetrix)
 }
-PROTOBUF_NDEBUG_INLINE WeightMatrix::Impl_::Impl_(
+PROTOBUF_NDEBUG_INLINE WeightMetrix::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
     [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : data_(arena) {}
 
-inline void WeightMatrix::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
+inline void WeightMetrix::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char*>(&_impl_) +
                offsetof(Impl_, rows_),
@@ -830,12 +670,12 @@ inline void WeightMatrix::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
                offsetof(Impl_, rows_) +
                sizeof(Impl_::cols_));
 }
-WeightMatrix::~WeightMatrix() {
-  // @@protoc_insertion_point(destructor:nn_proto.WeightMatrix)
+WeightMetrix::~WeightMetrix() {
+  // @@protoc_insertion_point(destructor:nn_proto.WeightMetrix)
   SharedDtor(*this);
 }
-inline void WeightMatrix::SharedDtor(MessageLite& self) {
-  WeightMatrix& this_ = static_cast<WeightMatrix&>(self);
+inline void WeightMetrix::SharedDtor(MessageLite& self) {
+  WeightMetrix& this_ = static_cast<WeightMetrix&>(self);
   if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
     this_.CheckHasBitConsistency();
   }
@@ -847,32 +687,32 @@ inline void WeightMatrix::SharedDtor(MessageLite& self) {
 
 #ifndef PROTOBUF_MESSAGE_GLOBALS
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull WeightMatrix_class_data_ =
-        WeightMatrix::InternalGenerateClassData_(WeightMatrix_globals_._default);
+    ::google::protobuf::internal::ClassDataFull WeightMetrix_class_data_ =
+        WeightMetrix::InternalGenerateClassData_(WeightMetrix_globals_._default);
 
 PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-WeightMatrix::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&WeightMatrix_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(WeightMatrix_class_data_.tc_table);
-  return WeightMatrix_class_data_.base();
+WeightMetrix::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&WeightMetrix_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(WeightMetrix_class_data_.tc_table);
+  return WeightMetrix_class_data_.base();
 }
 #else
 PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-WeightMatrix::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&WeightMatrix_globals_);
+WeightMetrix::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&WeightMetrix_globals_);
   ::google::protobuf::internal::PrefetchToLocalCache(
-      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&WeightMatrix_globals_));
-  return WeightMatrix_globals_.GetClassData();
+      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&WeightMetrix_globals_));
+  return WeightMetrix_globals_.GetClassData();
 }
 #endif  // !PROTOBUF_MESSAGE_GLOBALS
 #ifndef PROTOBUF_MESSAGE_GLOBALS
 PROTOBUF_CONSTINIT
-PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const WeightMatrix::ParseTableT_
-    WeightMatrix::_table_ =
-        WeightMatrix::InternalGenerateParseTable_(WeightMatrix_class_data_.base());
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const WeightMetrix::ParseTableT_
+    WeightMetrix::_table_ =
+        WeightMetrix::InternalGenerateParseTable_(WeightMetrix_class_data_.base());
 #endif  // !PROTOBUF_MESSAGE_GLOBALS
-PROTOBUF_NOINLINE void WeightMatrix::Clear() {
-// @@protoc_insertion_point(message_clear_start:nn_proto.WeightMatrix)
+PROTOBUF_NOINLINE void WeightMetrix::Clear() {
+// @@protoc_insertion_point(message_clear_start:nn_proto.WeightMetrix)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -892,20 +732,20 @@ PROTOBUF_NOINLINE void WeightMatrix::Clear() {
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::uint8_t* PROTOBUF_NONNULL WeightMatrix::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL WeightMetrix::_InternalSerialize(
     const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
-  const WeightMatrix& this_ = static_cast<const WeightMatrix&>(base);
+  const WeightMetrix& this_ = static_cast<const WeightMetrix&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::uint8_t* PROTOBUF_NONNULL WeightMatrix::_InternalSerialize(
+::uint8_t* PROTOBUF_NONNULL WeightMetrix::_InternalSerialize(
     ::uint8_t* PROTOBUF_NONNULL target,
     ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-  const WeightMatrix& this_ = *this;
+  const WeightMetrix& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
   if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
     this_.CheckHasBitConsistency();
   }
-  // @@protoc_insertion_point(serialize_to_array_start:nn_proto.WeightMatrix)
+  // @@protoc_insertion_point(serialize_to_array_start:nn_proto.WeightMetrix)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -941,18 +781,18 @@ PROTOBUF_NOINLINE void WeightMatrix::Clear() {
         ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
             this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:nn_proto.WeightMatrix)
+  // @@protoc_insertion_point(serialize_to_array_end:nn_proto.WeightMetrix)
   return target;
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-::size_t WeightMatrix::ByteSizeLong(const MessageLite& base) {
-  const WeightMatrix& this_ = static_cast<const WeightMatrix&>(base);
+::size_t WeightMetrix::ByteSizeLong(const MessageLite& base) {
+  const WeightMetrix& this_ = static_cast<const WeightMetrix&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-::size_t WeightMatrix::ByteSizeLong() const {
-  const WeightMatrix& this_ = *this;
+::size_t WeightMetrix::ByteSizeLong() const {
+  const WeightMetrix& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:nn_proto.WeightMatrix)
+  // @@protoc_insertion_point(message_byte_size_start:nn_proto.WeightMetrix)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -988,14 +828,14 @@ PROTOBUF_NOINLINE void WeightMatrix::Clear() {
                                              &this_._impl_._cached_size_);
 }
 
-void WeightMatrix::MergeImpl(::google::protobuf::MessageLite& to_msg,
+void WeightMetrix::MergeImpl(::google::protobuf::MessageLite& to_msg,
                       const ::google::protobuf::MessageLite& from_msg) {
-   auto* const _this = static_cast<WeightMatrix*>(&to_msg);
-  auto& from = static_cast<const WeightMatrix&>(from_msg);
+   auto* const _this = static_cast<WeightMetrix*>(&to_msg);
+  auto& from = static_cast<const WeightMetrix&>(from_msg);
   if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
     from.CheckHasBitConsistency();
   }
-  // @@protoc_insertion_point(class_specific_merge_from_start:nn_proto.WeightMatrix)
+  // @@protoc_insertion_point(class_specific_merge_from_start:nn_proto.WeightMetrix)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
@@ -1027,15 +867,15 @@ void WeightMatrix::MergeImpl(::google::protobuf::MessageLite& to_msg,
       from._internal_metadata_);
 }
 
-void WeightMatrix::CopyFrom(const WeightMatrix& from) {
-  // @@protoc_insertion_point(class_specific_copy_from_start:nn_proto.WeightMatrix)
+void WeightMetrix::CopyFrom(const WeightMetrix& from) {
+  // @@protoc_insertion_point(class_specific_copy_from_start:nn_proto.WeightMetrix)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 
-void WeightMatrix::InternalSwap(WeightMatrix* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
+void WeightMetrix::InternalSwap(WeightMetrix* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using ::std::swap;
   auto* arena = GetArena();
   ABSL_DCHECK_EQ(arena, other->GetArena());
@@ -1043,252 +883,14 @@ void WeightMatrix::InternalSwap(WeightMatrix* PROTOBUF_RESTRICT PROTOBUF_NONNULL
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.data_, &other->_impl_.data_, arena);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(WeightMatrix, _impl_.cols_)
-      + sizeof(WeightMatrix::_impl_.cols_)
-      - PROTOBUF_FIELD_OFFSET(WeightMatrix, _impl_.rows_)>(
+      PROTOBUF_FIELD_OFFSET(WeightMetrix, _impl_.cols_)
+      + sizeof(WeightMetrix::_impl_.cols_)
+      - PROTOBUF_FIELD_OFFSET(WeightMetrix, _impl_.rows_)>(
           reinterpret_cast<char*>(&_impl_.rows_),
           reinterpret_cast<char*>(&other->_impl_.rows_));
 }
 
-::google::protobuf::Metadata WeightMatrix::GetMetadata() const {
-  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
-}
-// ===================================================================
-
-BiasVector::BiasVector(::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, BiasVector_get_class_data()) {
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:nn_proto.BiasVector)
-}
-PROTOBUF_NDEBUG_INLINE BiasVector::Impl_::Impl_(
-    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
-    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-    [[maybe_unused]] const ::nn_proto::BiasVector& from_msg)
-      : _has_bits_{from._has_bits_},
-        data_(arena, from.data_) {}
-
-BiasVector::BiasVector(
-    ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
-    const BiasVector& from)
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-    : ::google::protobuf::Message(arena, BiasVector_get_class_data()) {
-
-#else   // PROTOBUF_CUSTOM_VTABLE
-    : ::google::protobuf::Message(arena) {
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  BiasVector* const _this = this;
-  (void)_this;
-  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
-  _impl_.size_ = from._impl_.size_;
-
-  // @@protoc_insertion_point(copy_constructor:nn_proto.BiasVector)
-}
-PROTOBUF_NDEBUG_INLINE BiasVector::Impl_::Impl_(
-    [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
-    [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
-      : data_(arena) {}
-
-inline void BiasVector::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
-  new (&_impl_) Impl_(internal_visibility(), arena);
-  _impl_.size_ = {};
-}
-BiasVector::~BiasVector() {
-  // @@protoc_insertion_point(destructor:nn_proto.BiasVector)
-  SharedDtor(*this);
-}
-inline void BiasVector::SharedDtor(MessageLite& self) {
-  BiasVector& this_ = static_cast<BiasVector&>(self);
-  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
-    this_.CheckHasBitConsistency();
-  }
-  this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
-  ABSL_DCHECK(this_.GetArena() == nullptr);
-  this_._impl_.data_.Destroy();
-  this_._impl_.~Impl_();
-}
-
-#ifndef PROTOBUF_MESSAGE_GLOBALS
-PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const
-    ::google::protobuf::internal::ClassDataFull BiasVector_class_data_ =
-        BiasVector::InternalGenerateClassData_(BiasVector_globals_._default);
-
-PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-BiasVector::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&BiasVector_class_data_);
-  ::google::protobuf::internal::PrefetchToLocalCache(BiasVector_class_data_.tc_table);
-  return BiasVector_class_data_.base();
-}
-#else
-PROTOBUF_ATTRIBUTE_WEAK const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-BiasVector::GetClassData() const {
-  ::google::protobuf::internal::PrefetchToLocalCache(&BiasVector_globals_);
-  ::google::protobuf::internal::PrefetchToLocalCache(
-      ::google::protobuf::internal::MessageGlobalsBase::ToParseTableBase(&BiasVector_globals_));
-  return BiasVector_globals_.GetClassData();
-}
-#endif  // !PROTOBUF_MESSAGE_GLOBALS
-#ifndef PROTOBUF_MESSAGE_GLOBALS
-PROTOBUF_CONSTINIT
-PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 const BiasVector::ParseTableT_
-    BiasVector::_table_ =
-        BiasVector::InternalGenerateParseTable_(BiasVector_class_data_.base());
-#endif  // !PROTOBUF_MESSAGE_GLOBALS
-PROTOBUF_NOINLINE void BiasVector::Clear() {
-// @@protoc_insertion_point(message_clear_start:nn_proto.BiasVector)
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  ::uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  cached_has_bits = _impl_._has_bits_[0];
-  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
-    _impl_.data_.ClearNonDefaultToEmpty();
-  }
-  _impl_.size_ = 0;
-  _impl_._has_bits_.Clear();
-  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
-}
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-::uint8_t* PROTOBUF_NONNULL BiasVector::_InternalSerialize(
-    const ::google::protobuf::MessageLite& base, ::uint8_t* PROTOBUF_NONNULL target,
-    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) {
-  const BiasVector& this_ = static_cast<const BiasVector&>(base);
-#else   // PROTOBUF_CUSTOM_VTABLE
-::uint8_t* PROTOBUF_NONNULL BiasVector::_InternalSerialize(
-    ::uint8_t* PROTOBUF_NONNULL target,
-    ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-  const BiasVector& this_ = *this;
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
-    this_.CheckHasBitConsistency();
-  }
-  // @@protoc_insertion_point(serialize_to_array_start:nn_proto.BiasVector)
-  ::uint32_t cached_has_bits = 0;
-  (void)cached_has_bits;
-
-  cached_has_bits = this_._impl_._has_bits_[0];
-  // int32 size = 1;
-  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
-    if (this_._internal_size() != 0) {
-      target =
-          ::google::protobuf::internal::WireFormatLite::WriteInt32ToArrayWithField<1>(
-              stream, this_._internal_size(), target);
-    }
-  }
-
-  // bytes data = 2;
-  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
-    if (!this_._internal_data().empty()) {
-      const ::std::string& _s = this_._internal_data();
-      target = stream->WriteBytesMaybeAliased(2, _s, target);
-    }
-  }
-
-  if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
-    target =
-        ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-            this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:nn_proto.BiasVector)
-  return target;
-}
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-::size_t BiasVector::ByteSizeLong(const MessageLite& base) {
-  const BiasVector& this_ = static_cast<const BiasVector&>(base);
-#else   // PROTOBUF_CUSTOM_VTABLE
-::size_t BiasVector::ByteSizeLong() const {
-  const BiasVector& this_ = *this;
-#endif  // PROTOBUF_CUSTOM_VTABLE
-  // @@protoc_insertion_point(message_byte_size_start:nn_proto.BiasVector)
-  ::size_t total_size = 0;
-
-  ::uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void)cached_has_bits;
-
-  ::_pbi::Prefetch5LinesFrom7Lines(&this_);
-  cached_has_bits = this_._impl_._has_bits_[0];
-  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
-    // bytes data = 2;
-    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
-      if (!this_._internal_data().empty()) {
-        total_size += 1 + ::google::protobuf::internal::WireFormatLite::BytesSize(
-                                        this_._internal_data());
-      }
-    }
-    // int32 size = 1;
-    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
-      if (this_._internal_size() != 0) {
-        total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
-            this_._internal_size());
-      }
-    }
-  }
-  return this_.MaybeComputeUnknownFieldsSize(total_size,
-                                             &this_._impl_._cached_size_);
-}
-
-void BiasVector::MergeImpl(::google::protobuf::MessageLite& to_msg,
-                      const ::google::protobuf::MessageLite& from_msg) {
-   auto* const _this = static_cast<BiasVector*>(&to_msg);
-  auto& from = static_cast<const BiasVector&>(from_msg);
-  if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
-    from.CheckHasBitConsistency();
-  }
-  // @@protoc_insertion_point(class_specific_merge_from_start:nn_proto.BiasVector)
-  ABSL_DCHECK_NE(&from, _this);
-  ::uint32_t cached_has_bits = 0;
-  (void)cached_has_bits;
-
-  cached_has_bits = from._impl_._has_bits_[0];
-  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
-    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
-      if (!from._internal_data().empty()) {
-        _this->_internal_set_data(from._internal_data());
-      } else {
-        if (_this->_impl_.data_.IsDefault()) {
-          _this->_internal_set_data("");
-        }
-      }
-    }
-    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
-      if (from._internal_size() != 0) {
-        _this->_impl_.size_ = from._impl_.size_;
-      }
-    }
-  }
-  _this->_impl_._has_bits_[0] |= cached_has_bits;
-  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
-      from._internal_metadata_);
-}
-
-void BiasVector::CopyFrom(const BiasVector& from) {
-  // @@protoc_insertion_point(class_specific_copy_from_start:nn_proto.BiasVector)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-
-void BiasVector::InternalSwap(BiasVector* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
-  using ::std::swap;
-  auto* arena = GetArena();
-  ABSL_DCHECK_EQ(arena, other->GetArena());
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.data_, &other->_impl_.data_, arena);
-  swap(_impl_.size_, other->_impl_.size_);
-}
-
-::google::protobuf::Metadata BiasVector::GetMetadata() const {
+::google::protobuf::Metadata WeightMetrix::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
@@ -1306,7 +908,8 @@ PROTOBUF_NDEBUG_INLINE Layer::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
     [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
     [[maybe_unused]] const ::nn_proto::Layer& from_msg)
-      : _has_bits_{from._has_bits_} {}
+      : _has_bits_{from._has_bits_},
+        b_(arena, from.b_) {}
 
 Layer::Layer(
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena,
@@ -1322,13 +925,6 @@ Layer::Layer(
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
-  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
-  _impl_.w_ = (CheckHasBit(cached_has_bits, 0x00000001U)) ? ::google::protobuf::Message::CopyConstruct(
-                               arena, *from._impl_.w_)
-                         : nullptr;
-  _impl_.b_ = (CheckHasBit(cached_has_bits, 0x00000002U)) ? ::google::protobuf::Message::CopyConstruct(
-                               arena, *from._impl_.b_)
-                         : nullptr;
   ::memcpy(reinterpret_cast<char*>(&_impl_) +
                offsetof(Impl_, neuron_count_),
            reinterpret_cast<const char*>(&from._impl_) +
@@ -1342,15 +938,15 @@ Layer::Layer(
 PROTOBUF_NDEBUG_INLINE Layer::Impl_::Impl_(
     [[maybe_unused]] ::google::protobuf::internal::InternalVisibility visibility,
     [[maybe_unused]] ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
-     {}
+      : b_(arena) {}
 
 inline void Layer::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char*>(&_impl_) +
-               offsetof(Impl_, w_),
+               offsetof(Impl_, neuron_count_),
            0,
            offsetof(Impl_, activation_) -
-               offsetof(Impl_, w_) +
+               offsetof(Impl_, neuron_count_) +
                sizeof(Impl_::activation_));
 }
 Layer::~Layer() {
@@ -1364,8 +960,7 @@ inline void Layer::SharedDtor(MessageLite& self) {
   }
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
-  delete this_._impl_.w_;
-  delete this_._impl_.b_;
+  this_._impl_.b_.Destroy();
   this_._impl_.~Impl_();
 }
 
@@ -1403,17 +998,10 @@ PROTOBUF_NOINLINE void Layer::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
-    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
-      ABSL_DCHECK(_impl_.w_ != nullptr);
-      _impl_.w_->Clear();
-    }
-    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
-      ABSL_DCHECK(_impl_.b_ != nullptr);
-      _impl_.b_->Clear();
-    }
+  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+    _impl_.b_.ClearNonDefaultToEmpty();
   }
-  if (BatchCheckHasBit(cached_has_bits, 0x0000000cU)) {
+  if (BatchCheckHasBit(cached_has_bits, 0x00000006U)) {
     ::memset(&_impl_.neuron_count_, 0, static_cast<::size_t>(
         reinterpret_cast<char*>(&_impl_.activation_) -
         reinterpret_cast<char*>(&_impl_.neuron_count_)) + sizeof(_impl_.activation_));
@@ -1442,7 +1030,7 @@ PROTOBUF_NOINLINE void Layer::Clear() {
 
   cached_has_bits = this_._impl_._has_bits_[0];
   // int32 neuron_count = 1;
-  if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
     if (this_._internal_neuron_count() != 0) {
       target =
           ::google::protobuf::internal::WireFormatLite::WriteInt32ToArrayWithField<1>(
@@ -1451,7 +1039,7 @@ PROTOBUF_NOINLINE void Layer::Clear() {
   }
 
   // .nn_proto.ActivationType activation = 2;
-  if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+  if (CheckHasBit(cached_has_bits, 0x00000004U)) {
     if (this_._internal_activation() != 0) {
       target = stream->EnsureSpace(target);
       target = ::_pbi::WireFormatLite::WriteEnumToArray(
@@ -1459,18 +1047,12 @@ PROTOBUF_NOINLINE void Layer::Clear() {
     }
   }
 
-  // .nn_proto.WeightMatrix w = 3;
+  // bytes b = 3;
   if (CheckHasBit(cached_has_bits, 0x00000001U)) {
-    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
-        3, *this_._impl_.w_, this_._impl_.w_->GetCachedSize(), target,
-        stream);
-  }
-
-  // .nn_proto.BiasVector b = 4;
-  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
-    target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
-        4, *this_._impl_.b_, this_._impl_.b_->GetCachedSize(), target,
-        stream);
+    if (!this_._internal_b().empty()) {
+      const ::std::string& _s = this_._internal_b();
+      target = stream->WriteBytesMaybeAliased(3, _s, target);
+    }
   }
 
   if (ABSL_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
@@ -1498,26 +1080,23 @@ PROTOBUF_NOINLINE void Layer::Clear() {
 
   ::_pbi::Prefetch5LinesFrom7Lines(&this_);
   cached_has_bits = this_._impl_._has_bits_[0];
-  if (BatchCheckHasBit(cached_has_bits, 0x0000000fU)) {
-    // .nn_proto.WeightMatrix w = 3;
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
+    // bytes b = 3;
     if (CheckHasBit(cached_has_bits, 0x00000001U)) {
-      total_size += 1 +
-                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.w_);
-    }
-    // .nn_proto.BiasVector b = 4;
-    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
-      total_size += 1 +
-                    ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.b_);
+      if (!this_._internal_b().empty()) {
+        total_size += 1 + ::google::protobuf::internal::WireFormatLite::BytesSize(
+                                        this_._internal_b());
+      }
     }
     // int32 neuron_count = 1;
-    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
       if (this_._internal_neuron_count() != 0) {
         total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
             this_._internal_neuron_count());
       }
     }
     // .nn_proto.ActivationType activation = 2;
-    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
       if (this_._internal_activation() != 0) {
         total_size += 1 +
                       ::_pbi::WireFormatLite::EnumSize(this_._internal_activation());
@@ -1535,36 +1114,28 @@ void Layer::MergeImpl(::google::protobuf::MessageLite& to_msg,
   if constexpr (::_pbi::DebugHardenCheckHasBitConsistency()) {
     from.CheckHasBitConsistency();
   }
-  ::google::protobuf::Arena* arena = _this->GetArena();
   // @@protoc_insertion_point(class_specific_merge_from_start:nn_proto.Layer)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (BatchCheckHasBit(cached_has_bits, 0x0000000fU)) {
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
     if (CheckHasBit(cached_has_bits, 0x00000001U)) {
-      ABSL_DCHECK(from._impl_.w_ != nullptr);
-      if (_this->_impl_.w_ == nullptr) {
-        _this->_impl_.w_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.w_);
+      if (!from._internal_b().empty()) {
+        _this->_internal_set_b(from._internal_b());
       } else {
-        _this->_impl_.w_->MergeFrom(*from._impl_.w_);
+        if (_this->_impl_.b_.IsDefault()) {
+          _this->_internal_set_b("");
+        }
       }
     }
     if (CheckHasBit(cached_has_bits, 0x00000002U)) {
-      ABSL_DCHECK(from._impl_.b_ != nullptr);
-      if (_this->_impl_.b_ == nullptr) {
-        _this->_impl_.b_ = ::google::protobuf::Message::CopyConstruct(arena, *from._impl_.b_);
-      } else {
-        _this->_impl_.b_->MergeFrom(*from._impl_.b_);
-      }
-    }
-    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
       if (from._internal_neuron_count() != 0) {
         _this->_impl_.neuron_count_ = from._impl_.neuron_count_;
       }
     }
-    if (CheckHasBit(cached_has_bits, 0x00000008U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
       if (from._internal_activation() != 0) {
         _this->_impl_.activation_ = from._impl_.activation_;
       }
@@ -1585,14 +1156,17 @@ void Layer::CopyFrom(const Layer& from) {
 
 void Layer::InternalSwap(Layer* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   using ::std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.b_, &other->_impl_.b_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(Layer, _impl_.activation_)
       + sizeof(Layer::_impl_.activation_)
-      - PROTOBUF_FIELD_OFFSET(Layer, _impl_.w_)>(
-          reinterpret_cast<char*>(&_impl_.w_),
-          reinterpret_cast<char*>(&other->_impl_.w_));
+      - PROTOBUF_FIELD_OFFSET(Layer, _impl_.neuron_count_)>(
+          reinterpret_cast<char*>(&_impl_.neuron_count_),
+          reinterpret_cast<char*>(&other->_impl_.neuron_count_));
 }
 
 ::google::protobuf::Metadata Layer::GetMetadata() const {
@@ -1620,6 +1194,13 @@ PROTOBUF_NDEBUG_INLINE Network::Impl_::Impl_(
               PROTOBUF_FIELD_OFFSET(::nn_proto::Network, _impl_.layers_)>()
           , from.layers_
         }
+        ,
+        metrixs_ {
+          visibility, ::_pbi::InternalMetadataOffset::Build<
+              ::nn_proto::Network,
+              PROTOBUF_FIELD_OFFSET(::nn_proto::Network, _impl_.metrixs_)>()
+          , from.metrixs_
+        }
      {}
 
 Network::Network(
@@ -1646,6 +1227,11 @@ PROTOBUF_NDEBUG_INLINE Network::Impl_::Impl_(
       : layers_ { visibility, ::_pbi::InternalMetadataOffset::Build<
             ::nn_proto::Network,
             PROTOBUF_FIELD_OFFSET(::nn_proto::Network, _impl_.layers_)>()
+         }
+        ,
+        metrixs_ { visibility, ::_pbi::InternalMetadataOffset::Build<
+            ::nn_proto::Network,
+            PROTOBUF_FIELD_OFFSET(::nn_proto::Network, _impl_.metrixs_)>()
          }
      {}
 
@@ -1701,8 +1287,13 @@ PROTOBUF_NOINLINE void Network::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (CheckHasBit(cached_has_bits, 0x00000001U)) {
-    _impl_.layers_.Clear();
+  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
+    if (CheckHasBit(cached_has_bits, 0x00000001U)) {
+      _impl_.layers_.Clear();
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      _impl_.metrixs_.Clear();
+    }
   }
   _impl_.layer_count_ = 0;
   _impl_._has_bits_.Clear();
@@ -1729,7 +1320,7 @@ PROTOBUF_NOINLINE void Network::Clear() {
 
   cached_has_bits = this_._impl_._has_bits_[0];
   // int32 layer_count = 1;
-  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+  if (CheckHasBit(cached_has_bits, 0x00000004U)) {
     if (this_._internal_layer_count() != 0) {
       target =
           ::google::protobuf::internal::WireFormatLite::WriteInt32ToArrayWithField<1>(
@@ -1745,6 +1336,18 @@ PROTOBUF_NOINLINE void Network::Clear() {
       const auto& repfield = this_._internal_layers().Get(i);
       target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
           2, repfield, repfield.GetCachedSize(), target,
+          stream);
+    }
+  }
+
+  // repeated .nn_proto.WeightMetrix metrixs = 3;
+  if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+    for (unsigned i = 0, n = static_cast<unsigned>(
+                             this_._internal_metrixs_size());
+         i < n; i++) {
+      const auto& repfield = this_._internal_metrixs().Get(i);
+      target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+          3, repfield, repfield.GetCachedSize(), target,
           stream);
     }
   }
@@ -1774,7 +1377,7 @@ PROTOBUF_NOINLINE void Network::Clear() {
 
   ::_pbi::Prefetch5LinesFrom7Lines(&this_);
   cached_has_bits = this_._impl_._has_bits_[0];
-  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
     // repeated .nn_proto.Layer layers = 2;
     if (CheckHasBit(cached_has_bits, 0x00000001U)) {
       total_size += 1UL * this_._internal_layers_size();
@@ -1782,8 +1385,15 @@ PROTOBUF_NOINLINE void Network::Clear() {
         total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
       }
     }
-    // int32 layer_count = 1;
+    // repeated .nn_proto.WeightMetrix metrixs = 3;
     if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      total_size += 1UL * this_._internal_metrixs_size();
+      for (const auto& msg : this_._internal_metrixs()) {
+        total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+      }
+    }
+    // int32 layer_count = 1;
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
       if (this_._internal_layer_count() != 0) {
         total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
             this_._internal_layer_count());
@@ -1808,13 +1418,18 @@ void Network::MergeImpl(::google::protobuf::MessageLite& to_msg,
   (void)cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (BatchCheckHasBit(cached_has_bits, 0x00000003U)) {
+  if (BatchCheckHasBit(cached_has_bits, 0x00000007U)) {
     if (CheckHasBit(cached_has_bits, 0x00000001U)) {
       _this->_internal_mutable_layers()->InternalMergeFromWithArena(
           ::google::protobuf::MessageLite::internal_visibility(), arena,
           from._internal_layers());
     }
     if (CheckHasBit(cached_has_bits, 0x00000002U)) {
+      _this->_internal_mutable_metrixs()->InternalMergeFromWithArena(
+          ::google::protobuf::MessageLite::internal_visibility(), arena,
+          from._internal_metrixs());
+    }
+    if (CheckHasBit(cached_has_bits, 0x00000004U)) {
       if (from._internal_layer_count() != 0) {
         _this->_impl_.layer_count_ = from._impl_.layer_count_;
       }
@@ -1838,6 +1453,7 @@ void Network::InternalSwap(Network* PROTOBUF_RESTRICT PROTOBUF_NONNULL other) {
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   _impl_.layers_.InternalSwap(&other->_impl_.layers_);
+  _impl_.metrixs_.InternalSwap(&other->_impl_.metrixs_);
   swap(_impl_.layer_count_, other->_impl_.layer_count_);
 }
 

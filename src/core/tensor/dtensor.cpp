@@ -559,8 +559,19 @@ void tensor2D_float::_backward_D(size_t batch_id) { // 无需任何操作，grad
 
 #endif
 
-
-
+// 返回layer类型
+sub_type origin::get_layer_type() {
+    return sub_type::origin;
+}
+sub_type sigmoid::get_layer_type() {
+    return sub_type::sigmoid;
+}
+sub_type relu::get_layer_type() {
+    return sub_type::relu;
+}
+sub_type softmax::get_layer_type() {
+    return sub_type::softmax;
+}
 // count_output() 和 count_grad() 的重载版本，分别用于处理整个batch和单个样本的情况
 void origin::count_output() {  
     for(int i = 0; i < this->batch_num; ++i) {

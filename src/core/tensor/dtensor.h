@@ -431,15 +431,13 @@ protected:
     metrix_float* b;   // 偏置项  z = w * x + b
     void** pMemory; // 辅助变量
     std::vector<size_t> shape;
-
-
-
 private:
     metrix_float* _alloc_m_data(size_t bias);
 
     void _release_data(metrix_float* myArray, size_t bias);
 
 public:
+    virtual sub_type get_layer_type() = 0;
     void set_input_value(float* data, size_t batch_id) override;
     void set_input_value(std::vector<std::vector<float>>& data) override;
     std::vector<size_t> get_shape() override;
@@ -573,10 +571,9 @@ public:
     sigmoid(int n, size_t batch_num) : layer(n, batch_num) {}
     void print_layer(bool inc_grad = false) override;
     void print_batches() override;
+    sub_type get_layer_type() override;
 
 private:
-
-
     inline int get_batch_num() {
         return this->batch_num;
     }
@@ -589,8 +586,6 @@ private:
     inline metrix_float* get_batch_grad() {
         return this->batch_grad;
     }
-
-
     void count_output() override;
     void count_output(size_t batch_id) override;
     void count_grad() override;
@@ -603,6 +598,7 @@ public:
         min_dim(new float[batch_num]()), diff(new float[batch_num]()) {}
     void print_layer(bool inc_grad = false) override;
     void print_batches() override;
+    sub_type get_layer_type() override;
 private:
     float *min_dim, *diff;
     void count_output() override;
@@ -616,6 +612,7 @@ public:
     relu(int n, size_t batch_num) : layer(n, batch_num) {}
     void print_layer(bool inc_grad = false) override;
     void print_batches() override;
+    sub_type get_layer_type() override;
 private:
     void count_output() override;
     void count_output(size_t batch_id) override;
@@ -628,6 +625,7 @@ public:
     softmax(int n, size_t batch_num) : layer(n, batch_num) {}
     void print_layer(bool inc_grad = false) override;
     void print_batches() override;
+    sub_type get_layer_type() override;
 private:
     float T = 1;
     void count_output() override;
@@ -642,6 +640,7 @@ public:
     origin(int n, size_t batch_num) : layer(n, batch_num) {}
     void print_layer(bool inc_grad = false) override;
     void print_batches() override;
+    sub_type get_layer_type() override;
 private:
     void count_output() override;
     void count_output(size_t batch_id) override;
@@ -658,5 +657,5 @@ layer* layer_tool(int n, size_t batch_num, sub_type stp);
 //     std::vector<tensor_base*> parts;
 // };
 
-} // namespace tensor
+} // namespace dtensor
 

@@ -66,16 +66,25 @@ target_include_directories(math_libs PUBLIC
 )
 
 # 生成静态库（名字：proto_libs）
-
+add_library(proto_libs STATIC
+    src/tools/protobuf/network.pb.cc
+    src/tools/protobuf/proto_utils.cpp
+)
+setup_protobuf(proto_libs
+    DEFINES
+        USE_DEBUG
+    LINKS
+        math_libs
+)
 # 设置 Protobuf 测试文件
 add_executable(proto_test 
     ${TOOLS_DIR}/protobuf/proto_test.cpp
-    ${TOOLS_DIR}/protobuf/proto_utils.cpp
-    ${TOOLS_DIR}/protobuf/network.pb.cc
 )
 setup_protobuf(proto_test
     INCLUDES 
         ${TOOLS_DIR}/protobuf
+    LINKS
+        proto_libs
 )
 add_nn_support(proto_test
     MAIN_DIR    

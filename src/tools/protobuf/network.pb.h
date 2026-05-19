@@ -57,14 +57,6 @@ extern const ::google::protobuf::internal::DescriptorTable descriptor_table_netw
 namespace nn_proto {
 enum ActivationType : int;
 extern const uint32_t ActivationType_internal_data_[];
-class BiasVector;
-struct BiasVectorGlobalsTypeInternal;
-#ifndef PROTOBUF_MESSAGE_GLOBALS
-extern BiasVectorGlobalsTypeInternal BiasVector_globals_;
-extern const ::google::protobuf::internal::ClassDataFull BiasVector_class_data_;
-#else
-extern const BiasVectorGlobalsTypeInternal BiasVector_globals_;
-#endif  // PROTOBUF_MESSAGE_GLOBALS
 class Layer;
 struct LayerGlobalsTypeInternal;
 #ifndef PROTOBUF_MESSAGE_GLOBALS
@@ -81,13 +73,13 @@ extern const ::google::protobuf::internal::ClassDataFull Network_class_data_;
 #else
 extern const NetworkGlobalsTypeInternal Network_globals_;
 #endif  // PROTOBUF_MESSAGE_GLOBALS
-class WeightMatrix;
-struct WeightMatrixGlobalsTypeInternal;
+class WeightMetrix;
+struct WeightMetrixGlobalsTypeInternal;
 #ifndef PROTOBUF_MESSAGE_GLOBALS
-extern WeightMatrixGlobalsTypeInternal WeightMatrix_globals_;
-extern const ::google::protobuf::internal::ClassDataFull WeightMatrix_class_data_;
+extern WeightMetrixGlobalsTypeInternal WeightMetrix_globals_;
+extern const ::google::protobuf::internal::ClassDataFull WeightMetrix_class_data_;
 #else
-extern const WeightMatrixGlobalsTypeInternal WeightMatrix_globals_;
+extern const WeightMetrixGlobalsTypeInternal WeightMetrix_globals_;
 #endif  // PROTOBUF_MESSAGE_GLOBALS
 }  // namespace nn_proto
 namespace google {
@@ -100,11 +92,12 @@ internal::EnumTraitsT<::nn_proto::ActivationType_internal_data_>
 
 namespace nn_proto {
 enum ActivationType : int {
-  ACT_NONE = 0,
+  ACT_ORIGIN = 0,
   ACT_RELU = 1,
   ACT_SIGMOID = 2,
-  ACT_TANH = 3,
-  ACT_LEAKY_RELU = 4,
+  ACT_SOFTMAX = 3,
+  ACT_LAYERNORM = 4,
+  ACT_NONE = 5,
   ActivationType_INT_MIN_SENTINEL_DO_NOT_USE_ =
       ::std::numeric_limits<::int32_t>::min(),
   ActivationType_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -115,11 +108,11 @@ extern const uint32_t ActivationType_internal_data_[];
 inline constexpr ActivationType ActivationType_MIN =
     static_cast<ActivationType>(0);
 inline constexpr ActivationType ActivationType_MAX =
-    static_cast<ActivationType>(4);
+    static_cast<ActivationType>(5);
 [[nodiscard]] inline bool ActivationType_IsValid(int value) {
-  return 0 <= value && value <= 4;
+  return 0 <= value && value <= 5;
 }
-inline constexpr int ActivationType_ARRAYSIZE = 4 + 1;
+inline constexpr int ActivationType_ARRAYSIZE = 5 + 1;
 [[nodiscard]] const ::google::protobuf::EnumDescriptor* PROTOBUF_NONNULL
 ActivationType_descriptor();
 [[nodiscard]] inline auto ProtobufInternalGetEnumDescriptor(ActivationType) {
@@ -134,7 +127,7 @@ template <typename T>
 }
 template <>
 [[nodiscard]] inline const ::std::string& ActivationType_Name(ActivationType value) {
-  return ::google::protobuf::internal::NameOfDenseEnum<ActivationType_descriptor, 0, 4>(
+  return ::google::protobuf::internal::NameOfDenseEnum<ActivationType_descriptor, 0, 5>(
       static_cast<int>(value));
 }
 [[nodiscard]] inline bool ActivationType_Parse(
@@ -150,31 +143,31 @@ using ::google::protobuf::internal::generated_enum::AbslUnparseFlag;
 
 // -------------------------------------------------------------------
 
-class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED WeightMatrix final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:nn_proto.WeightMatrix) */ {
+class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED WeightMetrix final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:nn_proto.WeightMetrix) */ {
  public:
-  inline WeightMatrix() : WeightMatrix(nullptr) {}
-  ~WeightMatrix() PROTOBUF_FINAL;
+  inline WeightMetrix() : WeightMetrix(nullptr) {}
+  ~WeightMetrix() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(WeightMatrix* PROTOBUF_NONNULL msg, ::std::destroying_delete_t) {
+  void operator delete(WeightMetrix* PROTOBUF_NONNULL msg, ::std::destroying_delete_t) {
     SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(WeightMatrix));
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(WeightMetrix));
   }
 #endif
 
   template <typename = void>
-  explicit constexpr WeightMatrix(::google::protobuf::internal::ConstantInitialized,
+  explicit constexpr WeightMetrix(::google::protobuf::internal::ConstantInitialized,
                            const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
                                class_data);
 
-  inline WeightMatrix(const WeightMatrix& from) : WeightMatrix(nullptr, from) {}
-  inline WeightMatrix(WeightMatrix&& from) noexcept : WeightMatrix(nullptr, ::std::move(from)) {}
-  inline WeightMatrix& operator=(const WeightMatrix& from) {
+  inline WeightMetrix(const WeightMetrix& from) : WeightMetrix(nullptr, from) {}
+  inline WeightMetrix(WeightMetrix&& from) noexcept : WeightMetrix(nullptr, ::std::move(from)) {}
+  inline WeightMetrix& operator=(const WeightMetrix& from) {
     CopyFrom(from);
     return *this;
   }
-  inline WeightMatrix& operator=(WeightMatrix&& from) noexcept {
+  inline WeightMetrix& operator=(WeightMetrix&& from) noexcept {
     if (this == &from) return *this;
     if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
       InternalSwap(&from);
@@ -203,12 +196,12 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED WeightMatrix final : public ::googl
   [[nodiscard]] static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  [[nodiscard]] static const WeightMatrix& default_instance() {
-    return *::google::protobuf::internal::MessageGlobalsBase::ToDefaultInstance<WeightMatrix>(&WeightMatrix_globals_);
+  [[nodiscard]] static const WeightMetrix& default_instance() {
+    return *::google::protobuf::internal::MessageGlobalsBase::ToDefaultInstance<WeightMetrix>(&WeightMetrix_globals_);
   }
   static constexpr int kIndexInFileMessages = 0;
-  friend void swap(WeightMatrix& a, WeightMatrix& b) { a.Swap(&b); }
-  inline void Swap(WeightMatrix* PROTOBUF_NONNULL other) {
+  friend void swap(WeightMetrix& a, WeightMetrix& b) { a.Swap(&b); }
+  inline void Swap(WeightMetrix* PROTOBUF_NONNULL other) {
     if (other == this) return;
     if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
       InternalSwap(other);
@@ -216,7 +209,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED WeightMatrix final : public ::googl
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(WeightMatrix* PROTOBUF_NONNULL other) {
+  void UnsafeArenaSwap(WeightMetrix* PROTOBUF_NONNULL other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -224,14 +217,14 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED WeightMatrix final : public ::googl
 
   // implements Message ----------------------------------------------
 
-  [[nodiscard]] WeightMatrix* PROTOBUF_NONNULL
+  [[nodiscard]] WeightMetrix* PROTOBUF_NONNULL
   New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<WeightMatrix>(arena);
+    return ::google::protobuf::Message::DefaultConstruct<WeightMetrix>(arena);
   }
   using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const WeightMatrix& from);
+  void CopyFrom(const WeightMetrix& from);
   using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const WeightMatrix& from) { WeightMatrix::MergeImpl(*this, from); }
+  void MergeFrom(const WeightMetrix& from) { WeightMetrix::MergeImpl(*this, from); }
 
   private:
   static void MergeImpl(::google::protobuf::MessageLite& to_msg,
@@ -269,17 +262,17 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED WeightMatrix final : public ::googl
   private:
   void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
   static void SharedDtor(MessageLite& self);
-  void InternalSwap(WeightMatrix* PROTOBUF_NONNULL other);
+  void InternalSwap(WeightMetrix* PROTOBUF_NONNULL other);
  private:
   template <typename T>
   friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "nn_proto.WeightMatrix"; }
+  static ::absl::string_view FullMessageName() { return "nn_proto.WeightMetrix"; }
 
-  explicit WeightMatrix(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  WeightMatrix(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const WeightMatrix& from);
-  WeightMatrix(
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, WeightMatrix&& from) noexcept
-      : WeightMatrix(arena) {
+  explicit WeightMetrix(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  WeightMetrix(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const WeightMetrix& from);
+  WeightMetrix(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, WeightMetrix&& from) noexcept
+      : WeightMetrix(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
@@ -337,7 +330,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED WeightMatrix final : public ::googl
   void _internal_set_cols(::int32_t value);
 
   public:
-  // @@protoc_insertion_point(class_scope:nn_proto.WeightMatrix)
+  // @@protoc_insertion_point(class_scope:nn_proto.WeightMetrix)
  private:
   class _Internal;
   using ParseTableT_ =
@@ -367,230 +360,12 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED WeightMatrix final : public ::googl
     inline explicit Impl_(
         ::google::protobuf::internal::InternalVisibility visibility,
         ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-        const WeightMatrix& from_msg);
+        const WeightMetrix& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::internal::ArenaStringPtr data_;
     ::int32_t rows_;
     ::int32_t cols_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_network_2eproto;
-};
-// -------------------------------------------------------------------
-
-class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED BiasVector final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:nn_proto.BiasVector) */ {
- public:
-  inline BiasVector() : BiasVector(nullptr) {}
-  ~BiasVector() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(BiasVector* PROTOBUF_NONNULL msg, ::std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(BiasVector));
-  }
-#endif
-
-  template <typename = void>
-  explicit constexpr BiasVector(::google::protobuf::internal::ConstantInitialized,
-                           const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL
-                               class_data);
-
-  inline BiasVector(const BiasVector& from) : BiasVector(nullptr, from) {}
-  inline BiasVector(BiasVector&& from) noexcept : BiasVector(nullptr, ::std::move(from)) {}
-  inline BiasVector& operator=(const BiasVector& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline BiasVector& operator=(BiasVector&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  [[nodiscard]] inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  [[nodiscard]] inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL
-  mutable_unknown_fields() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  [[nodiscard]] static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
-    return GetDescriptor();
-  }
-  [[nodiscard]] static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL
-  GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  [[nodiscard]] static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  [[nodiscard]] static const BiasVector& default_instance() {
-    return *::google::protobuf::internal::MessageGlobalsBase::ToDefaultInstance<BiasVector>(&BiasVector_globals_);
-  }
-  static constexpr int kIndexInFileMessages = 1;
-  friend void swap(BiasVector& a, BiasVector& b) { a.Swap(&b); }
-  inline void Swap(BiasVector* PROTOBUF_NONNULL other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(BiasVector* PROTOBUF_NONNULL other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  [[nodiscard]] BiasVector* PROTOBUF_NONNULL
-  New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<BiasVector>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const BiasVector& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const BiasVector& from) { BiasVector::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
-                        const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  [[nodiscard]] bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  [[nodiscard]] static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  [[nodiscard]] static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
-
-  public:
-  [[nodiscard]] ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  [[nodiscard]] ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  [[nodiscard]] ::size_t ByteSizeLong() const final;
-  [[nodiscard]] ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  [[nodiscard]] int GetCachedSize() const {
-    return _impl_._cached_size_.Get();
-  }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(BiasVector* PROTOBUF_NONNULL other);
- private:
-  template <typename T>
-  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "nn_proto.BiasVector"; }
-
-  explicit BiasVector(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  BiasVector(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const BiasVector& from);
-  BiasVector(
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, BiasVector&& from) noexcept
-      : BiasVector(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
-  static void* PROTOBUF_NONNULL PlacementNew_(
-      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  static constexpr auto InternalNewImpl_();
-
- public:
-  static constexpr auto InternalGenerateClassData_(
-      const MessageLite& prototype,
-      const ::google::protobuf::internal::TcParseTableBase* PROTOBUF_NULLABLE tc_table = nullptr);
-
-  [[nodiscard]] ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kDataFieldNumber = 2,
-    kSizeFieldNumber = 1,
-  };
-  // bytes data = 2;
-  void clear_data() ;
-  [[nodiscard]] const ::std::string& data() const;
-  template <typename Arg_ = const ::std::string&, typename... Args_>
-  void set_data(Arg_&& arg, Args_... args);
-  ::std::string* PROTOBUF_NONNULL mutable_data();
-  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_data();
-  void set_allocated_data(::std::string* PROTOBUF_NULLABLE value);
-
-  private:
-  const ::std::string& _internal_data() const;
-  PROTOBUF_ALWAYS_INLINE void _internal_set_data(const ::std::string& value);
-  ::std::string* PROTOBUF_NONNULL _internal_mutable_data();
-
-  public:
-  // int32 size = 1;
-  void clear_size() ;
-  [[nodiscard]] ::int32_t size() const;
-  void set_size(::int32_t value);
-
-  private:
-  ::int32_t _internal_size() const;
-  void _internal_set_size(::int32_t value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:nn_proto.BiasVector)
- private:
-  class _Internal;
-  using ParseTableT_ =
-      ::google::protobuf::internal::TcParseTable<1, 2,
-                          0, 0,
-                          2>;
-  static constexpr ParseTableT_ InternalGenerateParseTable_(
-      const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL class_data);
-  friend class ::google::protobuf::internal::TcParser;
-  #ifndef PROTOBUF_MESSAGE_GLOBALS
-  static const ParseTableT_ _table_;
-  #endif
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  friend ::google::protobuf::internal::PrivateAccess;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                                    ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(
-        ::google::protobuf::internal::InternalVisibility visibility,
-        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-    inline explicit Impl_(
-        ::google::protobuf::internal::InternalVisibility visibility,
-        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-        const BiasVector& from_msg);
-    ::google::protobuf::internal::HasBits<1> _has_bits_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::internal::ArenaStringPtr data_;
-    ::int32_t size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -654,7 +429,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED Layer final : public ::google::prot
   [[nodiscard]] static const Layer& default_instance() {
     return *::google::protobuf::internal::MessageGlobalsBase::ToDefaultInstance<Layer>(&Layer_globals_);
   }
-  static constexpr int kIndexInFileMessages = 2;
+  static constexpr int kIndexInFileMessages = 1;
   friend void swap(Layer& a, Layer& b) { a.Swap(&b); }
   inline void Swap(Layer* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -746,39 +521,23 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED Layer final : public ::google::prot
 
   // accessors -------------------------------------------------------
   enum : int {
-    kWFieldNumber = 3,
-    kBFieldNumber = 4,
+    kBFieldNumber = 3,
     kNeuronCountFieldNumber = 1,
     kActivationFieldNumber = 2,
   };
-  // .nn_proto.WeightMatrix w = 3;
-  [[nodiscard]] bool has_w() const;
-  void clear_w() ;
-  [[nodiscard]] const ::nn_proto::WeightMatrix& w() const;
-  [[nodiscard]] ::nn_proto::WeightMatrix* PROTOBUF_NULLABLE release_w();
-  ::nn_proto::WeightMatrix* PROTOBUF_NONNULL mutable_w();
-  void set_allocated_w(::nn_proto::WeightMatrix* PROTOBUF_NULLABLE value);
-  void unsafe_arena_set_allocated_w(::nn_proto::WeightMatrix* PROTOBUF_NULLABLE value);
-  ::nn_proto::WeightMatrix* PROTOBUF_NULLABLE unsafe_arena_release_w();
-
-  private:
-  const ::nn_proto::WeightMatrix& _internal_w() const;
-  ::nn_proto::WeightMatrix* PROTOBUF_NONNULL _internal_mutable_w();
-
-  public:
-  // .nn_proto.BiasVector b = 4;
-  [[nodiscard]] bool has_b() const;
+  // bytes b = 3;
   void clear_b() ;
-  [[nodiscard]] const ::nn_proto::BiasVector& b() const;
-  [[nodiscard]] ::nn_proto::BiasVector* PROTOBUF_NULLABLE release_b();
-  ::nn_proto::BiasVector* PROTOBUF_NONNULL mutable_b();
-  void set_allocated_b(::nn_proto::BiasVector* PROTOBUF_NULLABLE value);
-  void unsafe_arena_set_allocated_b(::nn_proto::BiasVector* PROTOBUF_NULLABLE value);
-  ::nn_proto::BiasVector* PROTOBUF_NULLABLE unsafe_arena_release_b();
+  [[nodiscard]] const ::std::string& b() const;
+  template <typename Arg_ = const ::std::string&, typename... Args_>
+  void set_b(Arg_&& arg, Args_... args);
+  ::std::string* PROTOBUF_NONNULL mutable_b();
+  [[nodiscard]] ::std::string* PROTOBUF_NULLABLE release_b();
+  void set_allocated_b(::std::string* PROTOBUF_NULLABLE value);
 
   private:
-  const ::nn_proto::BiasVector& _internal_b() const;
-  ::nn_proto::BiasVector* PROTOBUF_NONNULL _internal_mutable_b();
+  const ::std::string& _internal_b() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_b(const ::std::string& value);
+  ::std::string* PROTOBUF_NONNULL _internal_mutable_b();
 
   public:
   // int32 neuron_count = 1;
@@ -805,8 +564,8 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED Layer final : public ::google::prot
  private:
   class _Internal;
   using ParseTableT_ =
-      ::google::protobuf::internal::TcParseTable<2, 4,
-                          2, 0,
+      ::google::protobuf::internal::TcParseTable<2, 3,
+                          0, 0,
                           2>;
   static constexpr ParseTableT_ InternalGenerateParseTable_(
       const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL class_data);
@@ -834,8 +593,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED Layer final : public ::google::prot
         const Layer& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
-    ::nn_proto::WeightMatrix* PROTOBUF_NULLABLE w_;
-    ::nn_proto::BiasVector* PROTOBUF_NULLABLE b_;
+    ::google::protobuf::internal::ArenaStringPtr b_;
     ::int32_t neuron_count_;
     int activation_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -901,7 +659,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED Network final : public ::google::pr
   [[nodiscard]] static const Network& default_instance() {
     return *::google::protobuf::internal::MessageGlobalsBase::ToDefaultInstance<Network>(&Network_globals_);
   }
-  static constexpr int kIndexInFileMessages = 3;
+  static constexpr int kIndexInFileMessages = 2;
   friend void swap(Network& a, Network& b) { a.Swap(&b); }
   inline void Swap(Network* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -994,6 +752,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED Network final : public ::google::pr
   // accessors -------------------------------------------------------
   enum : int {
     kLayersFieldNumber = 2,
+    kMetrixsFieldNumber = 3,
     kLayerCountFieldNumber = 1,
   };
   // repeated .nn_proto.Layer layers = 2;
@@ -1016,6 +775,26 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED Network final : public ::google::pr
   ::google::protobuf::RepeatedPtrField<::nn_proto::Layer>* PROTOBUF_NONNULL _internal_mutable_layers();
 
   public:
+  // repeated .nn_proto.WeightMetrix metrixs = 3;
+  [[nodiscard]] int metrixs_size() const;
+  private:
+  int _internal_metrixs_size() const;
+
+  public:
+  void clear_metrixs() ;
+  [[nodiscard]] const ::nn_proto::WeightMetrix& metrixs(int index) const;
+  [[nodiscard]] ::nn_proto::WeightMetrix* PROTOBUF_NONNULL mutable_metrixs(int index);
+  ::nn_proto::WeightMetrix* PROTOBUF_NONNULL add_metrixs();
+  [[nodiscard]] const ::google::protobuf::RepeatedPtrField<::nn_proto::WeightMetrix>&
+  metrixs() const;
+  [[nodiscard]] ::google::protobuf::RepeatedPtrField<::nn_proto::WeightMetrix>* PROTOBUF_NONNULL
+  mutable_metrixs();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::nn_proto::WeightMetrix>& _internal_metrixs() const;
+  ::google::protobuf::RepeatedPtrField<::nn_proto::WeightMetrix>* PROTOBUF_NONNULL _internal_mutable_metrixs();
+
+  public:
   // int32 layer_count = 1;
   void clear_layer_count() ;
   [[nodiscard]] ::int32_t layer_count() const;
@@ -1030,8 +809,8 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED Network final : public ::google::pr
  private:
   class _Internal;
   using ParseTableT_ =
-      ::google::protobuf::internal::TcParseTable<1, 2,
-                          1, 0,
+      ::google::protobuf::internal::TcParseTable<2, 3,
+                          2, 0,
                           2>;
   static constexpr ParseTableT_ InternalGenerateParseTable_(
       const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL class_data);
@@ -1060,6 +839,7 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED Network final : public ::google::pr
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::RepeatedPtrField< ::nn_proto::Layer > layers_;
+    ::google::protobuf::RepeatedPtrField< ::nn_proto::WeightMetrix > metrixs_;
     ::int32_t layer_count_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -1081,96 +861,96 @@ class  PROTOBUF_FUTURE_ADD_EARLY_WARN_UNUSED Network final : public ::google::pr
 #endif  // __GNUC__
 // -------------------------------------------------------------------
 
-// WeightMatrix
+// WeightMetrix
 
 // int32 rows = 1;
-inline void WeightMatrix::clear_rows() {
+inline void WeightMetrix::clear_rows() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.rows_ = 0;
   ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
 }
-inline ::int32_t WeightMatrix::rows() const {
-  // @@protoc_insertion_point(field_get:nn_proto.WeightMatrix.rows)
+inline ::int32_t WeightMetrix::rows() const {
+  // @@protoc_insertion_point(field_get:nn_proto.WeightMetrix.rows)
   return _internal_rows();
 }
-inline void WeightMatrix::set_rows(::int32_t value) {
+inline void WeightMetrix::set_rows(::int32_t value) {
   _internal_set_rows(value);
   SetHasBit(_impl_._has_bits_[0], 0x00000002U);
-  // @@protoc_insertion_point(field_set:nn_proto.WeightMatrix.rows)
+  // @@protoc_insertion_point(field_set:nn_proto.WeightMetrix.rows)
 }
-inline ::int32_t WeightMatrix::_internal_rows() const {
+inline ::int32_t WeightMetrix::_internal_rows() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.rows_;
 }
-inline void WeightMatrix::_internal_set_rows(::int32_t value) {
+inline void WeightMetrix::_internal_set_rows(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.rows_ = value;
 }
 
 // int32 cols = 2;
-inline void WeightMatrix::clear_cols() {
+inline void WeightMetrix::clear_cols() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.cols_ = 0;
   ClearHasBit(_impl_._has_bits_[0], 0x00000004U);
 }
-inline ::int32_t WeightMatrix::cols() const {
-  // @@protoc_insertion_point(field_get:nn_proto.WeightMatrix.cols)
+inline ::int32_t WeightMetrix::cols() const {
+  // @@protoc_insertion_point(field_get:nn_proto.WeightMetrix.cols)
   return _internal_cols();
 }
-inline void WeightMatrix::set_cols(::int32_t value) {
+inline void WeightMetrix::set_cols(::int32_t value) {
   _internal_set_cols(value);
   SetHasBit(_impl_._has_bits_[0], 0x00000004U);
-  // @@protoc_insertion_point(field_set:nn_proto.WeightMatrix.cols)
+  // @@protoc_insertion_point(field_set:nn_proto.WeightMetrix.cols)
 }
-inline ::int32_t WeightMatrix::_internal_cols() const {
+inline ::int32_t WeightMetrix::_internal_cols() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.cols_;
 }
-inline void WeightMatrix::_internal_set_cols(::int32_t value) {
+inline void WeightMetrix::_internal_set_cols(::int32_t value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.cols_ = value;
 }
 
 // bytes data = 3;
-inline void WeightMatrix::clear_data() {
+inline void WeightMetrix::clear_data() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.data_.ClearToEmpty();
   ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
 }
-inline const ::std::string& WeightMatrix::data() const
+inline const ::std::string& WeightMetrix::data() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:nn_proto.WeightMatrix.data)
+  // @@protoc_insertion_point(field_get:nn_proto.WeightMetrix.data)
   return _internal_data();
 }
 template <typename Arg_, typename... Args_>
-PROTOBUF_ALWAYS_INLINE void WeightMatrix::set_data(Arg_&& arg, Args_... args) {
+PROTOBUF_ALWAYS_INLINE void WeightMetrix::set_data(Arg_&& arg, Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   SetHasBit(_impl_._has_bits_[0], 0x00000001U);
   _impl_.data_.SetBytes(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:nn_proto.WeightMatrix.data)
+  // @@protoc_insertion_point(field_set:nn_proto.WeightMetrix.data)
 }
-inline ::std::string* PROTOBUF_NONNULL WeightMatrix::mutable_data()
+inline ::std::string* PROTOBUF_NONNULL WeightMetrix::mutable_data()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
   SetHasBit(_impl_._has_bits_[0], 0x00000001U);
   ::std::string* _s = _internal_mutable_data();
-  // @@protoc_insertion_point(field_mutable:nn_proto.WeightMatrix.data)
+  // @@protoc_insertion_point(field_mutable:nn_proto.WeightMetrix.data)
   return _s;
 }
-inline const ::std::string& WeightMatrix::_internal_data() const {
+inline const ::std::string& WeightMetrix::_internal_data() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.data_.Get();
 }
-inline void WeightMatrix::_internal_set_data(const ::std::string& value) {
+inline void WeightMetrix::_internal_set_data(const ::std::string& value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.data_.Set(value, GetArena());
 }
-inline ::std::string* PROTOBUF_NONNULL WeightMatrix::_internal_mutable_data() {
+inline ::std::string* PROTOBUF_NONNULL WeightMetrix::_internal_mutable_data() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   return _impl_.data_.Mutable( GetArena());
 }
-inline ::std::string* PROTOBUF_NULLABLE WeightMatrix::release_data() {
+inline ::std::string* PROTOBUF_NULLABLE WeightMetrix::release_data() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:nn_proto.WeightMatrix.data)
+  // @@protoc_insertion_point(field_release:nn_proto.WeightMetrix.data)
   if (!CheckHasBit(_impl_._has_bits_[0], 0x00000001U)) {
     return nullptr;
   }
@@ -1181,7 +961,7 @@ inline ::std::string* PROTOBUF_NULLABLE WeightMatrix::release_data() {
   }
   return released;
 }
-inline void WeightMatrix::set_allocated_data(::std::string* PROTOBUF_NULLABLE value) {
+inline void WeightMetrix::set_allocated_data(::std::string* PROTOBUF_NULLABLE value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (value != nullptr) {
     SetHasBit(_impl_._has_bits_[0], 0x00000001U);
@@ -1192,99 +972,7 @@ inline void WeightMatrix::set_allocated_data(::std::string* PROTOBUF_NULLABLE va
   if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.data_.IsDefault()) {
     _impl_.data_.Set("", GetArena());
   }
-  // @@protoc_insertion_point(field_set_allocated:nn_proto.WeightMatrix.data)
-}
-
-// -------------------------------------------------------------------
-
-// BiasVector
-
-// int32 size = 1;
-inline void BiasVector::clear_size() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.size_ = 0;
-  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
-}
-inline ::int32_t BiasVector::size() const {
-  // @@protoc_insertion_point(field_get:nn_proto.BiasVector.size)
-  return _internal_size();
-}
-inline void BiasVector::set_size(::int32_t value) {
-  _internal_set_size(value);
-  SetHasBit(_impl_._has_bits_[0], 0x00000002U);
-  // @@protoc_insertion_point(field_set:nn_proto.BiasVector.size)
-}
-inline ::int32_t BiasVector::_internal_size() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.size_;
-}
-inline void BiasVector::_internal_set_size(::int32_t value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.size_ = value;
-}
-
-// bytes data = 2;
-inline void BiasVector::clear_data() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.data_.ClearToEmpty();
-  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
-}
-inline const ::std::string& BiasVector::data() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:nn_proto.BiasVector.data)
-  return _internal_data();
-}
-template <typename Arg_, typename... Args_>
-PROTOBUF_ALWAYS_INLINE void BiasVector::set_data(Arg_&& arg, Args_... args) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
-  _impl_.data_.SetBytes(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:nn_proto.BiasVector.data)
-}
-inline ::std::string* PROTOBUF_NONNULL BiasVector::mutable_data()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
-  ::std::string* _s = _internal_mutable_data();
-  // @@protoc_insertion_point(field_mutable:nn_proto.BiasVector.data)
-  return _s;
-}
-inline const ::std::string& BiasVector::_internal_data() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.data_.Get();
-}
-inline void BiasVector::_internal_set_data(const ::std::string& value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.data_.Set(value, GetArena());
-}
-inline ::std::string* PROTOBUF_NONNULL BiasVector::_internal_mutable_data() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _impl_.data_.Mutable( GetArena());
-}
-inline ::std::string* PROTOBUF_NULLABLE BiasVector::release_data() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:nn_proto.BiasVector.data)
-  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000001U)) {
-    return nullptr;
-  }
-  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
-  auto* released = _impl_.data_.Release();
-  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
-    _impl_.data_.Set("", GetArena());
-  }
-  return released;
-}
-inline void BiasVector::set_allocated_data(::std::string* PROTOBUF_NULLABLE value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (value != nullptr) {
-    SetHasBit(_impl_._has_bits_[0], 0x00000001U);
-  } else {
-    ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
-  }
-  _impl_.data_.SetAllocated(value, GetArena());
-  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.data_.IsDefault()) {
-    _impl_.data_.Set("", GetArena());
-  }
-  // @@protoc_insertion_point(field_set_allocated:nn_proto.BiasVector.data)
+  // @@protoc_insertion_point(field_set_allocated:nn_proto.WeightMetrix.data)
 }
 
 // -------------------------------------------------------------------
@@ -1295,7 +983,7 @@ inline void BiasVector::set_allocated_data(::std::string* PROTOBUF_NULLABLE valu
 inline void Layer::clear_neuron_count() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.neuron_count_ = 0;
-  ClearHasBit(_impl_._has_bits_[0], 0x00000004U);
+  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
 }
 inline ::int32_t Layer::neuron_count() const {
   // @@protoc_insertion_point(field_get:nn_proto.Layer.neuron_count)
@@ -1303,7 +991,7 @@ inline ::int32_t Layer::neuron_count() const {
 }
 inline void Layer::set_neuron_count(::int32_t value) {
   _internal_set_neuron_count(value);
-  SetHasBit(_impl_._has_bits_[0], 0x00000004U);
+  SetHasBit(_impl_._has_bits_[0], 0x00000002U);
   // @@protoc_insertion_point(field_set:nn_proto.Layer.neuron_count)
 }
 inline ::int32_t Layer::_internal_neuron_count() const {
@@ -1319,7 +1007,7 @@ inline void Layer::_internal_set_neuron_count(::int32_t value) {
 inline void Layer::clear_activation() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.activation_ = 0;
-  ClearHasBit(_impl_._has_bits_[0], 0x00000008U);
+  ClearHasBit(_impl_._has_bits_[0], 0x00000004U);
 }
 inline ::nn_proto::ActivationType Layer::activation() const {
   // @@protoc_insertion_point(field_get:nn_proto.Layer.activation)
@@ -1327,7 +1015,7 @@ inline ::nn_proto::ActivationType Layer::activation() const {
 }
 inline void Layer::set_activation(::nn_proto::ActivationType value) {
   _internal_set_activation(value);
-  SetHasBit(_impl_._has_bits_[0], 0x00000008U);
+  SetHasBit(_impl_._has_bits_[0], 0x00000004U);
   // @@protoc_insertion_point(field_set:nn_proto.Layer.activation)
 }
 inline ::nn_proto::ActivationType Layer::_internal_activation() const {
@@ -1339,199 +1027,67 @@ inline void Layer::_internal_set_activation(::nn_proto::ActivationType value) {
   _impl_.activation_ = value;
 }
 
-// .nn_proto.WeightMatrix w = 3;
-inline bool Layer::has_w() const {
-  bool value = CheckHasBit(_impl_._has_bits_[0], 0x00000001U);
-  PROTOBUF_ASSUME(!value || _impl_.w_ != nullptr);
-  return value;
-}
-inline void Layer::clear_w() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.w_ != nullptr) _impl_.w_->Clear();
-  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
-}
-inline const ::nn_proto::WeightMatrix& Layer::_internal_w() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::nn_proto::WeightMatrix* p = _impl_.w_;
-  return p != nullptr ? *p : *::google::protobuf::internal::MessageGlobalsBase::ToDefaultInstance<::nn_proto::WeightMatrix>(&::nn_proto::WeightMatrix_globals_);
-}
-inline const ::nn_proto::WeightMatrix& Layer::w() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:nn_proto.Layer.w)
-  return _internal_w();
-}
-inline void Layer::unsafe_arena_set_allocated_w(
-    ::nn_proto::WeightMatrix* PROTOBUF_NULLABLE value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.w_);
-  }
-  _impl_.w_ = reinterpret_cast<::nn_proto::WeightMatrix*>(value);
-  if (value != nullptr) {
-    SetHasBit(_impl_._has_bits_[0], 0x00000001U);
-  } else {
-    ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:nn_proto.Layer.w)
-}
-inline ::nn_proto::WeightMatrix* PROTOBUF_NULLABLE Layer::release_w() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-
-  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
-  ::nn_proto::WeightMatrix* released = _impl_.w_;
-  _impl_.w_ = nullptr;
-  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
-    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
-    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    if (GetArena() == nullptr) {
-      delete old;
-    }
-  } else {
-    if (GetArena() != nullptr) {
-      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    }
-  }
-  return released;
-}
-inline ::nn_proto::WeightMatrix* PROTOBUF_NULLABLE Layer::unsafe_arena_release_w() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:nn_proto.Layer.w)
-
-  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
-  ::nn_proto::WeightMatrix* temp = _impl_.w_;
-  _impl_.w_ = nullptr;
-  return temp;
-}
-inline ::nn_proto::WeightMatrix* PROTOBUF_NONNULL Layer::_internal_mutable_w() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.w_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::nn_proto::WeightMatrix>(GetArena());
-    _impl_.w_ = reinterpret_cast<::nn_proto::WeightMatrix*>(p);
-  }
-  return _impl_.w_;
-}
-inline ::nn_proto::WeightMatrix* PROTOBUF_NONNULL Layer::mutable_w()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
-  ::nn_proto::WeightMatrix* _msg = _internal_mutable_w();
-  // @@protoc_insertion_point(field_mutable:nn_proto.Layer.w)
-  return _msg;
-}
-inline void Layer::set_allocated_w(::nn_proto::WeightMatrix* PROTOBUF_NULLABLE value) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (message_arena == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.w_);
-  }
-
-  if (value != nullptr) {
-    ::google::protobuf::Arena* submessage_arena = value->GetArena();
-    if (message_arena != submessage_arena) {
-      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
-    }
-    SetHasBit(_impl_._has_bits_[0], 0x00000001U);
-  } else {
-    ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
-  }
-
-  _impl_.w_ = reinterpret_cast<::nn_proto::WeightMatrix*>(value);
-  // @@protoc_insertion_point(field_set_allocated:nn_proto.Layer.w)
-}
-
-// .nn_proto.BiasVector b = 4;
-inline bool Layer::has_b() const {
-  bool value = CheckHasBit(_impl_._has_bits_[0], 0x00000002U);
-  PROTOBUF_ASSUME(!value || _impl_.b_ != nullptr);
-  return value;
-}
+// bytes b = 3;
 inline void Layer::clear_b() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.b_ != nullptr) _impl_.b_->Clear();
-  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+  _impl_.b_.ClearToEmpty();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
 }
-inline const ::nn_proto::BiasVector& Layer::_internal_b() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::nn_proto::BiasVector* p = _impl_.b_;
-  return p != nullptr ? *p : *::google::protobuf::internal::MessageGlobalsBase::ToDefaultInstance<::nn_proto::BiasVector>(&::nn_proto::BiasVector_globals_);
-}
-inline const ::nn_proto::BiasVector& Layer::b() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline const ::std::string& Layer::b() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
   // @@protoc_insertion_point(field_get:nn_proto.Layer.b)
   return _internal_b();
 }
-inline void Layer::unsafe_arena_set_allocated_b(
-    ::nn_proto::BiasVector* PROTOBUF_NULLABLE value) {
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void Layer::set_b(Arg_&& arg, Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.b_);
-  }
-  _impl_.b_ = reinterpret_cast<::nn_proto::BiasVector*>(value);
-  if (value != nullptr) {
-    SetHasBit(_impl_._has_bits_[0], 0x00000002U);
-  } else {
-    ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:nn_proto.Layer.b)
+  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  _impl_.b_.SetBytes(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:nn_proto.Layer.b)
 }
-inline ::nn_proto::BiasVector* PROTOBUF_NULLABLE Layer::release_b() {
+inline ::std::string* PROTOBUF_NONNULL Layer::mutable_b()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000001U);
+  ::std::string* _s = _internal_mutable_b();
+  // @@protoc_insertion_point(field_mutable:nn_proto.Layer.b)
+  return _s;
+}
+inline const ::std::string& Layer::_internal_b() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.b_.Get();
+}
+inline void Layer::_internal_set_b(const ::std::string& value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-
-  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
-  ::nn_proto::BiasVector* released = _impl_.b_;
-  _impl_.b_ = nullptr;
-  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
-    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
-    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    if (GetArena() == nullptr) {
-      delete old;
-    }
-  } else {
-    if (GetArena() != nullptr) {
-      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    }
+  _impl_.b_.Set(value, GetArena());
+}
+inline ::std::string* PROTOBUF_NONNULL Layer::_internal_mutable_b() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.b_.Mutable( GetArena());
+}
+inline ::std::string* PROTOBUF_NULLABLE Layer::release_b() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:nn_proto.Layer.b)
+  if (!CheckHasBit(_impl_._has_bits_[0], 0x00000001U)) {
+    return nullptr;
+  }
+  ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
+  auto* released = _impl_.b_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.b_.Set("", GetArena());
   }
   return released;
 }
-inline ::nn_proto::BiasVector* PROTOBUF_NULLABLE Layer::unsafe_arena_release_b() {
+inline void Layer::set_allocated_b(::std::string* PROTOBUF_NULLABLE value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:nn_proto.Layer.b)
-
-  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
-  ::nn_proto::BiasVector* temp = _impl_.b_;
-  _impl_.b_ = nullptr;
-  return temp;
-}
-inline ::nn_proto::BiasVector* PROTOBUF_NONNULL Layer::_internal_mutable_b() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.b_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::nn_proto::BiasVector>(GetArena());
-    _impl_.b_ = reinterpret_cast<::nn_proto::BiasVector*>(p);
-  }
-  return _impl_.b_;
-}
-inline ::nn_proto::BiasVector* PROTOBUF_NONNULL Layer::mutable_b()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  SetHasBit(_impl_._has_bits_[0], 0x00000002U);
-  ::nn_proto::BiasVector* _msg = _internal_mutable_b();
-  // @@protoc_insertion_point(field_mutable:nn_proto.Layer.b)
-  return _msg;
-}
-inline void Layer::set_allocated_b(::nn_proto::BiasVector* PROTOBUF_NULLABLE value) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (message_arena == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.b_);
-  }
-
   if (value != nullptr) {
-    ::google::protobuf::Arena* submessage_arena = value->GetArena();
-    if (message_arena != submessage_arena) {
-      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
-    }
-    SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+    SetHasBit(_impl_._has_bits_[0], 0x00000001U);
   } else {
-    ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+    ClearHasBit(_impl_._has_bits_[0], 0x00000001U);
   }
-
-  _impl_.b_ = reinterpret_cast<::nn_proto::BiasVector*>(value);
+  _impl_.b_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.b_.IsDefault()) {
+    _impl_.b_.Set("", GetArena());
+  }
   // @@protoc_insertion_point(field_set_allocated:nn_proto.Layer.b)
 }
 
@@ -1543,7 +1099,7 @@ inline void Layer::set_allocated_b(::nn_proto::BiasVector* PROTOBUF_NULLABLE val
 inline void Network::clear_layer_count() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.layer_count_ = 0;
-  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+  ClearHasBit(_impl_._has_bits_[0], 0x00000004U);
 }
 inline ::int32_t Network::layer_count() const {
   // @@protoc_insertion_point(field_get:nn_proto.Network.layer_count)
@@ -1551,7 +1107,7 @@ inline ::int32_t Network::layer_count() const {
 }
 inline void Network::set_layer_count(::int32_t value) {
   _internal_set_layer_count(value);
-  SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+  SetHasBit(_impl_._has_bits_[0], 0x00000004U);
   // @@protoc_insertion_point(field_set:nn_proto.Network.layer_count)
 }
 inline ::int32_t Network::_internal_layer_count() const {
@@ -1616,6 +1172,61 @@ inline ::google::protobuf::RepeatedPtrField<::nn_proto::Layer>* PROTOBUF_NONNULL
 Network::_internal_mutable_layers() {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return &_impl_.layers_;
+}
+
+// repeated .nn_proto.WeightMetrix metrixs = 3;
+inline int Network::_internal_metrixs_size() const {
+  return _internal_metrixs().size();
+}
+inline int Network::metrixs_size() const {
+  return _internal_metrixs_size();
+}
+inline void Network::clear_metrixs() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.metrixs_.Clear();
+  ClearHasBit(_impl_._has_bits_[0], 0x00000002U);
+}
+inline const ::nn_proto::WeightMetrix& Network::metrixs(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:nn_proto.Network.metrixs)
+  return _internal_metrixs().Get(index);
+}
+inline ::nn_proto::WeightMetrix* PROTOBUF_NONNULL Network::mutable_metrixs(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:nn_proto.Network.metrixs)
+  return _internal_mutable_metrixs()->Mutable(index);
+}
+inline ::nn_proto::WeightMetrix* PROTOBUF_NONNULL Network::add_metrixs()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::nn_proto::WeightMetrix* _add =
+      _internal_mutable_metrixs()->InternalAddWithArena(
+          ::google::protobuf::MessageLite::internal_visibility(), GetArena());
+  SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+  // @@protoc_insertion_point(field_add:nn_proto.Network.metrixs)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::nn_proto::WeightMetrix>& Network::metrixs() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:nn_proto.Network.metrixs)
+  return _internal_metrixs();
+}
+inline ::google::protobuf::RepeatedPtrField<::nn_proto::WeightMetrix>* PROTOBUF_NONNULL
+Network::mutable_metrixs() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  SetHasBit(_impl_._has_bits_[0], 0x00000002U);
+  // @@protoc_insertion_point(field_mutable_list:nn_proto.Network.metrixs)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_metrixs();
+}
+inline const ::google::protobuf::RepeatedPtrField<::nn_proto::WeightMetrix>&
+Network::_internal_metrixs() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.metrixs_;
+}
+inline ::google::protobuf::RepeatedPtrField<::nn_proto::WeightMetrix>* PROTOBUF_NONNULL
+Network::_internal_mutable_metrixs() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.metrixs_;
 }
 
 #ifdef __GNUC__

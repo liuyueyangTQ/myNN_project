@@ -20,6 +20,7 @@ using namespace dtensor;
 // 神经网络参数结构体（前后台共用）
 struct NNParams {  
     nn_type model_type;  // 模型类型："LinearNN" / "LinearResnet"
+    int layer_num; 
     std::vector<int> layer_sizes; // 各层神经元数（如 [10, 20, 20, 5]）
     std::vector<dtensor::sub_type> layer_types; // 各层神经元数 (如 origin, relu, relu, softmax)
     size_t batch_size;
@@ -29,6 +30,10 @@ struct NNParams {
     loss_type lstp;
     double lr;
     NNParams() : lstp(loss_type::cross_entropy), epochs(1000), lr(0.001), thread_num(4), use_multithread(false), batch_size(4) {}
+    NNParams(const NNParams& other) : 
+        model_type(other.model_type), layer_num(other.layer_num), layer_sizes(other.layer_sizes), layer_types(other.layer_types), 
+        batch_size(other.batch_size), use_multithread(other.use_multithread), thread_num(other.thread_num), 
+        epochs(other.epochs), lstp(other.lstp), lr(other.lr) {}
 };
 class module_base;
 class model_data {
@@ -44,6 +49,50 @@ public:
     void check_model();
     void set_model(module_base* m);
     model_data() : model_ptr(nullptr) {}
+    model_data(const model_data& other) {
+        if (this != &other) {
+            this->model_ptr = other.model_ptr;
+            this->layer_sizes = other.layer_sizes;
+            this->layer_types = other.layer_types;
+            this->outputs = other.outputs;
+            this->param_b = other.param_b;
+            this->param_w = other.param_w;
+        }
+    }
+    model_data(model_data&& other) noexcept {
+        if (this != &other) {
+            this->model_ptr = other.model_ptr;
+            this->layer_sizes = std::move(other.layer_sizes);
+            this->layer_types = std::move(other.layer_types);
+            this->outputs = std::move(other.outputs);
+            this->param_b = std::move(other.param_b);
+            this->param_w = std::move(other.param_w);
+            other.model_ptr = nullptr; // 避免双重删除
+        }
+    }
+    model_data& operator=(model_data& other) {
+        if (this != &other) {
+            this->model_ptr = other.model_ptr;
+            this->layer_sizes = other.layer_sizes;
+            this->layer_types = other.layer_types;
+            this->outputs = other.outputs;
+            this->param_b = other.param_b;
+            this->param_w = other.param_w;
+        }
+        return *this;
+    }
+    model_data& operator=(model_data&& other) noexcept {
+        if (this != &other) {
+            this->model_ptr = other.model_ptr;
+            this->layer_sizes = std::move(other.layer_sizes);
+            this->layer_types = std::move(other.layer_types);
+            this->outputs = std::move(other.outputs);
+            this->param_b = std::move(other.param_b);
+            this->param_w = std::move(other.param_w);
+            other.model_ptr = nullptr; // 避免双重删除
+        }
+        return *this;
+    }
 };
 class module_base {
 protected:

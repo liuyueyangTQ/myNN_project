@@ -881,6 +881,7 @@ model_data run_model(const NNParams& params) {
     std::cout <<"label size is: " << labels.size() <<std::endl;
     auto model_type = params.model_type;  
     auto layer_sizes = params.layer_sizes;
+    int layer_num = params.layer_num;
     auto layer_types = params.layer_types; 
     int batch_size = params.batch_size;
     int epochs = params.epochs;
@@ -896,7 +897,6 @@ model_data run_model(const NNParams& params) {
     std::cout << "learing rate: " << lr << std::endl;
 
     nn::Linear_NN* nn = new nn::Linear_NN(batch_size);
-    int layer_num = layer_sizes.size();
     assert(layer_sizes[0] == data[0].size() && layer_sizes[layer_num - 1] == labels[0].size());
     for(int i = 0; i < layer_num; ++i) {
         nn->add_layer(layer_sizes[i], layer_types[i]);

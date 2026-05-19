@@ -263,6 +263,7 @@ bool ParamWindow::parseLayerSizes(const QString& text) {
     }
     // 正确后赋值
     this->params.layer_sizes = std::move(layer_size);
+    this->params.layer_num = this->params.layer_sizes.size();
     return true;
 }
 sub_type string_to_type(std::string str) {
