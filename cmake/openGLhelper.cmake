@@ -20,21 +20,14 @@ function(add_opengl_support TARGET_NAME)
     message(STATUS "所有链接库: ${OPENGL_LIBRARIES}")
     message(STATUS "核心库路径: ${OPENGL_gl_LIBRARY}")
     message(STATUS "GLU 库路径: ${OPENGL_glu_LIBRARY}")
-    # 设置GLFW路径（根据你的实际安装路径修改）
-    # set(GLFW_ROOT "C:/Tools/glfw-3.4" CACHE PATH "C:/Tools/glfw-3.4/build_glfw_install")
 
     get_filename_component(PARENT_SOURCE_DIR ${CMAKE_SOURCE_DIR} DIRECTORY)
-    get_filename_component(PARENT_SOURCE_DIR ${PARENT_SOURCE_DIR} DIRECTORY)
-
 
     target_include_directories(${TARGET_NAME} PRIVATE "C:/Tools/glfw-3.4/include")
     target_include_directories(${TARGET_NAME} PRIVATE "C:/Tools/glew-2.2.0/include")
-    target_include_directories(${TARGET_NAME} PRIVATE ${PARENT_SOURCE_DIR}/inc)
     target_include_directories(${TARGET_NAME} PRIVATE
-        ${GLFW_INSTALL_DIR}/src/visual
-        ${GLFW_INSTALL_DIR}/test
-        ${GLFW_INSTALL_DIR}/inc  
-        ${PARENT_SOURCE_DIR}/inc   # glad所在目录  
+        ${CMAKE_SOURCE_DIR}/src/visual
+        ${CMAKE_SOURCE_DIR}/src/core/test
     )
 
     # 3. 编译器差异化处理 (关键点)
