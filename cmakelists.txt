@@ -32,6 +32,8 @@ endif()
 # 引入封装的函数文件
 include(${CMAKE_SOURCE_DIR}/cmake/nnhelper.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/protobuf_helper.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/openGLhelper.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/net_helper.cmake)
 
 set(CORE_DIR "${CMAKE_SOURCE_DIR}/src/core")
 set(TOOLS_DIR "${CMAKE_SOURCE_DIR}/src/tools")
@@ -51,11 +53,10 @@ file(GLOB MATH_LIB_SOURCES
     ${CORE_DIR}/utils/buffer_util.cpp
 )
 
-# 生成静态库（名字：math_libs）
+# ==== 生成 math_libs 静态库 ====
 add_library(math_libs STATIC ${MATH_LIB_SOURCES})
 # 指定宏
 target_compile_definitions(math_libs PUBLIC USE_DEBUG)
-
 # 指定包含文件路径
 target_include_directories(math_libs PUBLIC
     ${CORE_DIR}/math
@@ -65,22 +66,39 @@ target_include_directories(math_libs PUBLIC
     ${CORE_DIR}/utils
 )
 
-# 生成静态库（名字：proto_libs）
+# ==== 生成 proto_libs 静态库 ====
 add_library(proto_libs STATIC
     src/tools/protobuf/network.pb.cc
     src/tools/protobuf/proto_utils.cpp
 )
-setup_protobuf(proto_libs
+add_protobuf_support(proto_libs
     DEFINES
         USE_DEBUG
     LINKS
         math_libs
 )
+
+# ==== 生成 netService_libs 静态库 ====
+add_library(netService_libs STATIC
+    src/tools/netService/server.cpp
+)
+
+# 设置 net_test 测试文件
+add_executable(net_test 
+    src/tools/netService/net_test.cpp
+)
+add_netService_support(net_test
+    DEFINES
+        USE_DEBUG
+    LINKS
+        netService_libs
+)
+
 # 设置 Protobuf 测试文件
 add_executable(proto_test 
     ${TOOLS_DIR}/protobuf/proto_test.cpp
 )
-setup_protobuf(proto_test
+add_protobuf_support(proto_test
     INCLUDES 
         ${TOOLS_DIR}/protobuf
     LINKS
@@ -95,6 +113,7 @@ add_nn_support(proto_test
         math_libs
 )
 
+# 设置 metrix_test 可执行文件
 add_executable(metrix_test ${CORE_DIR}/test/metrix_test.cpp)
 add_nn_support(metrix_test 
     MAIN_DIR    
@@ -206,10 +225,7 @@ add_nn_support(draw_nn_test
     LINKS
         math_libs
 )
-
-include(${CMAKE_SOURCE_DIR}/cmake/openGLhelper.cmake)
 add_opengl_support(draw_nn_test)
 
-# add_subdirectory(src/visual)
 add_subdirectory(api)
 add_subdirectory(src)

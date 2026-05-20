@@ -1,7 +1,10 @@
 #include"proto_utils.h"
 namespace proto {
-void proto_utils::get_data(std::string&& data) {
+void proto_utils::get_binary(std::string&& data) {
     this->binary_data = std::move(data);
+}
+void proto_utils::get_binary(char* data, size_t len) {
+    this->binary_data.assign(data, len);
 }
 void proto_utils::train_model(const nn::NNParams& params) {
     this->params = params;
@@ -43,12 +46,10 @@ void proto_utils::proto2wm(const nn_proto::WeightMetrix& w_proto, dtensor::tenso
     assert(shape.first * shape.second == w_proto.data().size() / sizeof(float));
     memcpy(wm->get_weight()->data, w_proto.data().data(), w_proto.data().size());
 }
-nn_proto::Network proto_utils::network2proto() { // 将当前模型转换为 proto 对象
-    assert(this->model.get_model() != nullptr);
-    nn::module_base* net = this->model.get_model();
+void proto_utils::network2proto() { // 将当前模型转换为 proto 对象
     // 1. 创建 proto 对象
+    this->net_proto.Clear(); // 清空之前的内容
     int layer_num = this->params.layer_num;
-    nn_proto::Network net_proto;
     net_proto.set_layer_count(layer_num);  // layer_num 层网络
     auto& layer_sizes = this->params.layer_sizes;
     auto& layer_types = this->params.layer_types;
@@ -81,9 +82,13 @@ nn_proto::Network proto_utils::network2proto() { // 将当前模型转换为 pro
     last_layer_proto->set_b(biases[layer_num - 1].data(), sizeof(float) * layer_sizes[layer_num - 1]);
     // ========== 序列化（用于传输） ==========
     net_proto.SerializeToString(&this->binary_data);
-    return net_proto;
+    return;
 }
-void proto_utils::proto2network(nn_proto::Network& net_proto) {
+std::string proto_utils::get_binary() {
+    return this->binary_data;
+}
+void proto_utils::proto2network() { // 将二进制数据转换为模型
+    net_proto.Clear(); // 清空之前的内容
     net_proto.ParseFromString(this->binary_data);
     int layer_num = net_proto.layer_count();
     std::vector<int> layer_sizes(layer_num);
@@ -124,6 +129,7 @@ void proto_utils::proto2network(nn_proto::Network& net_proto) {
     this->model.param_w = std::move(metrixs);
     return;
 }
+
 void proto_utils::print_network() {
     std::cout << "Network Architecture:\n";
     std::cout << "Layer Sizes: ";
@@ -152,4 +158,7 @@ void proto_utils::print_network() {
         std::cout << "----\n";
     }
 };
+void proto_utils::print_binary() {
+    std::cout << binary_data << "\n";
+}
 } // namespace proto

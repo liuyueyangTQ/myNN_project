@@ -1,0 +1,1 @@
+This folder combines the function of **netService** and  **protobuf** under the src/tools folder to realize online data communication api, together with **tensor libs** in src/core to realize online model implementation and training.

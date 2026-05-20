@@ -1,4 +1,4 @@
-function(setup_protobuf TARGET_NAME)
+function(add_protobuf_support TARGET_NAME)
     message(STATUS "当前目标名：${TARGET_NAME}")
     # 解析参数：支持可选的自定义宏和包含目录
     set(options "")
@@ -33,11 +33,7 @@ function(setup_protobuf TARGET_NAME)
             ${PROTOBUF_INCLUDE_DIRS}
             ${Absl_INCLUDE_DIRS}
             ${ARGS_INCLUDES}
-        )
-        # 合并基础+自定义包含目录
-        target_include_directories(${TARGET_NAME} PRIVATE
-            ${PROTOBUF_INCLUDE_DIRS}
-            ${ARGS_INCLUDES}
+            ${TOOLS_DIR}/protobuf
         )
     else()
         # 对于库目标，通常不直接包含 Protobuf 头文件路径，而是通过链接来传递依赖关系

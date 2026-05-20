@@ -1,0 +1,62 @@
+add_executable(nn_netServer_api
+    nn_netServer_api.cpp
+    nn_netServer.cpp
+)
+add_nn_support(nn_netServer_api
+    MAIN_DIR    
+        ${CORE_DIR}
+    DEFINES
+        USE_DEBUG 
+    LINKS
+        math_libs
+)
+add_protobuf_support(nn_netServer_api
+    MAIN_DIR    
+        ${CORE_DIR}
+    DEFINES
+        USE_DEBUG 
+    LINKS
+        proto_libs
+    INCLUDES
+        ${TOOLS_DIR}
+)
+add_netService_support(nn_netServer_api
+    MAIN_DIR    
+        ${CMAKE_SOURCE_DIR}/src/tools/netService
+    DEFINES
+        USE_DEBUG 
+    LINKS
+        netService_libs
+)
+
+
+add_executable(nn_netClient_api
+    nn_netClient_api.cpp
+    nn_netServer.cpp
+)
+add_nn_support(nn_netClient_api
+    MAIN_DIR    
+        ${CORE_DIR}
+    DEFINES
+        USE_DEBUG 
+    LINKS
+        math_libs
+)
+add_protobuf_support(nn_netClient_api
+    MAIN_DIR    
+        ${CORE_DIR}
+    DEFINES
+        USE_DEBUG 
+    LINKS
+        proto_libs
+    INCLUDES
+        ${TOOLS_DIR}
+)
+add_netService_support(nn_netClient_api
+    MAIN_DIR    
+        ${CMAKE_SOURCE_DIR}/src/tools/netService
+    DEFINES
+        USE_DEBUG 
+    LINKS
+        netService_libs
+)
