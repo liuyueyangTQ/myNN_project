@@ -30,6 +30,7 @@ endif()
 # endif()
 
 # 引入封装的函数文件
+include(${CMAKE_SOURCE_DIR}/cmake/basicTool_helper.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/nnhelper.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/protobuf_helper.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/openGLhelper.cmake)
@@ -92,6 +93,17 @@ add_netService_support(net_test
         USE_DEBUG
     LINKS
         netService_libs
+)
+
+# 设置 json_test 测试文件
+add_executable(json_test 
+    src/tools/json/json_test.cpp
+)
+add_json_support(json_test
+    DEFINES
+        USE_DEBUG
+    FILE_DIR
+        "${TOOLS_DIR}/json"
 )
 
 # 设置 Protobuf 测试文件

@@ -32,3 +32,5 @@ message Network {
     repeated Layer layers = 2;
     repeated WeightMetrix metrixs = 3;
 }
+
+// protoc --cpp_out=. network.proto
