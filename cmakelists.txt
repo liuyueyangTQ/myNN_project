@@ -97,13 +97,14 @@ add_netService_support(net_test
 
 # 设置 json_test 测试文件
 add_executable(json_test 
-    src/tools/json/json_test.cpp
+    ${TOOLS_DIR}/json/json_test.cpp
+    ${TOOLS_DIR}/json/json_tool.cpp
 )
 add_json_support(json_test
     DEFINES
         USE_DEBUG
     FILE_DIR
-        "${TOOLS_DIR}/json"
+        "${TOOLS_DIR}/json" # 要传入路径
 )
 
 # 设置 Protobuf 测试文件

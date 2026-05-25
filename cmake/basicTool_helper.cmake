@@ -4,7 +4,13 @@ function(add_json_support TARGET_NAME)
     set(oneValueArgs "")
     set(multiValueArgs SRCS DEFINES INCLUDES MAIN_DIR LINKS FILE_DIR)
     cmake_parse_arguments(ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-
+    
+    # FILE_DIR 为必选参数
+    if(NOT ARGS_FILE_DIR)
+        message(FATAL_ERROR 
+            "❌ 错误: 调用 add_json_support 时未提供必选参数 FILE_DIR ！（应传入字符串类型）\n"
+        )
+    endif()
     # 配置 jsonCpp 路径
     set(jsonCpp_INSTALL_DIR "C:/Tools/jsoncpp-1.9.6/jsoncpp_install")
     set(JsonCpp_INCLUDE_DIRS "${jsonCpp_INSTALL_DIR}/include")
@@ -29,5 +35,16 @@ function(add_json_support TARGET_NAME)
     )
     target_compile_definitions(${TARGET_NAME} PRIVATE 
         HTML_FILE_DIR="${ARGS_FILE_DIR}"
+    )
+endfunction()
+
+function(add_web_support TARGET_NAME)
+    set(options "")
+    set(oneValueArgs "")
+    set(multiValueArgs SRCS DEFINES INCLUDES MAIN_DIR LINKS)
+    cmake_parse_arguments(ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+    target_link_libraries(${TARGET_NAME} PRIVATE
+        ${ARGS_LINKS}
+        ws2_32 # 依赖 ws2_32
     )
 endfunction()
