@@ -255,4 +255,3 @@ add_nn_support(draw_nn_test
 add_opengl_support(draw_nn_test)
 
 add_subdirectory(api)
-add_subdirectory(src)

@@ -365,38 +365,6 @@ std::string httpServer::resolveUser(const std::string &cookieHeader, std::string
     return getUserName(outUid);
 }
 
-// Build cache shell for a page (CSS + nav + article content)
-std::string httpServer::buildPageShell(int n) {
-    std::string s;
-    s += R"HTML(<div class="nav-bar" id="navBar">)HTML";
-    s += R"HTML(<div class="nav-inner" id="navInner"></div>)HTML";
-    s += R"HTML(</div>)HTML";
-    s += "<h1 id=\"pageTitle\">" + pageIcon(n) + " " + pageTitle(n) + "</h1>\n";
-    s += "<div id=\"pageContent\">" + contentHTML(n) + "</div>\n";
-    s += R"HTML(<hr>)HTML";
-    s += R"HTML(<div class="comment-section">)HTML";
-    s += R"HTML(<form id="commentForm">)HTML";
-    s += R"HTML(<textarea id="commentInput" placeholder="写下你的想法..." required></textarea>)HTML";
-    s += R"HTML(<div class="form-row">)HTML";
-    s += R"(<span class="user-badge" id="userBadge">)</span>";
-    s += R"(<button type="submit">提交评论</button>)";
-    s += R"(</div></form>)";
-    s += R"(<div id="comments"><div class="no-comments" id="noComments">还没有评论，快来写第一条吧！</div></div>)";
-    s += R"(</div>)";
-    return s;
-}
-
-// Ensure cache is valid and return shell
-std::string httpServer::getPageShell(int n) {
-    int idx = n - 1;
-    if (!pageCaches[idx].valid) {
-        pageCaches[idx].shell = buildPageShell(n);
-        pageCaches[idx].valid = true;
-    }
-    return pageCaches[idx].shell;
-}
-
-
 // ========== Page Content ==========
 std::string httpServer::contentHTML(int n) {
     const char* c[] = {
@@ -485,20 +453,3 @@ int httpServer::extractTrailingNum(const std::string &path) {
     return std::atoi(numStr.c_str());
 }
 
-int httpServer::sendAllData(SOCKET s, const std::string& data) {
-    size_t totalSent = 0;
-    size_t dataLen = data.size();
-    const char* ptr = data.c_str();
-
-    while (totalSent < dataLen) {
-        // 每次只尝试发送剩下的一部分
-        int sent = send(s, ptr + totalSent, dataLen - totalSent, 0);
-        if (sent == SOCKET_ERROR) {
-            std::cerr << "[ERROR] 传输中断，错误码: " << WSAGetLastError() << std::endl;
-            return -1; 
-        }
-        totalSent += sent; // 只要发成功了，指针就往后挪
-    }
-    std::cout << "[DEBUG] 成功发送全量数据，共 " << totalSent << " 字节\n";
-    return totalSent;
-}

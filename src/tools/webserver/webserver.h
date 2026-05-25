@@ -57,7 +57,6 @@ private:
     std::string jsonEscape(const std::string &s);
     std::string timestamp();
     std::string contentHTML(int n);
-
     // ========== Page Metadata ==========
     std::string pageTitle(int n);
     std::string pageIcon(int n);
@@ -67,12 +66,9 @@ private:
     // Ensure user identified via cookie, return uid and set-cookie header if new
     std::string getCookie(const std::string &h, const std::string &name);
     std::string resolveUser(const std::string &cookieHeader, std::string &outUid, std::string &outSetCookie);
-    std::string buildPageShell(int n);
     int extractTrailingNum(const std::string &path);
     HttpRequest parseRequest(const std::string &raw);
-    std::string getPageShell(int n);
-    // 安全的、支持大文件发送的辅助函数
-    int sendAllData(SOCKET s, const std::string& data);
+
 public:
     httpServer(std::string basic_path) : html_agent(basic_path) {
         this->basic_path = basic_path;
