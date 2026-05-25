@@ -1,12 +1,18 @@
 #include "json_tool.h"
 namespace Json {
-const int TOTAL_PAGES = 6;
+
+void HTML_json_handler::_init() {
+    assert(set_base_path == true);
+    // 读取所有页面元数据
+    this->getPageMetadata();
+}   
 void HTML_json_handler::set_basic_path(std::string basic_path) {
     this->basic_path = basic_path;
     set_base_path = true;
 }
 
 int HTML_json_handler::get_page_nums() {
+    assert(set_base_path == true);
     return root["pages"].size();
 }
 

@@ -20,11 +20,8 @@ void runIntegrationTest() {
               << TOSTRING(HTML_FILE_DIR) << std::endl;
     std::string basic_path = HTML_FILE_DIR; // 不包含引号
     Json::HTML_json_handler html_agent(basic_path);
-    // 读取所有页面元数据
-    html_agent.getPageMetadata();
-    std::cout << "[1/3] start reading files & JsonCpp combination test..." << std::endl;
-
     
+    std::cout << "[1/3] start reading files & JsonCpp combination test..." << std::endl;
 
     // 执行业务函数获取组装结果
     int page_num = html_agent.get_page_nums();

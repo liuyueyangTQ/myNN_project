@@ -1,2 +1,3 @@
 build/
 demoTest/
+src/tools/webserver/**/*.txt

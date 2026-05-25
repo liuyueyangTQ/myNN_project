@@ -13,10 +13,13 @@ private:
     bool set_base_path;
     std::string related_path;
     bool set_related_path;
+    void _init();
+    
 public:
     HTML_json_handler(std::string basic_path) {
         this->basic_path = basic_path;
         set_base_path = true;
+        _init();
     }
     void set_basic_path(std::string basic_path);
     std::string readHtmlPage(int pageNum);

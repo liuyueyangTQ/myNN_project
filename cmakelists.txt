@@ -107,6 +107,20 @@ add_json_support(json_test
         "${TOOLS_DIR}/json" # 要传入路径
 )
 
+# 设置 json_test 测试文件
+add_executable(webserver_test 
+    ${TOOLS_DIR}/json/json_tool.cpp
+    ${TOOLS_DIR}/webserver/webserver_test.cpp
+    ${TOOLS_DIR}/webserver/webserver.cpp
+)
+add_web_support(webserver_test)
+add_json_support(webserver_test
+    DEFINES
+        USE_DEBUG
+    FILE_DIR
+        "${TOOLS_DIR}/webserver" # 要传入路径
+)
+
 # 设置 Protobuf 测试文件
 add_executable(proto_test 
     ${TOOLS_DIR}/protobuf/proto_test.cpp

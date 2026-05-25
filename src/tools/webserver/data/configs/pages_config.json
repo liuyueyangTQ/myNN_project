@@ -1,0 +1,40 @@
+{
+  "pages": [
+    {
+      "n": 1,
+      "title": "静思小站",
+      "icon": "🌿",
+      "label": "静思小站"
+    },
+    {
+      "n": 2,
+      "title": "C++ 网络协议栈开发",
+      "icon": "🔧",
+      "label": "C++ 协议栈"
+    },
+    {
+      "n": 3,
+      "title": "Java 语法规则与语言特性",
+      "icon": "☕",
+      "label": "Java 语法"
+    },
+    {
+      "n": 4,
+      "title": "Android 客户端开发",
+      "icon": "📱",
+      "label": "Android"
+    },
+    {
+      "n": 5,
+      "title": "Swift / Kotlin 基本特性与语法",
+      "icon": "💻",
+      "label": "Swift/Kotlin"
+    },
+    {
+      "n": 6,
+      "title": "JavaScript 网页前端开发",
+      "icon": "🌐",
+      "label": "JS 前端"
+    }
+  ]
+}

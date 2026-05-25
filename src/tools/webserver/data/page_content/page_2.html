@@ -1,0 +1,13 @@
+<div class="article">
+    <div class="meta">发表于 2026-05-23 · 技术深度</div>
+    <h2>网络协议栈与 C++</h2>
+    <p>网络协议栈是操作系统中负责网络通信的核心组件，实现了从物理层到应用层的多层协议处理。理解协议栈对每一位后端开发者都至关重要。</p>
+    <p>典型的 TCP/IP 协议栈分为四层：<br>
+    <b>应用层</b>（HTTP、FTP、DNS）—— 面向用户的具体协议；<br>
+    <b>传输层</b>（TCP、UDP）—— 提供端到端的可靠或不可靠传输；<br>
+    <b>网络层</b>（IP、ICMP）—— 负责路由寻址和分组转发；<br>
+    <b>网络接口层</b>（以太网、Wi-Fi）—— 处理物理介质上的数据帧。</p>
+    <p>在 C++ 中开发网络程序，通常使用 RAII（资源获取即初始化）来管理 socket 资源。借助 RAII，socket 的创建和销毁被封装在对象的构造和析构函数中，即使发生异常也能确保资源被正确释放。</p>
+    <p>Winsock API 是 Windows 平台上的套接字编程接口。使用流程为：WSAStartup 初始化库 → socket 创建 → bind 绑定端口 → listen 监听 → accept 接受连接 → send/recv 收发数据 → closesocket 关闭 → WSACleanup 清理。Linux 上的 POSIX socket API 类似，但不需要初始化步骤。</p>
+    <p>更进阶的方向包括：非阻塞 I/O（select/poll/epoll）、异步 I/O（IOCP）、SSL/TLS 加密传输。这些技术构成了现代高并发服务器的基石。</p>
+</div>

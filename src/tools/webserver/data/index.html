@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>静思小站 - SPA</title>
+<style>
+    /* 1. 全局初始化 */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+     body{font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:40px 20px;color:#333;}
+    .container{ 
+        max-width:900px;
+        margin:0 auto;
+        background:rgba(255,255,255,0.95);
+        border-radius:16px;
+        box-shadow:0 8px 32px rgba(0,0,0,0.15);
+        padding:30px 40px;
+    }
+    
+    /* 2. 悬浮微动效导航栏 */
+    .nav-bar { /*  导航栏外壳  */
+        display: flex;               /* 开启弹性布局，让按钮横向排成一排 */
+        gap: 6px;                    /* 按钮之间的间距 */
+        padding-bottom: 16px;
+        margin-bottom:24px;
+        border-bottom: 2px solid #2b6fa7; /* 底部装饰细线 */
+    }
+    /*  按钮常态（静止时） */
+    .nav-bar a {
+        text-decoration: none;       /* 去掉超链接默认的下划线 */
+        padding: 8px 16px;           /* 撑开按钮的内边距，让它更有点击感 */
+        border-radius: 8px;          /* 裁剪圆角，使其视觉更柔和 */
+        font-size: 0.88rem;
+        font-weight: 500;
+        color: #64748b;              /* 默认文字颜色：优雅的灰色 */
+        background: #e2e6e7;         /* 默认背景颜色：淡淡的灰蓝 */
+        cursor: pointer;             /* 鼠标移上去时变成“小手”形状 */
+        /* 开启慢动作过渡 */
+        transition: all 0.25s ease;   /* 0.25s 代表动画在 0.25 秒内完成，ease 代表平滑渐入渐出 */
+    }
+    /*  悬浮微动效（鼠标移上去时） */
+    .nav-bar a:hover {
+        background: #2e4c72;         /* 动作一：背景色平滑变深 */
+        color: #0f172a;              /* 动作二：文字颜色平滑变黑 */
+        /* 微位移 : translateY(-2px) 代表在垂直方向（Y轴）向上平移 2 像素 */
+        transform: translateY(-2px); 
+        /* 微阴影 : 给悬浮的按钮底部加上一层极淡的阴影，视觉上模拟“物理浮起”的立体感 */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    /*  激活态（当前选中的页面） */
+    .nav-bar a.active {
+        background: #3b82f6;         /* 被激活时染成极客蓝 */
+        color: white;                /* 文字变白 */
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25); /* 蓝色发光阴影 */
+    }
+
+    /* 3. 文章骨架与排版 */
+    h1{font-size:1.8rem;color:#1a1a2e;border-left:5px solid #4a6cf7;padding-left:18px;margin-bottom:24px}
+    .article h2{font-size:1.3rem;color:#2d3436;margin:20px 0 10px 0}
+    .article p{font-size:0.95rem;line-height:1.8;color:#555;margin-bottom:14px;text-indent:2em}
+    .meta{color:#999;font-size:0.82rem;margin-bottom:6px}
+
+    /* 4. 互动区表单 */
+    hr{border:none;border-top:1px solid #e8e8e8;margin:24px 0}
+    .comment-section { margin-top: 32px; }
+    .comment-section h2 { font-size: 1.25rem; color: #0f172a; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .comment-form { background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #f1f5f9; margin-bottom: 24px; }
+    .comment-form textarea { width: 100%; min-height: 80px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.92rem; resize: vertical; transition: all 0.2s; }
+    .comment-form textarea:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); background: white; }
+    .comment-form .form-row { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+    .comment-form .form-row .user-badge { font-size: 0.82rem; color: #2563eb; background: #dbeafe; padding: 5px 12px; border-radius: 20px; font-weight: 600; }
+    .comment-form button { padding: 8px 20px; background: #3b82f6; color: white; border: none; border-radius: 8px; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: background 0.2s; }
+    .comment-form button:hover { background: #2563eb; }
+
+    /* 5. 头像流网格评论项 */
+    .comment-list h3 { font-size: 1rem; color: #475569; margin-bottom: 12px; font-weight: 600; }
+    .comment-item { display: flex; gap: 16px; padding: 16px; background: white; border: 1px solid #e2e8f0; border-radius: 10px; margin-bottom: 12px; transition: transform 0.2s; }
+    .comment-item:hover { transform: translateX(2px); box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+    .comment-body { flex: 1; min-width: 0; }
+    .comment-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .comment-user { font-weight: 600; font-size: 0.9rem; color: #1e293b; }
+    .comment-time { color: #94a3b8; font-size: 0.78rem; }
+    .comment-text { font-size: 0.92rem; color: #475569; line-height: 1.5; word-break: break-word; }
+    .comment-num { font-size: 0.78rem; color: #cbd5e1; font-weight: 700; }
+    .no-comments { text-align: center; color: #94a3b8; font-style: italic; padding: 24px 0; font-size: 0.92rem; }
+
+    /* 6. 个人中心精细布局 */
+    .profile-card { background: linear-gradient(to bottom right, #f8fafc, #f1f5f9); border-radius: 12px; padding: 24px; margin-bottom: 28px; border: 1px solid #e2e8f0; }
+    .profile-card label { font-size: 0.85rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 6px; }
+    .profile-card .username-display { font-size: 1.4rem; font-weight: 700; color: #0f172a; margin-bottom: 12px; }
+    .profile-card .username-input { display: flex; gap: 8px; margin-top: 8px; }
+    .profile-card input[type=text] { padding: 8px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.92rem; width: 100%; max-width: 240px; }
+    .profile-card input[type=text]:focus { outline: none; border-color: #3b82f6; }
+    .profile-card .uname-btn { padding: 8px 16px; background: #0f172a; color: white; border: none; border-radius: 6px; font-size: 0.88rem; cursor: pointer; transition: background 0.2s; }
+    .profile-card .uname-btn:hover { background: #334155; }
+    .profile-card .hint { font-size: 0.78rem; color: #94a3b8; margin-top: 8px; }
+    
+    /* 7. 历史足迹流 */
+    .history-item { display: flex; flex-direction: column; padding: 14px 16px; background: #f8fafc; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #64748b; border: -1px solid #e2e8f0; }
+    .history-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; margin-bottom: 6px; }
+    .history-page a { color: #2563eb; text-decoration: none; font-weight: 600; cursor: pointer; }
+    .history-page a:hover { text-decoration: underline; }
+    
+    #myPage{display:none}
+    .my-header{margin-bottom:20px}
+    .history-num{font-weight:600;color:#4a6cf7;font-size:0.82rem}
+    .history-page a{color:#4a6cf7;text-decoration:none;font-weight:500;font-size:0.9rem;cursor:pointer}
+    .history-page a:hover{text-decoration:underline}
+    .history-time{color:#999;font-size:0.78rem}
+    .history-text{width:100%;margin-top:4px;font-size:0.9rem;color:#444}
+    @media(max-width:600px){body{padding:16px 10px}.container{padding:16px}.nav-bar a{padding:6px 10px;font-size:0.78rem}h1{font-size:1.4rem}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="nav-bar" id="navBar"></div>
+  <div id="mainPage"></div>
+  <div id="myPage"></div>
+  <div class="footer">Powered by MiniWebServer SPA</div>
+</div>
+
+<script src="/static/spa.js"></script>
+</body>
+</html>
