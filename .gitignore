@@ -1,3 +1,4 @@
 build/
 demoTest/
 src/tools/webserver/**/*.txt
+api/**/*.txt

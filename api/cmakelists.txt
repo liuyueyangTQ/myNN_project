@@ -22,8 +22,30 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-
 include(${CMAKE_SOURCE_DIR}/cmake/nnhelper.cmake) # 引入nn辅助构建工具，帮助构建 nn 神经网络 QT 前端
+
+add_executable(nn_webserver
+    ${CMAKE_CURRENT_SOURCE_DIR}/nn_webserver/nn_webserver_api.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/nn_webserver/nn_webserver.cpp
+    ${TOOLS_DIR}/json/json_tool.cpp
+)
+add_nn_support(nn_webserver
+    MAIN_DIR    
+        ${CORE_DIR} # 为 src/core
+    DEFINES
+        USE_DEBUG 
+        USE_THREAD
+        DEBUG_ASSERT_H
+    INCLUDES
+        ${CMAKE_SOURCE_DIR}/api
+    LINKS
+        math_libs
+)
+add_web_support(nn_webserver)
+add_json_support(nn_webserver
+    FILE_DIR
+        "${CMAKE_CURRENT_SOURCE_DIR}/nn_webserver"
+)
 
 add_executable(QT_api 
     ${CMAKE_CURRENT_SOURCE_DIR}/api.cpp
