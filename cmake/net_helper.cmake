@@ -10,7 +10,7 @@ function(add_netService_support TARGET_NAME)
     if(WIN32)
         message(STATUS "为 Windows 平台设置网络服务支持")
         target_include_directories(${TARGET_NAME} PRIVATE
-            ${CMAKE_SOURCE_DIR}/src/tools/netService
+            ${TOOLS_DIR}/netService
         )
         target_link_libraries(${TARGET_NAME} PRIVATE
             ${ARGS_LINKS}

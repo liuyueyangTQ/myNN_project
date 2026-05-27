@@ -6,7 +6,12 @@ function(add_json_support TARGET_NAME)
     cmake_parse_arguments(ARGS "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
     
     # FILE_DIR 为必选参数
-    if(NOT ARGS_FILE_DIR)
+    get_target_property(target_type ${TARGET_NAME} TYPE) # 获取目标类型（可执行文件、静态库等）
+    if(NOT target_type)
+        message(FATAL_ERROR "❌ 错误: 目标 ${TARGET_NAME} 不存在")
+    endif()
+    # 2. 如果是可执行文件，必须定义 FILE_DIR
+    if(target_type STREQUAL "EXECUTABLE" AND NOT ARGS_FILE_DIR)
         message(FATAL_ERROR 
             "❌ 错误: 调用 add_json_support 时未提供必选参数 FILE_DIR ！（应传入字符串类型）\n"
         )
@@ -23,6 +28,7 @@ function(add_json_support TARGET_NAME)
     if(TARGET jsoncpp_lib)
         message(STATUS "成功找到现代 Target: jsoncpp_lib")
     endif()
+
     # 包含头文件路径
     target_include_directories(${TARGET_NAME} PRIVATE 
         ${JsonCpp_INCLUDE_DIRS}
@@ -32,6 +38,7 @@ function(add_json_support TARGET_NAME)
     target_link_libraries(${TARGET_NAME} PRIVATE
         # jsoncpp_lib
         ${JsonCpp_LIBRARIES_DIR}/libjsoncpp_static.a
+        ${ARGS_LINKS}
     )
     target_compile_definitions(${TARGET_NAME} PRIVATE 
         HTML_FILE_DIR="${ARGS_FILE_DIR}"

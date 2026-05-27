@@ -31,9 +31,9 @@ endif()
 
 # 引入封装的函数文件
 include(${CMAKE_SOURCE_DIR}/cmake/basicTool_helper.cmake)
-include(${CMAKE_SOURCE_DIR}/cmake/nnhelper.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/nn_helper.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/protobuf_helper.cmake)
-include(${CMAKE_SOURCE_DIR}/cmake/openGLhelper.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/openGL_helper.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/net_helper.cmake)
 
 set(CORE_DIR "${CMAKE_SOURCE_DIR}/src/core")
@@ -60,6 +60,7 @@ add_library(math_libs STATIC ${MATH_LIB_SOURCES})
 target_compile_definitions(math_libs PUBLIC USE_DEBUG)
 # 指定包含文件路径
 target_include_directories(math_libs PUBLIC
+    ${CORE_DIR}/common
     ${CORE_DIR}/math
     ${CORE_DIR}/tensor
     ${CORE_DIR}/thread
@@ -69,8 +70,8 @@ target_include_directories(math_libs PUBLIC
 
 # ==== 生成 proto_libs 静态库 ====
 add_library(proto_libs STATIC
-    src/tools/protobuf/network.pb.cc
-    src/tools/protobuf/proto_utils.cpp
+    ${TOOLS_DIR}/protobuf/network.pb.cc
+    ${TOOLS_DIR}/protobuf/proto_utils.cpp
 )
 add_protobuf_support(proto_libs
     DEFINES
@@ -79,179 +80,19 @@ add_protobuf_support(proto_libs
         math_libs
 )
 
+# ==== 生成 json_net_libs 静态库 ====
+add_library(json_net_libs STATIC
+    ${TOOLS_DIR}/json/json_tool.cpp
+)
+add_json_support(json_net_libs
+    DEFINES
+        USE_DEBUG
+)
+
 # ==== 生成 netService_libs 静态库 ====
 add_library(netService_libs STATIC
-    src/tools/netService/server.cpp
+    ${TOOLS_DIR}/netService/server.cpp
 )
 
-# 设置 net_test 测试文件
-add_executable(net_test 
-    src/tools/netService/net_test.cpp
-)
-add_netService_support(net_test
-    DEFINES
-        USE_DEBUG
-    LINKS
-        netService_libs
-)
-
-# 设置 json_test 测试文件
-add_executable(json_test 
-    ${TOOLS_DIR}/json/json_test.cpp
-    ${TOOLS_DIR}/json/json_tool.cpp
-)
-add_json_support(json_test
-    DEFINES
-        USE_DEBUG
-    FILE_DIR
-        "${TOOLS_DIR}/json" # 要传入路径
-)
-
-# 设置 json_test 测试文件
-add_executable(webserver_test 
-    ${TOOLS_DIR}/json/json_tool.cpp
-    ${TOOLS_DIR}/webserver/webserver_test.cpp
-    ${TOOLS_DIR}/webserver/webserver.cpp
-)
-add_web_support(webserver_test)
-add_json_support(webserver_test
-    DEFINES
-        USE_DEBUG
-    FILE_DIR
-        "${TOOLS_DIR}/webserver" # 要传入路径
-)
-
-# 设置 Protobuf 测试文件
-add_executable(proto_test 
-    ${TOOLS_DIR}/protobuf/proto_test.cpp
-)
-add_protobuf_support(proto_test
-    INCLUDES 
-        ${TOOLS_DIR}/protobuf
-    LINKS
-        proto_libs
-)
-add_nn_support(proto_test
-    MAIN_DIR    
-        ${CORE_DIR}
-    DEFINES
-        USE_DEBUG 
-    LINKS
-        math_libs
-)
-
-# 设置 metrix_test 可执行文件
-add_executable(metrix_test ${CORE_DIR}/test/metrix_test.cpp)
-add_nn_support(metrix_test 
-    MAIN_DIR    
-        ${CORE_DIR}
-    DEFINES
-        USE_DEBUG 
-    LINKS
-        math_libs
-)
-
-add_executable(tensor_test ${CORE_DIR}/test/tensor_test.cpp)   
-add_nn_support(tensor_test 
-    MAIN_DIR    
-        ${CORE_DIR}
-    # 可选：追加自定义宏
-    DEFINES
-        USE_DEBUG 
-    # 链接库文件
-    LINKS
-        math_libs
-)
-
-add_executable(nn_test 
-    ${CORE_DIR}/test/tensor_test.cpp
-    ${CORE_DIR}/utils/buffer_util.cpp
-)  
-add_nn_support(nn_test 
-    MAIN_DIR    
-        ${CORE_DIR}
-    DEFINES
-        USE_DEBUG 
-        USE_THREAD
-    LINKS
-        math_libs
-)
-
-add_executable(thread_test 
-    ${CORE_DIR}/test/tensor_test.cpp
-    ${CORE_DIR}/utils/buffer_util.cpp
-)  
-add_nn_support(thread_test 
-    MAIN_DIR    
-        ${CORE_DIR}
-    DEFINES
-        USE_DEBUG 
-        USE_THREAD
-    LINKS
-        math_libs
-)
-
-add_executable(dtensor_test 
-    ${CORE_DIR}/test/dtensor_test.cpp
-)  
-add_nn_support(dtensor_test
-    MAIN_DIR    
-        ${CORE_DIR}
-    DEFINES
-        USE_DEBUG 
-        USE_THREAD
-        DEBUG_ASSERT_H
-    LINKS
-        math_libs
-)
-
-add_executable(memory_test 
-    ${CORE_DIR}/test/memory_test.cpp
-    ${CORE_DIR}/nn/nn.cpp
-)  
-add_nn_support(memory_test 
-    MAIN_DIR    
-        ${CORE_DIR}
-    DEFINES
-        USE_DEBUG 
-        USE_THREAD
-        DEBUG_ASSERT_H
-    LINKS
-        math_libs
-)
-
-add_executable(dnn_test 
-    ${CORE_DIR}/test/dnn_test.cpp
-    ${CORE_DIR}/nn/nn.cpp
-    ${CORE_DIR}/thread/threadpool.cpp
-)  
-add_nn_support(dnn_test 
-    MAIN_DIR    
-        ${CORE_DIR}
-    DEFINES
-        USE_DEBUG 
-        USE_THREAD
-        DEBUG_ASSERT_H
-    LINKS
-        math_libs
-)
-
-add_executable(draw_nn_test 
-    ${CORE_DIR}/test/draw_nn_test.cpp
-    ${CORE_DIR}/nn/model.cpp
-    ${CORE_DIR}/utils/buffer_util.cpp
-    ${CMAKE_SOURCE_DIR}/src/visual/buttons.cpp
-)  
-add_nn_support(draw_nn_test 
-    MAIN_DIR    
-        ${CORE_DIR}
-    DEFINES
-        USE_DEBUG 
-    INCLUDES
-        ${CMAKE_SOURCE_DIR}/inc
-    LINKS
-        math_libs
-)
-add_opengl_support(draw_nn_test)
-
+add_subdirectory(src)
 add_subdirectory(api)
