@@ -29,11 +29,32 @@ struct NNParams {
     int epochs;
     loss_type lstp;
     double lr;
-    NNParams() : lstp(loss_type::cross_entropy), epochs(1000), lr(0.001), thread_num(4), use_multithread(false), batch_size(4) {}
+    NNParams() : lstp(loss_type::cross_entropy), epochs(1000), lr(0.001), thread_num(4), model_type(nn_type::Linear_NN),
+        use_multithread(false), batch_size(4), layer_num(0) {}
     NNParams(const NNParams& other) : 
         model_type(other.model_type), layer_num(other.layer_num), layer_sizes(other.layer_sizes), layer_types(other.layer_types), 
         batch_size(other.batch_size), use_multithread(other.use_multithread), thread_num(other.thread_num), 
         epochs(other.epochs), lstp(other.lstp), lr(other.lr) {}
+    NNParams(NNParams&& other) {
+        model_type = other.model_type; layer_num = other.layer_num; 
+        layer_sizes = std::move(other.layer_sizes); layer_types = std::move(other.layer_types);
+        batch_size = other.batch_size; use_multithread = other.use_multithread; thread_num = other.thread_num; 
+        epochs = other.epochs; lstp = other.lstp; lr = other.lr;
+    }
+    NNParams& operator=(const NNParams& other) {
+        model_type = other.model_type; layer_num = other.layer_num; layer_sizes = other.layer_sizes; layer_types = other.layer_types; 
+        batch_size = other.batch_size; use_multithread = other.use_multithread; thread_num = other.thread_num; 
+        epochs = other.epochs; lstp = other.lstp; lr = other.lr;
+        return *this;
+    }
+    NNParams& operator=(const NNParams&& other) {
+        model_type = other.model_type; layer_num = other.layer_num; 
+        layer_sizes = std::move(other.layer_sizes); layer_types = std::move(other.layer_types);
+        batch_size = other.batch_size; use_multithread = other.use_multithread; thread_num = other.thread_num; 
+        epochs = other.epochs; lstp = other.lstp; lr = other.lr;
+        return *this;
+    }
+    void check();
 };
 class module_base;
 class model_data {
@@ -187,3 +208,10 @@ public:
 model_data run_model(const NNParams& params);
 
 } // namespace nn
+
+namespace dtensor {
+// Tools
+sub_type strToSubType(const std::string& st);
+
+std::string subTypeToStr(sub_type t);
+}

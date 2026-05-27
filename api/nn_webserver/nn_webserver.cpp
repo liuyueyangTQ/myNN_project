@@ -18,7 +18,6 @@ std::string nnhttpServer::readLocalWebFile(std::string relativePath) { // 读取
 }
 
 // ========== Keep-Alive Request Handler ==========
-// ========== Keep-Alive Request Handler ==========
 void nnhttpServer::handleClient(SOCKET s) {
     // Set receive timeout for keep-alive idle detection
     int tv = KEEPALIVE_TIMEOUT_MS;
@@ -104,62 +103,28 @@ void nnhttpServer::handleClient(SOCKET s) {
         // ---- Route: POST /api/nn/train -> neural network training ----
         else if (req.method == "POST" && req.path == "/api/nn/train") {
             std::string body = urlDecode(req.body);
-            std::string layersStr, typesStr, lrStr, epochsStr, batchStr;
-            // Parse form fields: layers=N,N,N&types=T,T,T&lr=X&epochs=Y&batch=Z
-            auto extractField = [&](const std::string& field) -> std::string {
-                size_t p = body.find(field + "=");
-                if (p == std::string::npos) return "";
-                size_t start = p + field.size() + 1;
-                size_t end = body.find("&", start);
-                if (end == std::string::npos) end = body.size();
-                return body.substr(start, end - start);
-            };
-            layersStr = extractField("layers");
-            typesStr  = extractField("types");
-            lrStr     = extractField("lr");
-            epochsStr = extractField("epochs");
-            batchStr  = extractField("batch");
-            // Parse layers (comma-separated ints)
-            std::vector<int> layers;
-            {
-                std::istringstream iss(layersStr);
-                std::string token;
-                while (std::getline(iss, token, ',')) {
-                    if (!token.empty()) layers.push_back(std::atoi(token.c_str()));
-                }
-            }
-            // Parse types (comma-separated strings)
-            std::vector<std::string> types;
-            {
-                std::istringstream iss(typesStr);
-                std::string token;
-                while (std::getline(iss, token, ',')) {
-                    if (!token.empty()) types.push_back(token);
-                }
-            }
-            double lr = lrStr.empty() ? 0.01 : std::atof(lrStr.c_str());
-            int epochs = epochsStr.empty() ? 100 : std::atoi(epochsStr.c_str());
-            int batchSize = batchStr.empty() ? 32 : std::atoi(batchStr.c_str());
-            std::cout << "[NN Train] layers: " << layersStr
-                      << " types: " << typesStr
-                      << " lr: " << lr << " epochs: " << epochs
-                      << " batch: " << batchSize << std::endl;
-            // ---- Placeholder: call nn.h training interface ----
-            // TODO: implement nn_train() in nn.h with signature:
-            //   std::string nn_train(const std::vector<int>& layers,
-            //        const std::vector<std::string>& types,
-            //        double lr, int epochs, int batchSize);
-            // std::string result = nn_train(layers, types, lr, epochs, batchSize);
-            // ---- Return placeholder success JSON ----
-            std::string json = "{\"success\":true,\"message\":\"Training completed (placeholder)\",\"layers\":[";
-            for (size_t i = 0; i < layers.size(); ++i) {
+            nn::NNParams params = get_model_params(body); // 模型参数
+            // 检查模型参数合法性
+            params.check();
+            // 执行相应的 ResNet/LinearNN 训练函数
+            nn::model_data res = nn::run_model(params);
+            res.check_model(); // 检查模型输出的正确性
+
+            // ---- Return success JSON ----
+            std::string json = "{\"success\":true,\"message\":\"Training completed\",\"layers\":[";
+            for (size_t i = 0; i < params.layer_sizes.size(); ++i) {
                 if (i > 0) json += ",";
-                json += "{\"neurons\":" + std::to_string(layers[i])
-                     + ",\"type\":\"" + jsonEscape(types.size() > i ? types[i] : "relu") + "\"}";
+                std::string typeStr = (i < params.layer_types.size())
+                    ? dtensor::subTypeToStr(params.layer_types[i]) : "origin";
+                json += "{\"neurons\":" + std::to_string(params.layer_sizes[i])
+                     + ",\"type\":\"" + jsonEscape(typeStr) + "\"}";
             }
-            json += "],\"lr\":" + std::to_string(lr)
-                 + ",\"epochs\":" + std::to_string(epochs)
-                 + ",\"batchSize\":" + std::to_string(batchSize) + "}";
+            json += "],\"lr\":" + std::to_string(params.lr)
+                 + ",\"epochs\":" + std::to_string(params.epochs)
+                 + ",\"batchSize\":" + std::to_string(params.batch_size)
+                 + ",\"multithread\":" + std::string(params.use_multithread ? "true" : "false")
+                 + ",\"threadNum\":" + std::to_string(params.thread_num)
+                 + ",\"model\":\"" + std::string(params.model_type == nn::nn_type::Linear_Resnet ? "LinearResnet" : "LinearNN") + "\"}";
             resp = httpResponse(200, "OK", json, "application/json; charset=utf-8", setCookie, keepAlive);
         }
         // ---- 404 ----
@@ -172,6 +137,42 @@ void nnhttpServer::handleClient(SOCKET s) {
         send(s, resp.c_str(), resp.size(), 0);
     }
     closesocket(s);
+}
+
+// Parse form fields and url.body: 
+nn::NNParams nnhttpServer::get_model_params(const std::string& body) {
+    nn::NNParams params;
+    // Parse model_type
+    std::string mt = extractField("model_type", body);
+    if (mt == "LinearResnet") 
+        params.model_type = nn::nn_type::Linear_Resnet;
+    // Parse layers (comma-separated ints)
+    std::string layersStr = extractField("layers", body);
+    {
+        std::istringstream iss(layersStr);
+        std::string token;
+        while (std::getline(iss, token, ','))
+            if (!token.empty()) 
+                params.layer_sizes.push_back(std::atoi(token.c_str()));
+        params.layer_num = params.layer_sizes.size();
+    }
+    // Parse types (comma-separated strings -> dtensor::sub_type)
+    std::string typesStr = extractField("types", body);
+    {
+        std::istringstream iss(typesStr);
+        std::string token;
+        while (std::getline(iss, token, ','))
+            if (!token.empty()) 
+                params.layer_types.push_back(dtensor::strToSubType(token));
+    }
+
+    std::string lrStr     = extractField("lr", body);      
+    std::string epochsStr = extractField("epochs", body);   
+    std::string batchStr  = extractField("batch", body);
+    params.lr         = lrStr.empty()     ? 0.001 : std::atof(lrStr.c_str());
+    params.epochs     = epochsStr.empty() ? 1000  : std::atoi(epochsStr.c_str());
+    params.batch_size = batchStr.empty()  ? 4     : (size_t)std::atoi(batchStr.c_str());
+    return params;
 }
 
 std::string nnhttpServer::httpResponse(int code, const std::string &text, const std::string &body,
@@ -291,7 +292,11 @@ bool nnhttpServer::writeFile(const std::string &path, const std::string &content
     return true;
 }
 
-void nnhttpServer::ensureDataDir() { _mkdir(std::string(DATA_DIR).c_str()); }
+void nnhttpServer::ensureDataDir() {
+    _mkdir((this->basic_path + DATA_DIR).c_str());
+    _mkdir((this->basic_path + DATA_DIR + "/comments").c_str());
+    _mkdir((this->basic_path + DATA_DIR + "/users").c_str());
+}
 // ========== User System ==========
 std::string nnhttpServer::generateUid() {
     srand(time(nullptr) + rand());
@@ -303,7 +308,7 @@ std::string nnhttpServer::generateUid() {
 }
 
 std::string nnhttpServer::userFilePath(const std::string &uid) {
-    return this->basic_path + DATA_DIR + "/user_" + uid + ".txt";
+    return this->basic_path + DATA_DIR + "/users/user_" + uid + ".txt";
 }
 
 std::string nnhttpServer::getUserName(const std::string &uid) {
@@ -348,6 +353,15 @@ std::string nnhttpServer::urlDecode(const std::string &src) {
         else { out += src[i]; }
     }
     return out;
+}
+
+std::string nnhttpServer::extractField(const std::string& field, const std::string& body) {
+    size_t p = body.find(field + "=");
+    if (p == std::string::npos) return "";
+    size_t start = p + field.size() + 1;
+    size_t end = body.find("&", start);
+    if (end == std::string::npos) end = body.size();
+    return body.substr(start, end - start);
 }
 
 std::string nnhttpServer::htmlEscape(const std::string &s) {
@@ -407,7 +421,7 @@ std::string nnhttpServer::pageShortLabel(int n) {
 }
 
 std::string nnhttpServer::commentFile(int page) {
-    return this->basic_path +  DATA_DIR + "comments_" + std::to_string(page) + ".txt";
+    return this->basic_path +  DATA_DIR + "/comments/comments_" + std::to_string(page) + ".txt";
 }
 
 // Ensure user identified via cookie, return uid and set-cookie header if new
@@ -438,33 +452,54 @@ std::string nnhttpServer::contentHTML(int n) {
         R"HTML(<div class="article"><div class="meta">发表于 2026-05-23 · 语言对比</div><h2>Swift / Kotlin 基本特性</h2><p>Swift 和 Kotlin 分别是 Apple 和 Google 力推的现代编程语言，两者在许多设计理念上不谋而合，都强调安全性、表达力和开发者体验。</p><p><b>Swift 特性：</b>Optional 类型安全处理 nil，编译器强制解包检查；Struct 是值类型，避免不必要的堆分配；Protocol 支持面向协议编程，比类继承更灵活；Closure 是一等公民，支持尾随闭包语法；枚举可以关联值和方法。Swift 的 ARC 自动管理内存，不需要 GC。</p><p><b>Kotlin 特性：</b>空安全（Nullable/NonNull 类型系统在编译期消除 NullPointerException）；数据类（data class）自动生成 equals/hashCode/toString；扩展函数可以为已有类添加新方法；协程（Coroutines）用同步的方式写异步代码；密封类（sealed class）定义受限的类层次结构。</p><p><b>两者的共同点：</b>都运行在各自的虚拟机上（Swift 运行在 LLVM 之上，Kotlin 运行在 JVM），都支持与旧语言（ObjC/Java）的互操作，都有现代化的包管理工具（Swift Package Manager / Gradle），都强调不可变性（val/let 关键字）。</p><p><b>适用场景：</b>Swift 主要用于 Apple 生态（iOS/macOS/tvOS/watchOS），Kotlin 主要用于 Android 开发，但 Kotlin Multiplatform 正在让 Kotlin 走进后端和全栈领域。</p></div>)HTML",
         R"HTML(<div class="article"><div class="meta">发表于 2026-05-23 · 前端入门</div><h2>JavaScript 与网页前端开发</h2><p>JavaScript 是 Web 前端的基石，与 HTML、CSS 并称为前端三剑客。随着 Node.js 的出现，JavaScript 已经可以运行在服务器端，成为全栈语言。</p><p><b>语言基础：</b>JavaScript 是动态类型、基于原型的语言。ES6 引入了 let/const、箭头函数、模板字符串、解构赋值、模块化（import/export）等现代特性。理解闭包（Closure）、作用域链和事件循环（Event Loop）是进阶的关键。</p><p><b>异步编程：</b>从回调函数到 Promise，再到 async/await，JavaScript 的异步模型不断演进。async/await 让异步代码看起来像同步代码，极大提升了可读性。fetch API 是现代浏览器中发起 HTTP 请求的标准方式。</p><p><b>DOM 操作：</b>document.getElementById、querySelector 用于查找元素；addEventListener 绑定事件；createElement 和 appendChild 动态创建和插入节点。现代框架通常封装了这些操作，但理解原生 DOM API 仍然是基本功。</p><p><b>主流框架：</b>React（组件化、虚拟 DOM、Hooks）、Vue（响应式数据、模板语法、渐进式框架）、Angular（TypeScript 为基础、依赖注入、完整生态）。三者各有优劣，选择取决于项目规模和团队偏好。</p><p><b>工程化：</b>Webpack/Vite 模块打包、Babel 语法转译、ESLint 代码检查、Prettier 格式化、Jest 单元测试。构建工具链是现代前端开发不可或缺的一部分。</p></div>)HTML",
         R"NN7(<div class="nn-page">
-  <div class="nn-controls">
-    <div class="nn-param-group">
-      <label>网络层数 <span id="nnLayersVal">3</span></label>
-      <input type="range" id="nnLayers" min="2" max="8" value="3" oninput="updateNNPreview()">
-    </div>
-    <div id="nnLayerConfigs"></div>
-    <div class="nn-param-row">
-      <div class="nn-param-group">
-        <label>学习率</label>
-        <input type="number" id="nnLR" value="0.01" step="0.001" min="0.0001" max="1">
-      </div>
-      <div class="nn-param-group">
-        <label>训练轮数</label>
-        <input type="number" id="nnEpochs" value="100" step="10" min="1" max="10000">
-      </div>
-      <div class="nn-param-group">
-        <label>批次大小</label>
-        <input type="number" id="nnBatchSize" value="32" step="1" min="1" max="1024">
-      </div>
-    </div>
-    <button class="nn-train-btn" onclick="trainNN()">开始训练</button>
-  </div>
-  <div class="nn-canvas-wrap">
-    <canvas id="nnCanvas" width="760" height="420"></canvas>
-  </div>
-  <div id="nnResult" class="nn-result" style="display:none"></div>
-</div>)NN7"
+        <div class="nn-controls">
+            <div class="nn-param-row">
+            <div class="nn-param-group">
+                <label>模型类型</label>
+                <select id="nnModelType">
+                <option value="LinearNN">LinearNN</option>
+                <option value="LinearResnet">LinearResnet</option>
+                </select>
+            </div>
+            <div class="nn-param-group">
+                <label>网络层数 <span id="nnLayersVal">3</span></label>
+                <input type="range" id="nnLayers" min="2" max="8" value="3" oninput="updateNNPreview()">
+            </div>
+            </div>
+            <div id="nnLayerConfigs"></div>
+            <div class="nn-param-row">
+            <div class="nn-param-group">
+                <label>学习率</label>
+                <input type="number" id="nnLR" value="0.001" step="0.0001" min="0.00001" max="1">
+            </div>
+            <div class="nn-param-group">
+                <label>训练轮数</label>
+                <input type="number" id="nnEpochs" value="1000" step="100" min="1" max="100000">
+            </div>
+            <div class="nn-param-group">
+                <label>批次大小</label>
+                <input type="number" id="nnBatchSize" value="4" step="1" min="1" max="1024">
+            </div>
+            </div>
+            <div class="nn-param-row">
+            <div class="nn-param-group">
+                <label style="display:flex;align-items:center;gap:6px">
+                <input type="checkbox" id="nnUseMT" onchange="toggleThreadNum()" style="width:auto;accent-color:#3b82f6">
+                多线程训练
+                </label>
+            </div>
+            <div class="nn-param-group" id="nnThreadGroup" style="display:none">
+                <label>线程数</label>
+                <input type="number" id="nnThreadNum" value="4" step="1" min="1" max="32">
+            </div>
+            </div>
+            <button class="nn-train-btn" onclick="trainNN()">开始训练</button>
+        </div>
+        <div class="nn-canvas-wrap">
+            <canvas id="nnCanvas" width="760" height="420"></canvas>
+        </div>
+        <div id="nnResult" class="nn-result" style="display:none"></div>
+        </div>)NN7"
     };
     if (n >= 1 && n <= total_pages) return c[n-1];
     return "";

@@ -70,6 +70,9 @@ private:
     std::string resolveUser(const std::string &cookieHeader, std::string &outUid, std::string &outSetCookie);
     int extractTrailingNum(const std::string &path);
     HttpRequest parseRequest(const std::string &raw);
+    std::string extractField(const std::string& field, const std::string& body);
+    // === nn Utils ==
+    nn::NNParams get_model_params(const std::string& body); // 模型参数
 
 public:
     nnhttpServer(std::string basic_path) : html_agent(basic_path) {

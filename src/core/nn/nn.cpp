@@ -5,7 +5,19 @@
 #include"nn.h"
 namespace nn{
 using namespace dtensor;
-
+void NNParams::check() {
+    std::cout << "====== Checking NN Parameters: ======\n";
+    std::cout << "Model type is: " << (model_type == nn_type::Linear_NN ? "LinearNN" : "Linear_ResNet") << "\n"; 
+    assert(batch_size == thread_num);
+    assert(layer_sizes.size() == layer_num);
+    std::cout << "layer_num is: " << layer_num << "\n";
+    std::cout << "Batch Size is: " << batch_size << "\n";
+    std::cout << "Thread Num is: " << thread_num << "\n"; 
+    std::cout << "Using Multithread Training: " << (use_multithread ? "[Yes]" : "[No]") << "\n";
+    std::cout << "Layer Sizes: "; for(int i = 0; i < layer_num; ++i) std::cout << layer_sizes[i] << ' '; std::cout << "\n";
+    std::cout << "Layer Types: "; for(int i = 0; i < layer_num; ++i) std::cout << (static_cast<int>(layer_types[i])) << ' '; std::cout << "\n";
+    std::cout << "====== Finished checking! ======\n";
+}
 module_base* model_data::get_model() {
     return this->model_ptr;
 }
@@ -916,3 +928,28 @@ model_data run_model(const NNParams& params) {
 }
 
 } // namespace nn
+
+namespace dtensor {
+// Tools
+sub_type strToSubType(const std::string& st) {
+    if (st == "relu")       return sub_type::relu;
+    if (st == "sigmoid")    return sub_type::sigmoid;
+    if (st == "softmax")    return sub_type::softmax;
+    if (st == "layer_norm") return sub_type::layer_norm;
+    if (st == "none")       return sub_type::none;
+    return sub_type::origin;
+}
+
+std::string subTypeToStr(sub_type t) {
+    switch (t) {
+        case sub_type::origin:     return "origin";
+        case sub_type::relu:       return "relu";
+        case sub_type::sigmoid:    return "sigmoid";
+        case sub_type::softmax:    return "softmax";
+        case sub_type::layer_norm: return "layer_norm";
+        case sub_type::none:       return "none";
+        default: return "origin";
+    }
+}
+
+}
