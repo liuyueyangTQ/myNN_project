@@ -155,6 +155,7 @@ nn::NNParams nnhttpServer::get_model_params(const std::string& body) {
             if (!token.empty()) 
                 params.layer_sizes.push_back(std::atoi(token.c_str()));
         params.layer_num = params.layer_sizes.size();
+        params.input_output_dim = {params.layer_sizes.front(), params.layer_sizes.back()};
     }
     // Parse types (comma-separated strings -> dtensor::sub_type)
     std::string typesStr = extractField("types", body);
@@ -493,14 +494,14 @@ std::string nnhttpServer::contentHTML(int n) {
                 <input type="number" id="nnThreadNum" value="4" step="1" min="1" max="32">
             </div>
             </div>
-            <button class="nn-train-btn" onclick="trainNN()">开始训练</button>
+            <button class="nn-train-btn">开始训练</button>   
         </div>
         <div class="nn-canvas-wrap">
             <canvas id="nnCanvas" width="760" height="420"></canvas>
         </div>
         <div id="nnResult" class="nn-result" style="display:none"></div>
         </div>)NN7"
-    };
+    };  /* line 497 的 <button class="nn-train-btn">开始训练</button> onclick="trainNN()" 绑定训练应该去掉，转而在 JavaScript 中绑定 */
     if (n >= 1 && n <= total_pages) return c[n-1];
     return "";
 }

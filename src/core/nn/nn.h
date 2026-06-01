@@ -7,6 +7,7 @@
 #include<chrono>
 #include<thread>
 #include"enum_type.h"
+#include"tools.h"
 namespace dtensor{
 class layer;
 class dtensor_base;
@@ -28,23 +29,27 @@ struct NNParams {
     size_t thread_num;
     int epochs;
     loss_type lstp;
+    std::pair<size_t, size_t> input_output_dim; // 输入输出维度 (input_dim, output_dim)
+    size_t samples; // 样本总数
     double lr;
     NNParams() : lstp(loss_type::cross_entropy), epochs(1000), lr(0.001), thread_num(4), model_type(nn_type::Linear_NN),
-        use_multithread(false), batch_size(4), layer_num(0) {}
+        use_multithread(false), batch_size(4), layer_num(0), input_output_dim({0, 0}), samples(100) {}
     NNParams(const NNParams& other) : 
         model_type(other.model_type), layer_num(other.layer_num), layer_sizes(other.layer_sizes), layer_types(other.layer_types), 
         batch_size(other.batch_size), use_multithread(other.use_multithread), thread_num(other.thread_num), 
-        epochs(other.epochs), lstp(other.lstp), lr(other.lr) {}
+        epochs(other.epochs), lstp(other.lstp), lr(other.lr), input_output_dim(other.input_output_dim), samples(other.samples) {}
     NNParams(NNParams&& other) {
         model_type = other.model_type; layer_num = other.layer_num; 
         layer_sizes = std::move(other.layer_sizes); layer_types = std::move(other.layer_types);
         batch_size = other.batch_size; use_multithread = other.use_multithread; thread_num = other.thread_num; 
         epochs = other.epochs; lstp = other.lstp; lr = other.lr;
+        input_output_dim = other.input_output_dim; samples = other.samples;
     }
     NNParams& operator=(const NNParams& other) {
         model_type = other.model_type; layer_num = other.layer_num; layer_sizes = other.layer_sizes; layer_types = other.layer_types; 
         batch_size = other.batch_size; use_multithread = other.use_multithread; thread_num = other.thread_num; 
         epochs = other.epochs; lstp = other.lstp; lr = other.lr;
+        input_output_dim = other.input_output_dim; samples = other.samples;
         return *this;
     }
     NNParams& operator=(const NNParams&& other) {
@@ -52,6 +57,7 @@ struct NNParams {
         layer_sizes = std::move(other.layer_sizes); layer_types = std::move(other.layer_types);
         batch_size = other.batch_size; use_multithread = other.use_multithread; thread_num = other.thread_num; 
         epochs = other.epochs; lstp = other.lstp; lr = other.lr;
+        input_output_dim = other.input_output_dim; samples = other.samples;
         return *this;
     }
     void check();

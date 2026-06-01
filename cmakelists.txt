@@ -51,6 +51,7 @@ file(GLOB MATH_LIB_SOURCES
     ${CORE_DIR}/tensor/ops.cpp
     ${CORE_DIR}/thread/threadpool.cpp
     ${CORE_DIR}/nn/nn.cpp
+    ${CORE_DIR}/nn/tools.cpp
     ${CORE_DIR}/utils/buffer_util.cpp
 )
 
