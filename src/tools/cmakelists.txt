@@ -1,0 +1,26 @@
+add_executable(echo_server 
+    rpc/echo_server.cpp
+    rpc/protos/echo_test.grpc.pb.cc
+    rpc/protos/echo_test.pb.cc
+)
+add_grpc_support(echo_server
+    DEFINES
+        USE_DEBUG 
+    INCLUDES
+        ${CMAKE_CURRENT_SOURCE_DIR}/rpc
+    PROTO_DIR
+        ${CMAKE_CURRENT_SOURCE_DIR}/rpc/protos
+)
+add_executable(echo_client 
+    rpc/echo_client.cpp
+    rpc/protos/echo_test.grpc.pb.cc
+    rpc/protos/echo_test.pb.cc
+)
+add_grpc_support(echo_client
+    DEFINES
+        USE_DEBUG 
+    INCLUDES
+        ${CMAKE_CURRENT_SOURCE_DIR}/rpc
+    PROTO_DIR
+        ${CMAKE_CURRENT_SOURCE_DIR}/rpc/protos
+)

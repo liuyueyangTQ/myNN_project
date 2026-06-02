@@ -17,6 +17,7 @@ private:
     nn_proto::Network net_proto; // 存储网络结构的protobuf对象
 public:
     void get_binary(std::string&& data);
+    void get_binary(const std::string& data);
     void get_binary(char* data, size_t len);
     void train_model(const nn::NNParams& params);
     void metrix2proto(const base::metrix_float& m, nn_proto::WeightMetrix& w_proto);

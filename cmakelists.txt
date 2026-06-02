@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 project(Metrix_test)
 
 # 设置C++标准
@@ -9,8 +9,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # 🔥 强制开启 Release 模式
 set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type" FORCE)
 # 🔥 开启最高级优化
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -march=native")
-
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2")
+# o3 可能会导致 gRPC 内部的某些代码（尤其是与内存管理相关的）出现问题，建议先用 O2 验证功能正确，再尝试 O3。！！！！！
+# 必须去掉 -march=native，否则会导致在不同 CPU 上运行时出现非法指令错误（因为编译时启用了特定于当前 CPU 的指令集）。如果需要最高优化，建议使用 -O3 -flto，但要确保所有依赖库也使用相同的编译选项。
 # 2. 强制为 C/C++ 设置 Debug 模式的编译选项（覆盖默认，确保 -g -O0 生效）
 # 针对 C++ 文件
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -O0")
@@ -31,6 +32,7 @@ endif()
 
 # 引入封装的函数文件
 include(${CMAKE_SOURCE_DIR}/cmake/basicTool_helper.cmake)
+include(${CMAKE_SOURCE_DIR}/cmake/grpc_helper.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/nn_helper.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/protobuf_helper.cmake)
 include(${CMAKE_SOURCE_DIR}/cmake/openGL_helper.cmake)

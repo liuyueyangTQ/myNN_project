@@ -3,6 +3,9 @@ namespace proto {
 void proto_utils::get_binary(std::string&& data) {
     this->binary_data = std::move(data);
 }
+void proto_utils::get_binary(const std::string& data) {
+    this->binary_data = data;
+}
 void proto_utils::get_binary(char* data, size_t len) {
     this->binary_data.assign(data, len);
 }

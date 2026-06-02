@@ -1,0 +1,22 @@
+﻿// echo_test.proto — 最简 gRPC 连通性测试
+//
+// 编译：protoc -I. --cpp_out=. --grpc_out=. --plugin=protoc-gen-grpc=<插件路径> echo_test.proto
+syntax = "proto3";
+
+package echo_test;
+
+message EchoRequest {
+    string message = 1;
+    int32  count   = 2;
+}
+
+message EchoResponse {
+    string reply        = 1;
+    int32  doubled_count = 2;
+}
+
+service EchoService {
+    rpc Echo(EchoRequest) returns (EchoResponse);
+}
+
+// protoc -I. --grpc_out=. --plugin=protoc-gen-grpc="C:/Tools/grpc-1.81.0/grpc_install/bin/grpc_cpp_plugin.exe" echo_test.proto

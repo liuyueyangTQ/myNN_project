@@ -3,6 +3,21 @@ include(${CMAKE_SOURCE_DIR}/cmake/QT_helper.cmake)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
+# 设置QT工具源路径
+set(QT_SRC_DIR "C:/Qt/6.10.1")
+# 添加 Qt6 安装路径
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU") 
+    # 适配 GCC (MinGW)
+    message(STATUS "Detected GCC: Using standard mingw_64 path")
+    set(CMAKE_PREFIX_PATH "C:/Qt/6.10.1/mingw_64")
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    # 适配 Clang (包括 Clang-cl 或 llvm-mingw)
+    message(STATUS "Detected Clang: Using llvm-mingw_64 path")
+    set(CMAKE_PREFIX_PATH "C:/Qt/6.10.1/llvm-mingw_64")
+else()
+    message(WARNING "Unknown compiler: ${CMAKE_CXX_COMPILER_ID}. Defaulting to mingw_64")
+    set(CMAKE_PREFIX_PATH "C:/Qt/6.10.1/mingw_64")
+endif()
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets)
 
 add_executable(nn_webserver
@@ -52,3 +67,4 @@ add_nn_support(QT_api
 )
 
 add_subdirectory(nn_communication)
+add_subdirectory(nn_grpc_service)

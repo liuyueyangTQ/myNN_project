@@ -1,0 +1,81 @@
+﻿syntax = "proto3";
+
+package nn_proto;
+
+// 婵€娲诲嚱鏁扮被鍨?
+enum ActivationType {
+    ACT_ORIGIN = 0;
+    ACT_RELU = 1;
+    ACT_SIGMOID = 2;
+    ACT_SOFTMAX = 3;
+    ACT_LAYERNORM = 4;
+    ACT_NONE = 5;
+}
+
+// 鍗曚釜鏉冮噸鐭╅樀 W
+message WeightMetrix {
+    int32 rows = 1;
+    int32 cols = 2;
+    bytes data = 3;
+}
+
+// 涓€灞傜綉缁?
+message Layer {
+    int32 neuron_count = 1;
+    ActivationType activation = 2;
+    bytes b = 3;
+}
+
+// 鏁翠釜绁炵粡缃戠粶
+message Network {
+    int32 layer_count = 1;
+    repeated Layer layers = 2;
+    repeated WeightMetrix metrixs = 3;
+}
+
+// protoc --cpp_out=. network.proto
+
+
+// =============================================================
+//  gRPC 训练服务 —— 基于以上 Network 编码的远程训练接口
+// =============================================================
+
+// ---- 模型类型枚举 ----
+enum ModelType {
+    MODEL_LINEAR_NN     = 0;
+    MODEL_LINEAR_RESNET = 1;
+}
+
+// ---- 损失函数枚举 ----
+enum LossType {
+    LOSS_CROSS_ENTROPY = 0;
+    LOSS_MSE           = 1;
+}
+
+// ---- 训练请求（完整对应 C++ 端 NNParams） ----
+message TrainRequest {
+    ModelType model_type           = 1;
+    repeated int32 layer_sizes     = 2;
+    repeated ActivationType layer_activations = 3;
+    int32 batch_size               = 4;
+    bool use_multithread           = 5;
+    int32 thread_num               = 6;
+    int32 epochs                   = 7;
+    LossType loss                  = 8;
+    int32 input_dim                = 9;
+    int32 output_dim               = 10;
+    int32 samples                  = 11;
+    double lr                      = 12;
+}
+
+// ---- 训练响应：成功时直接返回已序列化的 Network ----
+message TrainResponse {
+    bool success       = 1;
+    string message     = 2;
+    bytes network_data = 3;   // Network 序列化后的二进制，可直接 ParseFromString
+}
+
+// ---- gRPC 服务定义 ----
+service NNTrainer {
+    rpc RunModel(TrainRequest) returns (TrainResponse);
+}

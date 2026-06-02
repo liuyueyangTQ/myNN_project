@@ -168,3 +168,4 @@ add_nn_support(draw_nn_test
         math_libs
 )
 add_opengl_support(draw_nn_test)
+add_subdirectory(${TOOLS_DIR})
