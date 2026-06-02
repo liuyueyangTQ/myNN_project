@@ -13,6 +13,9 @@ int main() {
     params.batch_size = 4;
     params.epochs = 1000;
     params.lr = 0.001;
+    params.lstp = loss_type::cross_entropy;
+    params.input_output_dim = {10, 5};
+    params.samples = 100;
     proto_utils agent1;
     agent1.train_model(params);
     agent1.network2proto();
@@ -29,5 +32,16 @@ int main() {
     agent2.print_network();
     std::cout << "The binary data string is:\n";
     agent2.print_binary();
+    
+    // 测试保存和加载模型
+    std::cout << "====== Testing model saving and loading ======\n";
+    std::string filepath = "saved_model.bin";
+    agent1.save_model(filepath);
+    std::cout << "Model saved to " << filepath << std::endl;
+    proto_utils agent3;
+    std::cout << "====== Loading model from file: " << filepath << " ======" << std::endl;
+    agent3.load_model(filepath, true);
+    std::cout << "Loaded model structure: \n";
+    agent3.print_network();
     return 0;
 }

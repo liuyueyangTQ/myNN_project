@@ -88,7 +88,6 @@ grpc::Status NNTrainerServiceImpl::RunModel(
         agent.network2proto();
         std::string binary = agent.get_binary();
 
-
         // 调试输出：显示网络结构和二进制数据
         std::cout << "net structure encoded as: \n";
         agent.print_network();
@@ -101,7 +100,6 @@ grpc::Status NNTrainerServiceImpl::RunModel(
         agent_test.print_network();
         std::cout << "The binary data string is:\n";
         agent_test.print_binary();
-
 
         // Step 5: 封装响应
         response->set_success(true);

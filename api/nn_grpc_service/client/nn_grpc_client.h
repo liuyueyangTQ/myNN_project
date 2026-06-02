@@ -13,6 +13,7 @@
 #include <string>
 #include "nn.h"
 #include "enum_type.h"
+#include "proto_utils.h"
 #include "network.grpc.pb.h"
 
 class NNTrainerGrpcClient {
@@ -22,8 +23,11 @@ public:
 
     // 发送训练请求，返回服务端响应（含序列化的 Network）
     nn_proto::TrainResponse RunModel(const nn_proto::TrainRequest& request);
-
+    void validate_model();
+    void save_model(const std::string& filepath);
+    void load_model(const std::string& filepath, bool decode = true);
 private:
+    proto::proto_utils proto_agent; // 用于本地存储模型数据和调试输出
     std::shared_ptr<grpc::Channel> channel_;
     std::unique_ptr<nn_proto::NNTrainer::Stub> stub_;
 };

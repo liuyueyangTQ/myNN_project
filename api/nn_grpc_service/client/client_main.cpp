@@ -79,13 +79,9 @@ int main(int argc, char* argv[]) {
     }
 
     // ---- 5. 反序列化 ----
-    LOG("[5/5] Deserializing...");
-    proto::proto_utils agent;
-    agent.get_binary(std::string(resp.network_data()));
-    agent.proto2network();
-    LOG("[5/5] Deserialization OK");
+    LOG("[5/5] Deserializing model...");
+    client.validate_model();
 
-    agent.print_network();
     LOG("Done.");
 
     printf("Press Enter...\n");

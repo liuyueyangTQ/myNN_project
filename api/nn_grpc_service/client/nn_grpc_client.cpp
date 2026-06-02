@@ -67,5 +67,31 @@ nn_proto::TrainResponse NNTrainerGrpcClient::RunModel(
         response.set_message("RPC error: " + status.error_message());
     }
 
+    // 本地存储模型
+    if (response.success()) {
+        this->proto_agent.get_binary(std::string(response.network_data()));
+    }
     return response;
+}
+
+void NNTrainerGrpcClient::validate_model() {
+    if (this->proto_agent.get_binary().empty()) {
+        std::cerr << "[gRPC Client] No model data to validate." << std::endl;
+        return;
+    }
+    this->proto_agent.proto2network();
+    std::cout << "------ Validating decoded network ------\n";
+    std::cout << "===== net structure decoded: ===== \n";
+    this->proto_agent.print_network();
+}
+
+void NNTrainerGrpcClient::save_model(const std::string& filepath) {
+    if (this->proto_agent.get_binary().empty()) {
+        std::cerr << "[gRPC Client] No model data to save." << std::endl;
+        return;
+    }
+    this->proto_agent.save_model(filepath);
+}
+void NNTrainerGrpcClient::load_model(const std::string& filepath, bool decode) {
+    this->proto_agent.load_model(filepath, decode);
 }

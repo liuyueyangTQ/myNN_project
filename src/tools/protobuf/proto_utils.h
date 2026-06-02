@@ -2,6 +2,7 @@
 #include <cassert>
 #include <vector>
 #include <string>
+#include <fstream>
 #include "network.pb.h"
 #include "metrix.h"
 #include "dtensor.h"
@@ -32,6 +33,8 @@ public:
     std::string get_binary();
     void print_network();
     void print_binary();
+    void save_model(const std::string& filepath);
+    void load_model(const std::string& filepath, bool decode = true);
 };
 
 }

@@ -164,4 +164,51 @@ void proto_utils::print_network() {
 void proto_utils::print_binary() {
     std::cout << binary_data << "\n";
 }
+
+// ================================================================
+// save_model — 将当前网络序列化后写入磁盘
+// ================================================================
+void proto_utils::save_model(const std::string& filepath) {
+    if (this->binary_data.empty()) {
+        this->network2proto();
+    }
+    std::ofstream ofs(filepath, std::ios::binary | std::ios::trunc);
+    if (!ofs.is_open()) {
+        std::cerr << "[proto_utils] save_model: cannot open " << filepath << std::endl;
+        return;
+    }
+    bool ok = this->net_proto.SerializeToOstream(&ofs);
+    ofs.close();
+    if (ok) {
+        std::cout << "[proto_utils] Model saved to " << filepath
+                  << " (" << this->binary_data.size() << " bytes)" << std::endl;
+    } else {
+        std::cerr << "[proto_utils] save_model: serialize failed" << std::endl;
+    }
+    return;
+}
+// ================================================================
+// load_model — 从磁盘读取 Network 并恢复到 model_data
+// ================================================================
+void proto_utils::load_model(const std::string& filepath, bool decode) {
+    std::ifstream ifs(filepath, std::ios::binary);
+    if (!ifs.is_open()) {
+        std::cerr << "[proto_utils] load_model: cannot open " << filepath << std::endl;
+        return;
+    }
+    this->net_proto.Clear();
+    bool ok = this->net_proto.ParseFromIstream(&ifs);
+    ifs.close();
+    if (!ok) {
+        std::cerr << "[proto_utils] load_model: parse failed" << std::endl;
+        return;
+    }
+    this->net_proto.SerializeToString(&this->binary_data);
+    if (decode) {
+        this->proto2network();
+    }
+    std::cout << "[proto_utils] Model loaded from " << filepath
+              << " (" << this->binary_data.size() << " bytes)" << std::endl;
+    return;
+}
 } // namespace proto
