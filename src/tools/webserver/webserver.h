@@ -74,6 +74,15 @@ public:
         this->basic_path = basic_path;
         this->total_pages = html_agent.get_page_nums();
         pageCaches = new PageCache[total_pages]();
+        for(int i = 0; i < total_pages; ++i) {
+            localPageContents.push_back(readLocalWebFile("/data/page_content/page_" + std::to_string(i + 1) + ".html"));
+        }
+        std::cout << "Server initialized with " << total_pages << " pages.\n";
+        for(int i = 0; i < total_pages; ++i) {
+            std::cout << "Page " << (i + 1) << " content is: " << localPageContents[i] << "\n";
+        }
     }
     void start_service();
+private:
+    std::vector<std::string> localPageContents; // 本地 HTML 内容缓存
 };
