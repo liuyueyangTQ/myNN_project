@@ -264,6 +264,7 @@ bool ParamWindow::parseLayerSizes(const QString& text) {
     // 正确后赋值
     this->params.layer_sizes = std::move(layer_size);
     this->params.layer_num = this->params.layer_sizes.size();
+    this->params.input_output_dim = {this->params.layer_sizes.front(), this->params.layer_sizes.back()};
     return true;
 }
 sub_type string_to_type(std::string str) {
@@ -364,7 +365,8 @@ void ParamWindow::onConfirmClicked() {
     int threadNum = m_threadEdit->text().toInt();
     this->params.thread_num = threadNum > 0 ? threadNum : 4; // 默认线程数为4
 
-    // 6. 封装参数（已经在校验函数中实现了）
+    // 6. 校验参数（已经在校验函数中实现了）
+    this->params.check();
 
     // 7. 发送信号（传递参数）+ 关闭窗口
     emit paramsConfirmed(this->params);
