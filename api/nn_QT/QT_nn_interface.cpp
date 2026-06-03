@@ -129,13 +129,37 @@ ParamWindow::ParamWindow(const QString& modelType, QWidget *parent)
     setMinimumWidth(500);
     setMaximumWidth(500);
     // 1. 创建控件
-    QLabel* layerLabel = new QLabel("Layer sizes (comma separated, e.g. 784,256,10):");
-    m_layerEdit = new QLineEdit(this);
-    m_layerEdit->setPlaceholderText("Example: 784,256,128,10");
+    // QLabel* layerLabel = new QLabel("Layer sizes (comma separated, e.g. 784,256,10):");
+    // m_layerEdit = new QLineEdit(this);
+    // m_layerEdit->setPlaceholderText("Example: 784,256,128,10");
+    // QLabel* actLabel = new QLabel("Activation function (ReLU/Sigmoid/Tanh):");
+    // m_actEdit = new QLineEdit(this);
+    // m_actEdit->setPlaceholderText("Example: ReLU");
 
-    QLabel* actLabel = new QLabel("Activation function (ReLU/Sigmoid/Tanh):");
-    m_actEdit = new QLineEdit(this);
-    m_actEdit->setPlaceholderText("Example: ReLU");
+    // ========== layer count slider ==========
+    QLabel* layerCountTitle = new QLabel("Number of layers (3-8):");
+    m_layerCountLabel = new QLabel("4", this);
+    m_layerCountLabel->setAlignment(Qt::AlignCenter);
+    m_layerCountLabel->setStyleSheet("font-size: 18px; font-weight: bold; color: #409eff;");
+
+    m_layerCountSlider = new QSlider(Qt::Horizontal, this);
+    m_layerCountSlider->setRange(3, 8);
+    m_layerCountSlider->setValue(4);
+    m_layerCountSlider->setTickPosition(QSlider::TicksBelow);
+    m_layerCountSlider->setTickInterval(1);
+
+    m_layersContainer = new QWidget(this);
+    m_layersLayout = new QVBoxLayout(m_layersContainer);
+    m_layersLayout->setSpacing(8);
+    m_layersLayout->setContentsMargins(0, 0, 0, 0);
+
+    connect(m_layerCountSlider, &QSlider::valueChanged, this, [=](int val) {
+        m_layerCountLabel->setText(QString::number(val));
+        rebuildLayerRows(val);
+        this->adjustSize();
+    });
+    QLabel* layersGroupLabel = new QLabel("Layer Configuration:");
+    layersGroupLabel->setStyleSheet("font-weight: bold; font-size: 15px; color: #2c3e50; margin-top: 6px;");
 
     // ====================== 新增：多线程选项 ======================
     m_threadCheck = new QCheckBox("Enable multi-threading", this);
@@ -144,7 +168,6 @@ ParamWindow::ParamWindow(const QString& modelType, QWidget *parent)
     m_threadEdit->setPlaceholderText("Example: 4");
     m_threadEdit->setVisible(false);
     m_threadLabel->setVisible(false);
-
     // 勾选框控制输入框显示/隐藏
     connect(m_threadCheck, &QCheckBox::toggled, [=](bool checked) {
         m_threadLabel->setVisible(checked);
@@ -159,14 +182,17 @@ ParamWindow::ParamWindow(const QString& modelType, QWidget *parent)
 
     // 2. 布局管理（垂直布局）
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
-    mainLayout->addWidget(layerLabel);
-    mainLayout->addWidget(m_layerEdit);
-    mainLayout->addWidget(actLabel);
-    mainLayout->addWidget(m_actEdit);
-    // 添加多线程控件
+    mainLayout->addWidget(layerCountTitle);
+    QHBoxLayout* sliderRow = new QHBoxLayout();
+    sliderRow->addWidget(m_layerCountSlider, 1);
+    sliderRow->addWidget(m_layerCountLabel);
+    mainLayout->addLayout(sliderRow);
+    mainLayout->addWidget(layersGroupLabel);
+    mainLayout->addWidget(m_layersContainer);
+    // 多线程选项布局
     mainLayout->addWidget(m_threadCheck);
     mainLayout->addWidget(m_threadLabel);
-    mainLayout->addWidget(m_threadEdit);    
+    mainLayout->addWidget(m_threadEdit); 
 
     // 按钮水平布局
     QHBoxLayout* btnLayout = new QHBoxLayout();
@@ -188,7 +214,40 @@ ParamWindow::ParamWindow(const QString& modelType, QWidget *parent)
     // 3. 绑定信号槽
     connect(confirmBtn, &QPushButton::clicked, this, &ParamWindow::onConfirmClicked);
     connect(cancelBtn, &QPushButton::clicked, this, &ParamWindow::onCancelClicked);
+
+    rebuildLayerRows(4);
 }
+
+void ParamWindow::rebuildLayerRows(int count) {
+    // delete all old child widgets first
+    QList<QWidget*> kids = m_layersContainer->findChildren<QWidget*>(QString(), Qt::FindDirectChildrenOnly);
+    for (QWidget* w : kids) { delete w; }
+    // clear remaining sub-layout items
+    while (m_layersLayout->count() > 0) {
+        delete m_layersLayout->takeAt(0);
+    }
+    // build new rows
+    for (int i = 0; i < count; ++i) {
+        QHBoxLayout* row = new QHBoxLayout();
+        row->setSpacing(8);
+        QLabel* label = new QLabel(QString("Layer %1:").arg(i + 1));
+        label->setFixedWidth(60);
+        label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        QSpinBox* neuronBox = new QSpinBox();
+        neuronBox->setRange(1, 10000);
+        neuronBox->setValue((i == 0 || i == count - 1) ? 10 : 128);
+        neuronBox->setSuffix(" neurons");
+        QComboBox* typeBox = new QComboBox();
+        if (i == 0) { typeBox->addItem("ORIGIN"); typeBox->setEnabled(false); }
+        else if (i == count - 1) { typeBox->addItem("SOFTMAX"); typeBox->setEnabled(false); }
+        else { typeBox->addItems({"RELU", "SIGMOID"}); }
+        row->addWidget(label);
+        row->addWidget(neuronBox, 1);
+        row->addWidget(typeBox, 1);
+        m_layersLayout->addLayout(row);
+    }
+}
+
 void ParamWindow::set_style() {
     // ========== 窗口美化 ==========
     this->setStyleSheet(R"(
@@ -341,6 +400,61 @@ bool ParamWindow::parseLayerTypes(const QString& text) {
 
 // 确认按钮：校验并发送参数
 void ParamWindow::onConfirmClicked() {
+    QList<QSpinBox*> neuronBoxes = m_layersContainer->findChildren<QSpinBox*>();
+    QList<QComboBox*> typeBoxes = m_layersContainer->findChildren<QComboBox*>();
+    if (neuronBoxes.isEmpty() || typeBoxes.isEmpty()) {
+        QMessageBox::warning(this, "input empty", "please configure the layers!");
+        return;
+    }
+
+    int layerCount = neuronBoxes.size();
+    std::vector<int> layer_sizes;
+    std::vector<sub_type> layer_types;
+    for (int i = 0; i < layerCount; ++i) {
+        int neurons = neuronBoxes[i]->value();
+        if (neurons <= 0) {
+            QMessageBox::warning(this, "invalid input", "number of neurons must be positive integers");
+            return;
+        }
+        layer_sizes.push_back(neurons);
+        QString typeStr = typeBoxes[i]->currentText().toUpper();
+        layer_types.push_back(string_to_type(typeStr.toStdString()));
+    }
+    if (layer_types.front() != sub_type::origin) {
+        QMessageBox::warning(this, "invalid input!", "the first layer must be ORIGIN type!");
+        return;
+    }
+    if (layer_types.back() != sub_type::softmax) {
+        QMessageBox::warning(this, "invalid layer type!", "The last layer must be SOFTMAX type!");
+        return;
+    }
+    if (params.model_type == nn_type::Linear_Resnet && layerCount > 2) {
+        int midNeurons = layer_sizes[1];
+        for (int i = 1; i < layerCount - 1; ++i) {
+            if (layer_sizes[i] != midNeurons) {
+                QMessageBox::warning(this, "invalid number!", "Resnet Layers must have equal neurons!!");
+                return;
+            }
+        }
+    }
+    this->params.layer_sizes = std::move(layer_sizes);
+    this->params.layer_types = std::move(layer_types);
+    this->params.layer_num = this->params.layer_sizes.size();
+    this->params.input_output_dim = {this->params.layer_sizes.front(), this->params.layer_sizes.back()};
+    bool useThread = m_threadCheck->isChecked();
+    this->params.use_multithread = useThread;
+    int threadNum = m_threadEdit->text().toInt();
+    this->params.thread_num = threadNum > 0 ? threadNum : 4; // 默认线程数为4
+
+    // 6. 校验参数（已经在校验函数中实现了）
+    this->params.check();
+
+    // 7. 发送信号（传递参数）+ 关闭窗口
+    emit paramsConfirmed(this->params);
+    this->accept(); // 关闭对话框并返回 Accepted
+}
+
+void ParamWindow::onConfirmClicked_old() {
     // 1. 获取输入
     QString layerText = m_layerEdit->text().trimmed();
     QString actText = m_actEdit->text().trimmed().toUpper(); // 统一转大写
@@ -377,7 +491,6 @@ void ParamWindow::onConfirmClicked() {
 void ParamWindow::onCancelClicked() {
     this->reject(); // 关闭对话框并返回 Rejected
 }
-
 
 NNVisualWidget::NNVisualWidget(QWidget *parent) : QWidget(parent)
 {

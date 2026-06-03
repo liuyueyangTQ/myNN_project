@@ -5,9 +5,13 @@
 #include <QDialog>
 #include <QLineEdit>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QPushButton>
 #include <QMessageBox>
-#include <QCheckBox>  
+#include <QCheckBox>
+#include <QSlider>
+#include <QSpinBox>
+#include <QComboBox>
 
 #include <QPainter>
 #include <QPen>
@@ -72,9 +76,16 @@ private slots:
     void onCancelClicked();
 
 private:
+    void onConfirmClicked_old(); // 备用
+    // layer count slider
+    QSlider* m_layerCountSlider;
+    QLabel* m_layerCountLabel;
+    // dynamic layer rows container
+    QWidget* m_layersContainer;
+    QVBoxLayout* m_layersLayout;
     // 控件定义
-    QLineEdit* m_layerEdit;    // 输入各层神经元数（逗号分隔）
-    QLineEdit* m_actEdit;      // 输入激活函数类型
+    QLineEdit* m_layerEdit;    // 输入各层神经元数（逗号分隔）, 暂时不用
+    QLineEdit* m_actEdit;      // 输入激活函数类型 ， 暂时不用
     QString m_modelType;       // 保存模型类型
     QCheckBox* m_threadCheck;   // 多线程勾选框
     QLineEdit* m_threadEdit;     // 线程数输入框
@@ -85,6 +96,7 @@ private:
     bool parseLayerSizes(const QString& text);
     bool parseLayerTypes(const QString& text);
     void set_style();
+    void rebuildLayerRows(int count);
 };
 
 
