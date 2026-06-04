@@ -47,8 +47,8 @@ enum class tensor_pair{
 }
 namespace nn {
 enum class nn_type {
-    Linear_Resnet,
-    Linear_NN
+    Linear_NN,
+    Linear_Resnet
 };
 
 }

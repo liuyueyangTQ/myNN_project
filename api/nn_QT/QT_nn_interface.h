@@ -11,6 +11,7 @@
 #include <QCheckBox>
 #include <QSlider>
 #include <QSpinBox>
+#include <QApplication>
 #include <QComboBox>
 
 #include <QPainter>
@@ -42,19 +43,28 @@ class MainWindow : public QMainWindow {
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override = default;
-
+signals:
+    // 确认参数后触发的信号：传递封装好的 NNParams
+    void TrainingFinished();
 private slots:
-    // 点击 Linear NN 按钮
-    void onLinearNNClicked();
-    // 点击 Linear Resnet 按钮
-    void onLinearResnetClicked();
-    // 接收参数窗口传递的参数，调用后台逻辑
-    void onNNParamsReceived(const NNParams& params);
+    // 点击 Fully Connected 按钮
+    void onFullyConnectedClicked();
+    // 点击 Convolutional 按钮
+    void onConvolutionalClicked();
+    // 点击 Custom Module 按钮
+    void onCustomModuleClicked();
 
 private:
-    // 模拟后台：执行神经网络模型
-    void runNNModel(const NNParams& params);
+    QPushButton* createOptionCard(const QString& icon, const QString& title, // 三张选项卡片
+                              const QString& desc, bool available);
     void set_style();
+};
+
+class PlaceholderWindow : public QDialog {
+    Q_OBJECT
+public:
+    explicit PlaceholderWindow(const QString& title, const QString& message,
+                               QWidget *parent = nullptr);
 };
 
 // 参数输入窗口类
@@ -62,7 +72,7 @@ class ParamWindow : public QDialog {
     Q_OBJECT
 public:
     // 构造函数：接收模型类型（LinearNN/LinearResnet）
-    explicit ParamWindow(const QString& modelType, QWidget *parent = nullptr);
+    explicit ParamWindow(QWidget *parent = nullptr);
     ~ParamWindow() override = default;
 
 signals:
@@ -74,22 +84,31 @@ private slots:
     void onConfirmClicked();
     // 取消按钮点击事件
     void onCancelClicked();
+    // 可视化按钮点击事件
+    void onVisualizeClicked();
 
 private:
-    void onConfirmClicked_old(); // 备用
+    QComboBox* m_modelCombo = nullptr;
     // layer count slider
-    QSlider* m_layerCountSlider;
-    QLabel* m_layerCountLabel;
+    QSlider* m_layerCountSlider = nullptr;
+    QLabel* m_layerCountLabel = nullptr;
     // dynamic layer rows container
-    QWidget* m_layersContainer;
-    QVBoxLayout* m_layersLayout;
+    QWidget* m_layersContainer = nullptr;
+    QVBoxLayout* m_layersLayout = nullptr;
     // 控件定义
-    QLineEdit* m_layerEdit;    // 输入各层神经元数（逗号分隔）, 暂时不用
-    QLineEdit* m_actEdit;      // 输入激活函数类型 ， 暂时不用
-    QString m_modelType;       // 保存模型类型
-    QCheckBox* m_threadCheck;   // 多线程勾选框
-    QLineEdit* m_threadEdit;     // 线程数输入框
-    QLabel* m_threadLabel;       // 线程数文字
+    QLineEdit* m_layerEdit = nullptr;    // 输入各层神经元数（逗号分隔）, \@ 暂时不用
+    QLineEdit* m_actEdit = nullptr;      // 输入激活函数类型 ， \@暂时不用
+    nn_type m_modelType;       // 保存模型类型
+    QCheckBox* m_threadCheck = nullptr;   // 多线程勾选框
+    QLineEdit* m_threadEdit = nullptr;     // 线程数输入框
+    QLabel* m_threadLabel = nullptr;       // 线程数文字
+
+    QLabel* m_statusLabel = nullptr; // 训练状态标签
+    QPushButton* m_vizButton = nullptr; // 可视化按钮
+
+    vector<int> m_layerSizes;
+    vector<vector<float>> m_resultActs;
+    bool m_trainingDone = false;
 
     NNParams params;
     // 解析输入的层大小（字符串转vector<int>）
@@ -97,6 +116,11 @@ private:
     bool parseLayerTypes(const QString& text);
     void set_style();
     void rebuildLayerRows(int count);
+    // 模拟后台：执行神经网络模型
+    model_data runNNModel(const NNParams& params);
+    // 训练完毕的信号处理槽函数
+    void TrainingStateFinished();
+    void TrainingStateStarted();
 };
 
 
@@ -116,9 +140,9 @@ protected:
     void paintEvent(QPaintEvent *event) override;
 
 private:
+    friend class ParamWindow; // 允许 ParamWindow 访问私有成员
     vector<int> m_layerSizes;
     vector<vector<float>> m_activations; // 0~1
-
     const int NODE_RADIUS = 14;
     const int MAX_DRAW_NODES = 20;
 };
