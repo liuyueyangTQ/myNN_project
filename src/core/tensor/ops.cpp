@@ -123,19 +123,21 @@ void matmul_op::do_op(tensor_type p, sub_type q) {
     // 实现矩阵乘法操作的逻辑
     dtensor::dtensor_base* new_node = nullptr;
     
+#ifdef CHECK_METRIX_SHAPE
     ///// 打印矩阵维度信息
     std::cout << "matmul input shapes: (" << this->inputs[0]->get_shape()[0] << ", " << this->inputs[0]->get_shape()[1] << ") and (" 
               << this->inputs[1]->get_shape()[0] << ", " << this->inputs[1]->get_shape()[1] << ")" << std::endl;
-    
+#endif
     auto shape_a = this->inputs[0]->get_shape();
     auto shape_b = this->inputs[1]->get_shape();
 
     std::pair<size_t, size_t> tensor_shape = get_matmul_output_shape({shape_a[0], shape_a[1]}, {shape_b[0], shape_b[1]});
     this->shape_output.push_back(tensor_shape.first);
     this->shape_output.push_back(tensor_shape.second);
-
-
+#ifdef CHECK_METRIX_SHAPE
+    // 打印输出矩阵维度信息
     std::cout << "matmul output shape: (" << tensor_shape.first << ", " << tensor_shape.second << ")" << std::endl;
+#endif
     switch (p)
     {
     case tensor_type::common:

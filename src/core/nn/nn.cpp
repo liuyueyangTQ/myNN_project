@@ -689,8 +689,6 @@ void Linear_Resnet::print_count_n() {
     std::cout << "LAST LAYER address n is: " << p <<std::endl;
 }
 model_data run_model(const NNParams& params) {
-    model_data res;
-
     auto data_gen = make_classification(params.samples, params.input_output_dim.first, params.input_output_dim.second,
                             params.input_output_dim.first - 2, 2);
     auto& data = data_gen.first;
@@ -698,14 +696,14 @@ model_data run_model(const NNParams& params) {
     std::cout << "Sample num is: " << data.size() << std::endl;
     std::cout <<"data size is: " << data[0].size() <<std::endl;
     std::cout <<"label size is: " << labels[0].size() <<std::endl;
-    auto model_type = params.model_type;  
-    auto layer_sizes = params.layer_sizes;
-    int layer_num = params.layer_num;
-    auto layer_types = params.layer_types; 
-    int batch_size = params.batch_size;
-    int epochs = params.epochs;
-    double lr = params.lr;
-    loss_type lstp = params.lstp;
+    auto model_type   = params.model_type;  
+    auto layer_sizes  = params.layer_sizes;
+    int layer_num     = params.layer_num;
+    auto layer_types  = params.layer_types; 
+    int batch_size    = params.batch_size;
+    int epochs        = params.epochs;
+    double lr         = params.lr;
+    loss_type lstp    = params.lstp;
     std::cout << "information: \n";
     std::cout << "model_type:" << (model_type == nn_type::Linear_NN ? "Linear NN" : "Linear Resnet") << std::endl;
     std::cout << "layers: "; for(int i = 0 ; i < layer_sizes.size(); ++i) std::cout << layer_sizes[i] << 
@@ -725,6 +723,8 @@ model_data run_model(const NNParams& params) {
     nn->train_model(epochs, lr);
     nn->validate();
     auto nn_ptr =  static_cast<nn::module_base*>(nn);
+
+    model_data res;
     res.layer_sizes = layer_sizes;
     res.layer_types = layer_types;
     res.set_model(nn_ptr);

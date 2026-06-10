@@ -1,3 +1,4 @@
+#include <cstring>
 #include"dtensor.h"
 
 namespace base {
@@ -292,17 +293,17 @@ metrix_float* tensor2D_float::_allocdata() {
 
     // 步骤 1: 分配原始内存
     // operator new[] 只分配内存，不调用构造函数
-    std::cout << "    1...\n";             /////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////
     *pMemory = operator new[](this->batch_num * sizeof(metrix_float));
     // 步骤 2: 在分配的内存上构造对象
-    std::cout << "    2...\n";             /////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////
     metrix_float* myArray = static_cast<metrix_float*>(*pMemory);
-    std::cout << "    3...\n";             /////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////
     for (int i = 0; i < this->batch_num; ++i) {
         // placement new: 在指定地址 (myArray + i) 上构造一个 A 对象
         new (myArray + i) metrix_float(this->shape.first, this->shape.second, "simple"); 
     }
-    std::cout << "    4...\n";             /////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////
     return myArray;
 }
 
@@ -382,8 +383,7 @@ void tensor2D_float::clear_grad() {
     for(int batch_id = 0; batch_id < this->batch_num; ++batch_id) {
         float* wg = (batch_grad + batch_id)->data;
         int sz = (this->shape).first * (this->shape).second;
-        for(int i = 0; i < sz; ++i)
-            wg[i] = 0;
+        memset(wg, 0, sizeof(float) * sz);
     }
 }
 void tensor2D_float::clear_value() {
@@ -392,8 +392,7 @@ void tensor2D_float::clear_value() {
 void layer::clear_grad() {
     for(int batch_id = 0; batch_id < this->batch_num; ++batch_id) {
         float* g = (this->batch_grad + batch_id)->data;
-        for(int i = 0; i < this->n; ++i)
-            g[i] = 0;
+        memset(g, 0, sizeof(float) * this->n);
     }
 }
 void layer::clear_value() {
