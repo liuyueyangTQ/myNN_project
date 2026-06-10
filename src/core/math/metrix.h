@@ -2,6 +2,7 @@
 #include<iostream>
 #include<cassert>
 #include<string>
+#include<execution> // 并行加速
 #include<algorithm>
 #include<random>
 #include<vector>
