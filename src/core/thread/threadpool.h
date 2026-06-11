@@ -10,7 +10,7 @@
 #include <atomic>
 #include <stdexcept>
 #include <cassert>
-#include "enum_type.h"
+#include "enum_types.h"
 #include "metrix.h"
 #include "tensor.h"
 #include "dtensor.h"

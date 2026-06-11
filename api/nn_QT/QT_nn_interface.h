@@ -22,7 +22,7 @@
 #include <vector>
 #include <cctype> 
 #include <sstream>
-#include "enum_type.h"
+#include "enum_types.h"
 #include "nn.h"
 namespace nn{
 class module_base;

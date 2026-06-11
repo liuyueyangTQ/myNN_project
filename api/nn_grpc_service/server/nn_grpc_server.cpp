@@ -15,7 +15,7 @@ using namespace dtensor;
 // 辅助：TrainRequest → NNParams
 //
 // 将 protobuf 请求中所有字段一一映射到 C++ 端的 NNParams 结构体。
-// 枚举值序号已在 .proto / enum_type.h 中约定为同步。
+// 枚举值序号已在 .proto / enum_types.h 中约定为同步。
 // ================================================================
 nn::NNParams NNTrainerServiceImpl::requestToNNParams(
     const nn_proto::TrainRequest& req) {

@@ -11,7 +11,7 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include"nn.h"
-#include "enum_type.h"
+#include "enum_types.h"
 #include "json_tool.h"
 #pragma comment(lib, "ws2_32.lib")
 

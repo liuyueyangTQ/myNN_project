@@ -1,7 +1,7 @@
 #pragma once
 #include "proto_utils.h"
 #include "nn.h"
-#include "enum_type.h"
+#include "enum_types.h"
 #include "server.h"
 using namespace proto;
 class proto::proto_utils;

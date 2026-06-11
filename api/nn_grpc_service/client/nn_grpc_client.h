@@ -12,7 +12,7 @@
 #include <memory>
 #include <string>
 #include "nn.h"
-#include "enum_type.h"
+#include "enum_types.h"
 #include "proto_utils.h"
 #include "network.grpc.pb.h"
 

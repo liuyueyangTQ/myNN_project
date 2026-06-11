@@ -1,6 +1,6 @@
 #include<iostream>
 #include"proto_utils.h"
-#include "enum_type.h"
+#include "enum_types.h"
 using namespace proto;
 using namespace nn;
 using namespace dtensor;

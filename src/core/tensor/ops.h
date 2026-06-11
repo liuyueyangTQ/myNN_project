@@ -5,13 +5,13 @@
 #include<cmath>
 #include<cassert>
 #include<map>
-#include "enum_type.h"
+#include "enum_types.h"
 #include "metrix.h"
 #include "dtensor.h"
 using _size = std::pair<size_t, size_t>;
 namespace base{
-
 class metrix_float;
+
 _size _get_size(metrix_float &m1, metrix_float &m2);
 float* _alloc_data(metrix_float &m1, metrix_float &m2);
 float* _matmul(metrix_float &m1, metrix_float &m2); // 直接返回两矩阵相乘得到的 矩阵指针 （需要调用allocate data创建数据）
@@ -29,6 +29,7 @@ void _concat_tensors(std::vector<metrix_float*>& ms, std::vector<size_t>& concat
 
 _size get_matmul_output_shape(_size shape_a, _size shape_b);
 }
+
 namespace dtensor{
 using namespace base;
 class dtensor_base;
@@ -67,6 +68,7 @@ protected:
     size_t count_n, *temp_n; // 指向op的count_n个算子，这些算子已经有temp_n个完成传递
     float* data_output;
     bool* have_backwarded;
+
 public:
     op(std::string name, dtensor_base* a, dtensor_base* b) ;
     op(std::string name, std::vector<dtensor_base*>& inputs) ;
@@ -96,76 +98,6 @@ public:
     std::vector<dtensor_base*> get_inputs();
 };
 
-class add_op : public op {
-
-public:
-    add_op(dtensor_base* a, dtensor_base* b) : op("add", a, b) {
-        assert(base::get_tensor_size(a) == base::get_tensor_size(b));
-    }
-    add_op(std::vector<dtensor_base*>& inputs);
-    // void do_op(tensor_type p = tensor_type::common) override;
-    void _forward() override;
-    void _forward(size_t batch_id) override;
-    void _backward() override;
-    void _backward(size_t batch_id) override;
-};
-
-
-
-class sub_op : public op {
-private:
-
-public:
-    sub_op(dtensor_base* a, dtensor_base* b) : op("sub", a, b) {
-        assert(base::get_tensor_size(a) == base::get_tensor_size(b));
-    }
-    // void do_op(tensor_type p = tensor_type::common) override;
-    void _forward() override;
-    void _forward(size_t batch_id) override;
-    void _backward() override;
-    void _backward(size_t batch_id) override;
-};
-
-class matmul_op : public op {
-
-public:
-    matmul_op(dtensor_base* a, dtensor_base* b) : op("matmul", a, b) {
-        this->_check_type(a, b);
-    }
-    void do_op(tensor_type p = tensor_type::common, sub_type q = sub_type::none) override;
-    void _forward() override;
-    void _forward(size_t batch_id) override;
-    void _backward() override;
-    void _backward(size_t batch_id) override;
-    void _check_type(dtensor_base* a, dtensor_base* b) override;
-};
-
-class dot_op : public op {
-
-public:
-    dot_op(dtensor_base* a, dtensor_base* b) : op("dot", a, b) {}
-    // void do_op(tensor_type p = tensor_type::common) override;
-    void _forward() override;
-    void _forward(size_t batch_id) override;
-    void _backward() override;
-    void _backward(size_t batch_id) override;
-};
-
-class concat_op : public op {
-private:
-    size_t concat_dim;
-    size_t shared_dim_size;
-    size_t concat_dim_size;
-    std::vector<size_t> concat_dim_indexes;
-public:
-    concat_op(dtensor_base* a, dtensor_base* b, size_t concat_dim = 0) : op("concat", a, b), concat_dim(concat_dim) {}
-    concat_op(std::vector<dtensor_base*>& inputs, size_t concat_dim = 0) : op("concat", inputs), concat_dim(concat_dim) {}
-    void do_op(tensor_type p = tensor_type::common, sub_type q = sub_type::none) override;
-    void _forward() override;
-    void _forward(size_t batch_id) override;
-    void _backward() override;
-    void _backward(size_t batch_id) override;
-};
 } // namespace dtensor
 
 

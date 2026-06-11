@@ -11,7 +11,7 @@
 #include "network.grpc.pb.h"
 #include "proto_utils.h"
 #include "nn.h"
-#include "enum_type.h"
+#include "enum_types.h"
 // ================================================================
 // NNTrainerServiceImpl — 实现 .proto 中定义的 NNTrainer::Service
 // ================================================================

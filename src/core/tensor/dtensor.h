@@ -5,7 +5,7 @@
 #include<cassert>
 #include<string>
 #include<map>
-#include"enum_type.h"
+#include"enum_types.h"
 #include"ops.h"
 #include"buffer_util.h"
 #include"metrix.h"

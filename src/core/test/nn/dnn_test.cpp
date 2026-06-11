@@ -1,4 +1,4 @@
-#include "enum_type.h"
+#include "enum_types.h"
 #include "threadpool.h"
 #include "metrix.h"
 #include "dtensor.h"  //要先包含dtensor.h， 因为ops.h 依赖于 dtensor.h 中的定义

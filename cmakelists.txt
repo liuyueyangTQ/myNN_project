@@ -46,15 +46,13 @@ message(STATUS "TOOLS_DIR: ${TOOLS_DIR}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 # 收集库源文件
-file(GLOB MATH_LIB_SOURCES 
-    ${CORE_DIR}/math/metrix.cpp
-    ${CORE_DIR}/tensor/tensor.cpp
-    ${CORE_DIR}/tensor/dtensor.cpp
-    ${CORE_DIR}/tensor/ops.cpp
-    ${CORE_DIR}/thread/threadpool.cpp
-    ${CORE_DIR}/nn/nn.cpp
-    ${CORE_DIR}/nn/tools.cpp
-    ${CORE_DIR}/utils/buffer_util.cpp
+file(GLOB_RECURSE MATH_LIB_SOURCES CONFIGURE_DEPENDS
+    ${CORE_DIR}/math/*.cpp
+    ${CORE_DIR}/tensor/*.cpp
+    ${CORE_DIR}/tensor/*/*.cpp
+    ${CORE_DIR}/thread/*.cpp
+    ${CORE_DIR}/nn/*.cpp
+    ${CORE_DIR}/utils/*.cpp
 )
 
 # ==== 生成 math_libs 静态库 ====
@@ -66,6 +64,7 @@ target_include_directories(math_libs PUBLIC
     ${CORE_DIR}/common
     ${CORE_DIR}/math
     ${CORE_DIR}/tensor
+    ${CORE_DIR}/tensor/ops
     ${CORE_DIR}/thread
     ${CORE_DIR}/nn
     ${CORE_DIR}/utils

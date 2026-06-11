@@ -7,7 +7,7 @@
 #include "metrix.h"
 #include "dtensor.h"
 #include "nn.h"
-#include "enum_type.h"
+#include "enum_types.h"
 
 namespace proto {
 class proto_utils {

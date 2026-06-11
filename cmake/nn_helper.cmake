@@ -10,6 +10,7 @@ function(add_nn_support TARGET_NAME)
         ${ARGS_MAIN_DIR}/common
         ${ARGS_MAIN_DIR}/math
         ${ARGS_MAIN_DIR}/tensor
+        ${ARGS_MAIN_DIR}/tensor/ops
         ${ARGS_MAIN_DIR}/nn
         ${ARGS_MAIN_DIR}/thread
         ${ARGS_MAIN_DIR}/utils 

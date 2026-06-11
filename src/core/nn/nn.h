@@ -6,7 +6,7 @@
 #include<cassert>
 #include<chrono>
 #include<thread>
-#include"enum_type.h"
+#include"common_definitions.h"
 #include"tools.h"
 namespace dtensor{
 class layer;
