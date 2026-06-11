@@ -1,0 +1,33 @@
+add_executable(thread_test 
+    thread_test.cpp
+    ${CORE_DIR}/utils/buffer_util.cpp
+)  
+add_nn_support(thread_test 
+    MAIN_DIR    
+        ${CORE_DIR}
+    DEFINES
+        USE_DEBUG 
+        USE_THREAD
+    LINKS
+        math_libs
+)
+
+add_executable(memory_test 
+    memory_test.cpp
+    ${CORE_DIR}/nn/nn.cpp
+)  
+add_nn_support(memory_test 
+    MAIN_DIR    
+        ${CORE_DIR}
+    DEFINES
+        USE_DEBUG 
+        USE_THREAD
+        DEBUG_ASSERT_H
+    LINKS
+        math_libs
+)
+
+add_executable(parallel_acceleration
+    parallel_acceleration.cpp
+)
+

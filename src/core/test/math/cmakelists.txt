@@ -1,0 +1,40 @@
+add_executable(dtensor_test 
+    dtensor_test.cpp
+)  
+add_nn_support(dtensor_test
+    MAIN_DIR    
+        ${CORE_DIR}
+    DEFINES
+        USE_DEBUG 
+        USE_THREAD
+        DEBUG_ASSERT_H
+    LINKS
+        math_libs
+)
+
+# 设置 metrix_test 可执行文件
+add_executable(metrix_test 
+    metrix_test.cpp
+)
+add_nn_support(metrix_test 
+    MAIN_DIR    
+        ${CORE_DIR}
+    DEFINES
+        USE_DEBUG 
+    LINKS
+        math_libs
+)
+
+add_executable(tensor_test 
+    tensor_test.cpp
+)   
+add_nn_support(tensor_test 
+    MAIN_DIR    
+        ${CORE_DIR}
+    # 可选：追加自定义宏
+    DEFINES
+        USE_DEBUG 
+    # 链接库文件
+    LINKS
+        math_libs
+)

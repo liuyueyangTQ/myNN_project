@@ -23,9 +23,6 @@ int main() {
         b[i] = 1; a[i] = 0;
     }
         
-
-
-    
     std::cout << "Add with normal loop...:\n";
     memset(a, 0, n * sizeof(float));
     auto start_time = std::chrono::high_resolution_clock::now();
