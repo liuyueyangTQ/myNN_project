@@ -164,7 +164,7 @@ void tensor2D_float::print_param() {
 void tensor2D_float::print_grad() {
     for(int i = 0 ; i < this->batch_num; ++i){
         auto p = (this->batch_grad + i);
-        std::cout << "    The WEIGHT METRIX GRAD of " << i + 1<< " th sample is:\n";
+        std::cout << "    The WEIGHT METRIX GRAD of " << i + 1 << " th sample is:\n";
         std::cout << "    ";
         p->print();
         std::cout << std::endl;

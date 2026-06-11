@@ -84,6 +84,9 @@ public:
 
     void reset_count();
 
+    // 调试性质的函数
+    void __set_isparam_lockgrad__(bool is_param, bool lock_grad);
+
     void forward();
     void forward(size_t batch_id);
     void backward();  //用于中间层
@@ -136,6 +139,11 @@ public:
     virtual void clear_grad() = 0;
     virtual void clear_value() = 0;
     virtual void update(double lr) = 0;
+
+    // DEBUG functions
+    virtual void __set_grads__(std::vector<std::vector<float>>& grads) = 0;
+    virtual void __set_inputs__(std::vector<std::vector<float>>& inputs) = 0;
+    virtual void __set_outputs__(std::vector<std::vector<float>>& outputs) = 0;
 
     inline void add_nopp(dtensor_base* p, op* op) {
         this->op_next.push_back(op);
@@ -284,6 +292,11 @@ public:
     float* get_input_data_ptr(size_t batch_id) override;
     float* get_grad_data_ptr(size_t batch_id) override;
     float* get_output_data_ptr(size_t batch_id) override;
+
+    // DEBUG funtions
+    void __set_grads__(std::vector<std::vector<float>>& grads) override;
+    void __set_inputs__(std::vector<std::vector<float>>& input) override;
+    void __set_outputs__(std::vector<std::vector<float>>& output) override;
 };
 
 
@@ -295,7 +308,6 @@ private:
     // 用于记录前后的层关系，非必须
     layer* x;  // 即 x ,  z = w * x + b
     layer* next;// 即 z 
-    void** pMemory; // 辅助变量
     metrix_float* batch_grad;
     bool is_identity;
 #ifdef USE_DEBUG 
@@ -334,8 +346,6 @@ public:
         dtensor_base(true, false, tensor_type::tensor2D, batch_num, shape.first * shape.second), //不锁梯度
         weight(new metrix_float(shape)),
         shape(shape),
-        pMemory(new void*), // 一定要分配初始指针！！！！！
-        //last(nullptr),
         x(nullptr),
         next(nullptr),
         is_identity(false) 
@@ -348,14 +358,22 @@ public:
         dtensor_base(true, false, tensor_type::tensor2D, batch_num, shape.first * shape.second), //不锁梯度
         weight(new metrix_float(shape, init_type)),
         shape(shape),
-        //last(nullptr),
-        pMemory(new void*), // 一定要分配初始指针！！！！！
         next(nullptr),
         is_identity(false) 
     {
         batch_grad = this->_allocdata();
     }
-
+    tensor2D_float(_size shape, int batch_num, std::vector<float>& nums):  //全零初始化
+        dtensor_base(true, false, tensor_type::tensor2D, batch_num, shape.first * shape.second), //不锁梯度
+        weight(new metrix_float(shape, nums)),
+        shape(shape),
+        x(nullptr),
+        next(nullptr),
+        is_identity(false) 
+    {
+        std::cout << "initializing tensor2D_float using vector ...\n";
+        batch_grad = this->_allocdata();
+    }
     tensor2D_float(tensor2D_float const &t) = delete; // 不提供实现
     // void _forward() override {}
     ~tensor2D_float() 
@@ -405,7 +423,11 @@ private:
     float* get_input_data_ptr(size_t batch_id) override;
     float* get_grad_data_ptr(size_t batch_id) override;
     float* get_output_data_ptr(size_t batch_id) override;
-
+    
+    // DEBUG funtions
+    void __set_grads__(std::vector<std::vector<float>>& grads) override;
+    void __set_inputs__(std::vector<std::vector<float>>& inputs) override;
+    void __set_outputs__(std::vector<std::vector<float>>& outputs) override;
 
     void count_grad();
     void count_grad(size_t batch_id);
@@ -557,6 +579,11 @@ private:
     float* get_input_data_ptr(size_t batch_id) override;
     float* get_grad_data_ptr(size_t batch_id) override;
     float* get_output_data_ptr(size_t batch_id) override;
+
+    // DEBUG funtions
+    void __set_grads__(std::vector<std::vector<float>>& grads) override;
+    void __set_inputs__(std::vector<std::vector<float>>& inputs) override;
+    void __set_outputs__(std::vector<std::vector<float>>& outputs) override;
 
     virtual void count_output() = 0;
     virtual void count_output(size_t batch_id) = 0;

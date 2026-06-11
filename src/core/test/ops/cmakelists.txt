@@ -1,0 +1,11 @@
+add_executable(ops_test 
+    ops_test.cpp
+)  
+add_nn_support(ops_test 
+    MAIN_DIR    
+        ${CORE_DIR}
+    LINKS
+        math_libs
+)
+
+

@@ -648,17 +648,17 @@ void metrix_float::print() {
     if(!this->t)
         for(int i = 0; i < this->shape.first; ++i) {
             for(int j = 0; j < this->shape.second; ++j)
-                std::cout<<this->data[i * ((this->shape).second) + j]<<' ';
-            std::cout<<std::endl;
+                std::cout << this->data[i * (this->shape.second) + j] << ' ';
+            std::cout << "\n";
         }
     else
         for(int i = 0; i < this->shape.second; ++i) {
             for(int j = 0; j<this->shape.first; ++j)
-                std::cout<<this->data[j * ((this->shape).second) + i]<<' ';
-            std::cout<<std::endl;
+                std::cout<<this->data[j * (this->shape.second) + i]<<' ';
+            std::cout << "\n";
         }
-
 }
+
 std::vector<size_t> metrix_float::get_shape() {
     return {this->shape.first, this->shape.second};
 }

@@ -64,6 +64,11 @@ void dtensor_base::print(bool inc_grad, size_t batch_id, bool rec) {
         have_printed = true;
 }
 
+void dtensor_base::__set_isparam_lockgrad__(bool is_param, bool lock_grad) {
+    this->is_param = is_param;
+    this->lock_grad = lock_grad;
+}
+
 void dtensor_base::print_info() {
     std::cout << "Tensor info: \n";
     std::cout << "  is_param: " << this->is_param << "\n";
@@ -101,7 +106,7 @@ void dtensor_base::forward(size_t batch_id) { // 变量tensor前向传播可使�
         return;
     //std::cout << " forward by count n = : " << this->count_n << std::endl;
     this->_forward(batch_id);
-    if(!is_param) {//动态tensor
+    if(!is_param) {//动态tensor, 只有不是param 才能进行梯度传播
         for(auto &otpt : op_next) {
             (otpt->temp_n)[batch_id]++;
         }
@@ -283,6 +288,88 @@ float* layer::get_output_data_ptr(size_t batch_id) {
     return this->batch_output[batch_id].data;
 }
 
+/// @test @brief 用于调试， 设置梯度值
+void tensor2D_float::__set_grads__(std::vector<std::vector<float>>& grads) {
+    assert(grads.size() == this->batch_num);
+    assert(grads[0].size() == this->n);
+    for(int batch_id = 0; batch_id < batch_num; ++batch_id) {
+        float* grad_data = (this->batch_grad + batch_id)->data;
+        for(int i = 0; i < this->n; ++i)
+            grad_data[i] = grads[batch_id][i];
+    }
+}
+
+void layer::__set_grads__(std::vector<std::vector<float>>& grads) {
+    assert(grads.size() == this->batch_num);
+    assert(grads[0].size() == this->n);
+    for(int batch_id = 0; batch_id < batch_num; ++batch_id) {
+        float* grad_data = (this->batch_grad + batch_id)->data;
+        for(int i = 0; i < this->n; ++i)
+            grad_data[i] = grads[batch_id][i];
+    }
+}
+
+/// @todo
+void multi_dim_tensor::__set_grads__(std::vector<std::vector<float>>& grads) { 
+    assert(grads.size() == this->batch_num);
+    assert(grads[0].size() == this->n);
+    throw(1);
+}
+
+
+/// @test @brief 用于调试， 设置输入
+void tensor2D_float::__set_inputs__(std::vector<std::vector<float>>& inputs) {
+    assert(inputs.size() == this->batch_num);
+    assert(inputs[0].size() == this->n);
+    float* w = (this->weight)->data;
+    for(int i = 0; i < this->n; ++i) // 只使用一组
+        w[i] = inputs[0][i];
+    
+}
+
+void layer::__set_inputs__(std::vector<std::vector<float>>& inputs) {
+    assert(inputs.size() == this->batch_num);
+    assert(inputs[0].size() == this->n);
+    for(int batch_id = 0; batch_id < batch_num; ++batch_id) {
+        float* input_data = (this->batch_input + batch_id)->data;
+        for(int i = 0; i < this->n; ++i)
+            input_data[i] = inputs[batch_id][i];
+    }
+}
+
+/// @todo
+void multi_dim_tensor::__set_inputs__(std::vector<std::vector<float>>& inputs) { 
+    assert(inputs.size() == this->batch_num);
+    assert(inputs[0].size() == this->n);
+    throw(1);
+}
+
+/// @test 用于调试， 设置输出值
+void tensor2D_float::__set_outputs__(std::vector<std::vector<float>>& outputs) {
+    assert(outputs.size() == this->batch_num);
+    assert(outputs[0].size() == this->n);
+    float* w = (this->weight)->data;
+    for(int i = 0; i < this->n; ++i) // 只使用一组
+        w[i] = outputs[0][i];
+}
+
+void layer::__set_outputs__(std::vector<std::vector<float>>& outputs) {
+    assert(outputs.size() == this->batch_num);
+    assert(outputs[0].size() == this->n);
+    for(int batch_id = 0; batch_id < batch_num; ++batch_id) {
+        float* output_data = (this->batch_output + batch_id)->data;
+        for(int i = 0; i < this->n; ++i)
+            output_data[i] = outputs[batch_id][i];
+    }
+}
+
+/// @todo
+void multi_dim_tensor::__set_outputs__(std::vector<std::vector<float>>& outputs) { 
+    assert(outputs.size() == this->batch_num);
+    assert(outputs[0].size() == this->n);
+    throw(1);
+}
+
 // tensor2D_float 分配和释放内存
 metrix_float* tensor2D_float::_allocdata() {
 
@@ -291,19 +378,14 @@ metrix_float* tensor2D_float::_allocdata() {
     this->index = wm_index;
 #endif 
 
-    // 步骤 1: 分配原始内存
-    // operator new[] 只分配内存，不调用构造函数
-    /////////////////////////////////////////////////////////////
-    *pMemory = operator new[](this->batch_num * sizeof(metrix_float));
-    // 步骤 2: 在分配的内存上构造对象
-    /////////////////////////////////////////////////////////////
-    metrix_float* myArray = static_cast<metrix_float*>(*pMemory);
-    /////////////////////////////////////////////////////////////
+    // 分配原始内存 
+    metrix_float* myArray = reinterpret_cast<metrix_float*>(malloc(this->batch_num * sizeof(metrix_float)));
+
+    //在分配的内存上构造对象
     for (int i = 0; i < this->batch_num; ++i) {
         // placement new: 在指定地址 (myArray + i) 上构造一个 A 对象
-        new (myArray + i) metrix_float(this->shape.first, this->shape.second, "simple"); 
+        new (myArray + i) metrix_float(this->shape.first, this->shape.second, base::init_type::simple, false); // 要传入 false， 不能默认参数，否则会触发隐式转换
     }
-    /////////////////////////////////////////////////////////////
     return myArray;
 }
 
@@ -315,7 +397,7 @@ void tensor2D_float::_release_data(metrix_float* myArray) {
             myArray[i].~metrix_float();
         }
         // 步骤 B: 释放原始内存
-        operator delete[](*this->pMemory);
+        free(reinterpret_cast<void*>(myArray));
     } catch (const char* err) { // 捕获字符串类型异常
         std::cout << "exception when releasing weight metrix data: " << err << std::endl;
     } catch (...) { // 兜底捕获其他异常
@@ -400,9 +482,8 @@ void layer::clear_value() {
         float *g1, *g2;
         g1 = (this->batch_input + batch_id)->data;
         g2 = (this->batch_output + batch_id)->data;     
-        for(int i = 0; i < this->n; ++i) {
-            g1[i] = 0;g2[i] = 0;
-        }
+        memset(g1, 0, sizeof(float) * this->n);
+        memset(g2, 0, sizeof(float) * this->n);
     }
 }
 float* layer::get_bias_data() {
@@ -722,7 +803,7 @@ void multi_dim_tensor::_print_grad(size_t batch_id) {
 
 }
 void tensor2D_float::_print_grad(size_t batch_id) {
-    std::cout << "tensor2D_float grad:\n";
+    std::cout << "tensor2D_float grad of sample " << batch_id << ":\n";
     this->batch_grad[batch_id].print();
 }
 

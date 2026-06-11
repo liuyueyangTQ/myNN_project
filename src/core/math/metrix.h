@@ -73,6 +73,15 @@ public:
         this->initialize(shape.second, shape.first, init_type); // 顺序相反
     }
 
+    __metrix_base(_size shape, std::vector<float>& num) : // 引入随机初始化
+    // 专用于 size(z) * size(x) 的矩阵 ( 输入为 x， 输出为 z ) ( row 对应 fan_out, col对应 fan_in )
+        shape(shape), n(shape.first * shape.second)
+    {
+        assert(n == num.size());
+        this->_allocdata(shape.first, shape.second);
+        std::copy(num.begin(), num.end(), this->data);
+    }
+
     ~__metrix_base() {delete[] this->data;}
 };
 
@@ -108,9 +117,6 @@ _size get_matmul_output_shape(_size shape_a, _size shape_b);
 class metrix_float : public __metrix_base{
 private:
     bool t;
-    // 新增：填充成员，让总大小=缓存行大小（64字节）
-    // 计算需填充的字节数：64 - (4+4+8) = 48字节
-    char padding[CACHE_LINE_SIZE - (sizeof(bool) + sizeof(__metrix_base))];    
 public:
     friend class tensor::tensor_base;
     friend class tensor::common_tensor;
@@ -139,14 +145,15 @@ public:
     friend void _equal_neg_tensors(metrix_float &m, float* data);
     
     // using __metrix_base::__metrix_base;
-    metrix_float(int row, int col, bool t = false) : __metrix_base(row,col), t(t) {}
-    metrix_float(int row, int col, float* p, bool t = false) : __metrix_base(row,col,p), t(t) {
+    explicit metrix_float(int row, int col, bool t = false) : __metrix_base(row,col), t(t) {}
+    explicit metrix_float(int row, int col, float* p, bool t = false) : __metrix_base(row,col,p), t(t) {
         // std::cout<<"dsadasf"<<this->shape.first << this->shape.second<<std::endl;
     }
-    metrix_float(_size shape, bool t = false) : __metrix_base(shape), t(t) {}
-    metrix_float(_size shape, float* p, bool t = false) : __metrix_base(shape, p), t(t) {}
-    metrix_float(_size shape, init_type init_type, bool t = false) : __metrix_base(shape, init_type), t(t) {}
-    metrix_float(int row, int col, init_type init_type, bool t = false) : __metrix_base(col, row, init_type), t(t) {}
+    explicit metrix_float(_size shape, bool t = false) : __metrix_base(shape), t(t) {}
+    explicit metrix_float(_size shape, float* p, bool t = false) : __metrix_base(shape, p), t(t) {}
+    explicit metrix_float(_size shape, init_type init_type, bool t = false) : __metrix_base(shape, init_type), t(t) {}
+    explicit metrix_float(int row, int col, init_type init_type, bool t = false) : __metrix_base(row, col, init_type), t(t) {}
+    explicit metrix_float(_size shape, std::vector<float>& nums, bool t = false) : __metrix_base(shape, nums), t(t) {}
     metrix_float(metrix_float&& m) noexcept : __metrix_base(m.shape, m.data) { //  ?????
         // this->data = m.data;
         this->t = m.t;

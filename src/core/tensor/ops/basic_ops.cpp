@@ -194,7 +194,7 @@ void matmul_op::_check_type(dtensor_base* a, dtensor_base* b) {
 ///////////////////////////
 
 // matmul
-void matmul_op::do_op(tensor_type p, sub_type q) {
+void matmul_op::do_op(tensor_type p, sub_type q) { // tensor_type : 大类， 包含普通tensor， layer tensor ； sub_type : 子类， 包含 普通tensor的一维，n维， layer 的 sigmoid， relu
     assert(this->inputs.size() != 0);
     // 实现矩阵乘法操作的逻辑
     dtensor::dtensor_base* new_node = nullptr;

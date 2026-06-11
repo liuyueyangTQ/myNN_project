@@ -72,6 +72,7 @@ void op::do_op(tensor_type p, sub_type q) {
     // 实现加法操作的逻辑
     dtensor_base* new_node = nullptr;
     auto shape = this->inputs[0]->get_shape();
+    shape_output.clear();
     for(size_t i = 0; i < shape.size(); ++i)
         shape_output.push_back(shape[i]);
     switch (p)
@@ -80,6 +81,13 @@ void op::do_op(tensor_type p, sub_type q) {
         new_node = new multi_dim_tensor(inputs[0]->get_shape(), inputs[0]->get_batch_num());
         new_node->set_type(tensor_type::common);
         break;
+
+    case tensor_type::tensor2D: { // 此时不用管 sub_type
+        std::vector<size_t> tensor2D_shape = inputs[0]->get_shape();
+        new_node = new tensor2D_float({tensor2D_shape[0], tensor2D_shape[1]}, inputs[0]->get_batch_num()); // 二维矩阵张量
+        new_node->set_type(tensor_type::tensor2D);
+        break;
+    }
 
     case tensor_type::layer:
         new_node = layer_tool(inputs[0]->get_n(), inputs[0]->get_batch_num(), q); // origin 作为加法操作的输出层
@@ -98,16 +106,14 @@ void op::do_op(tensor_type p, sub_type q) {
 // ===== forward ===== //
 void op::forward(size_t batch_id) {
     if(temp_n[batch_id] != count_n) {      // 指向该 op 的tensor只要有一个未准备就绪，则无法前向传播
-        assert(0);
+        throw(1);
         return;
     }
-    // std::cout << " forward by OP \n" ;
-    //std::cout << "temp_n is: " << temp_n[batch_id]  <<std::endl;
     this->_forward(batch_id);
 }
 
 void op::forward() {
-    for(int i = 0; i <batch_num; ++i)
+    for(int i = 0; i < batch_num; ++i)
         this->forward(i);
 }
 

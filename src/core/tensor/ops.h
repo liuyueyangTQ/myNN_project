@@ -60,11 +60,12 @@ protected:
 
     dtensor_base* output;
     size_t batch_num;
-    std::vector<size_t> shape_output;
+    std::vector<size_t> shape_output; // 在 do_op 后确定
 
     std::vector<dtensor_base*> inputs;
     std::vector<metrix_float*> metrix_inputs; // 存储每个输入张量（不是每个batch，而是组成算子的不同张量）的 **首个** 输出metrix指针
     std::vector<metrix_float*> metrix_inputs_grad; // 存储每个输入张量的 **首个** 梯度metrix指针
+
     size_t count_n, *temp_n; // 指向op的count_n个算子，这些算子已经有temp_n个完成传递
     float* data_output;
     bool* have_backwarded;
