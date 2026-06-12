@@ -1,7 +1,17 @@
-add_executable(ops_test 
-    ops_test.cpp
+add_executable(add_sub_test 
+    add_sub_test.cpp
 )  
-add_nn_support(ops_test 
+add_nn_support(add_sub_test 
+    MAIN_DIR    
+        ${CORE_DIR}
+    LINKS
+        math_libs
+)
+
+add_executable(matmul_test
+    matmul_test.cpp
+)
+add_nn_support(matmul_test 
     MAIN_DIR    
         ${CORE_DIR}
     LINKS

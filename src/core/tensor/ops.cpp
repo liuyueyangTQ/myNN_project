@@ -29,14 +29,14 @@ op::op(std::string name, dtensor_base* a, dtensor_base* b) :
 }
 
 op::op(std::string name, std::vector<dtensor_base*>& inputs) : 
-    name(name), inputs(inputs), output(nullptr) ,
+    name(name), inputs(inputs), output(nullptr),
 //要深拷贝inputs
     batch_num(inputs[0]->get_batch_num()) 
 {
     assert(inputs[0]->get_batch_num() == inputs[1]->get_batch_num()); //// 目前先支持两个输入的情况，后续再考虑更多输入的情况
     this->batch_num = inputs[0]->get_batch_num();
 
-    count_n = 0; 
+    this->count_n = 0; 
     temp_n = new size_t[this->batch_num]();
     have_backwarded = new bool[batch_num]();
 
@@ -47,7 +47,7 @@ op::op(std::string name, std::vector<dtensor_base*>& inputs) :
         // 张量指向算子
         input->op_next.push_back(this);
         //是动态张量才 + 1 (不是不算)
-        count_n += !(input->is_param);
+        this->count_n += !(input->is_param);
         // 改变输入tensor的count_n计数
         if(!(input->is_param)) (input->count_n)++;
     }
@@ -57,9 +57,10 @@ void op::print_info() {
     std::cout << "Operator Name: " << this->name << std::endl;
     std::cout << "Number of Inputs: " << this->inputs.size() << std::endl;
     std::cout << "Batch Number: " << this->batch_num << std::endl;
-    std::cout << "Shape output: ("; for(size_t i = 0; i < this->shape_output.size(); ++i) 
-        std::cout << this->shape_output[i] << " "; std::cout << ")" << std::endl;
+    std::cout << "Shape output: ("; for(size_t i = 0; i < this->shape_output.size(); ++i) std::cout << this->shape_output[i] << " "; 
+                std::cout << ")" << std::endl;
     std::cout << "Number of Input Tensors: " << this->metrix_inputs.size() << std::endl;
+    std::cout << "Input tensor address: "; for(size_t i = 0; i < this->inputs.size(); ++i) std::cout << inputs[i] << ' '; std::cout << std::endl;
 }
 std::vector<dtensor_base*> op::get_inputs() {
     return this->inputs;
@@ -75,6 +76,7 @@ void op::do_op(tensor_type p, sub_type q) {
     shape_output.clear();
     for(size_t i = 0; i < shape.size(); ++i)
         shape_output.push_back(shape[i]);
+
     switch (p)
     {
     case tensor_type::common:

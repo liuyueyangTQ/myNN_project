@@ -3,3 +3,4 @@ demoTest/
 src/tools/webserver/**/*.txt
 api/**/*.txt
 drafts/
+todo/

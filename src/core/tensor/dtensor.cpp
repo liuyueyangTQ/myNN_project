@@ -795,9 +795,14 @@ void tensor2D_float::_print_val(size_t batch_id) {
 }
 void layer::_print_val(size_t batch_id) {
     std::cout << "Layer input:\n";
-    this->batch_input[batch_id].print();
-    std::cout << "Layer output:\n";
-    this->batch_output[batch_id].print();
+    float* input_data = (this->batch_input + batch_id)->data;
+    for(int i = 0; i < this->n; ++i) 
+        std::cout << input_data[i] << ' ';
+    std::cout << "\nLayer output:\n";
+    float* output_data = (this->batch_output + batch_id)->data;
+    for(int i = 0; i < this->n; ++i) 
+        std::cout << output_data[i] << ' ';
+    std::cout << std::endl;
 }
 void multi_dim_tensor::_print_grad(size_t batch_id) {
 
@@ -809,7 +814,10 @@ void tensor2D_float::_print_grad(size_t batch_id) {
 
 void layer::_print_grad(size_t batch_id) {
     std::cout << "Layer grad:\n";
-    this->batch_grad[batch_id].print();
+    float* grad_data = (this->batch_grad + batch_id)->data;
+    for(int i = 0; i < this->n; ++i) 
+        std::cout << grad_data[i] << ' ';
+    std::cout << std::endl;
 }
 
 

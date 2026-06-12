@@ -10,11 +10,7 @@ namespace dtensor {
 add_op::add_op(std::vector<dtensor_base*>& inputs) : op("add", inputs) {
     assert(inputs.size() >= 2);
     assert(this->inputs.size() == 0);
-    for(auto &input : inputs) {
-        this->inputs.push_back(input);
-        this->metrix_inputs.push_back(input->get_output_metrix_ptr());
-        this->metrix_inputs_grad.push_back(input->get_grad_metrix_ptr());
-    } 
+    /// @attention 不需要在此操作 op 的inputs & metrix_inputs 等成员， 全部放到 @fn op 里面完成
 }
 
 /////////////////////////////
@@ -25,10 +21,12 @@ add_op::add_op(std::vector<dtensor_base*>& inputs) : op("add", inputs) {
 void add_op::_forward(size_t batch_id) { // 多线程
     float* otpt = this->output->get_input_data_ptr(batch_id); // 也可以考虑对输出作复制优化，而非每次都算一遍
     // 不考虑和param相加
+    std::cout << "this->metrix_inputs size is " << this->metrix_inputs.size() << "\n";
     base::_add_tensors(this->metrix_inputs, otpt, batch_id);
 
 }
 void add_op::_forward() {
+    std::cout << "go forward.. "; 
     for(int i = 0; i < this->batch_num; ++i)
         this->_forward(i);
 }

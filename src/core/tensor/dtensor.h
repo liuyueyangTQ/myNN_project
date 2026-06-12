@@ -423,12 +423,13 @@ private:
     float* get_input_data_ptr(size_t batch_id) override;
     float* get_grad_data_ptr(size_t batch_id) override;
     float* get_output_data_ptr(size_t batch_id) override;
-    
+public:
     // DEBUG funtions
     void __set_grads__(std::vector<std::vector<float>>& grads) override;
     void __set_inputs__(std::vector<std::vector<float>>& inputs) override;
     void __set_outputs__(std::vector<std::vector<float>>& outputs) override;
 
+private:
     void count_grad();
     void count_grad(size_t batch_id);
     void count_grad(metrix_float* next_grad, int n);
@@ -539,7 +540,7 @@ public:
     void _print_grad(size_t batch_id = 0) override;
     virtual void print_layer(bool inc_grad = false) = 0;
     virtual void print_batches() = 0;
-private: 
+public: 
     void _set_batch();
     void _forward() override;
     void _forward(size_t batch_id) override;
@@ -580,16 +581,17 @@ private:
     float* get_grad_data_ptr(size_t batch_id) override;
     float* get_output_data_ptr(size_t batch_id) override;
 
-    // DEBUG funtions
-    void __set_grads__(std::vector<std::vector<float>>& grads) override;
-    void __set_inputs__(std::vector<std::vector<float>>& inputs) override;
-    void __set_outputs__(std::vector<std::vector<float>>& outputs) override;
-
     virtual void count_output() = 0;
     virtual void count_output(size_t batch_id) = 0;
 
     virtual void count_grad() = 0;
     virtual void count_grad(size_t batch_id) = 0;
+
+public:
+    // DEBUG funtions
+    void __set_grads__(std::vector<std::vector<float>>& grads) override;
+    void __set_inputs__(std::vector<std::vector<float>>& inputs) override;
+    void __set_outputs__(std::vector<std::vector<float>>& outputs) override;
 };
 
 
