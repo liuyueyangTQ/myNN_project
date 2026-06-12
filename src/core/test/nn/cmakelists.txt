@@ -1,18 +1,3 @@
-# 老版本模块，已舍去
-# add_executable(nn_test 
-#     nn_test.cpp
-#     ${CORE_DIR}/utils/buffer_util.cpp
-# )  
-# add_nn_support(nn_test 
-#     MAIN_DIR    
-#         ${CORE_DIR}
-#     DEFINES
-#         USE_DEBUG 
-#         USE_THREAD
-#     LINKS
-#         math_libs
-# )
-
 add_executable(dnn_test 
     dnn_test.cpp
     ${CORE_DIR}/nn/nn.cpp
@@ -29,20 +14,21 @@ add_nn_support(dnn_test
         math_libs
 )
 
-add_executable(draw_nn_test 
-    draw_nn_test.cpp
-    ${CORE_DIR}/nn/model.cpp
-    ${CORE_DIR}/utils/buffer_util.cpp
-    ${CMAKE_SOURCE_DIR}/src/visual/buttons.cpp
-)  
-add_nn_support(draw_nn_test 
-    MAIN_DIR    
-        ${CORE_DIR}
-    DEFINES
-        USE_DEBUG 
-    INCLUDES
-        ${CMAKE_SOURCE_DIR}/inc
-    LINKS
-        math_libs
-)
-add_opengl_support(draw_nn_test)
+# 暂时弃用
+# add_executable(draw_nn_test 
+#     draw_nn_test.cpp
+#     ${CORE_DIR}/nn/model.cpp
+#     ${CORE_DIR}/utils/buffer_util.cpp
+#     ${CMAKE_SOURCE_DIR}/src/visual/buttons.cpp
+# )  
+# add_nn_support(draw_nn_test 
+#     MAIN_DIR    
+#         ${CORE_DIR}
+#     DEFINES
+#         USE_DEBUG 
+#     INCLUDES
+#         ${CMAKE_SOURCE_DIR}/inc
+#     LINKS
+#         math_libs
+# )
+# add_opengl_support(draw_nn_test)

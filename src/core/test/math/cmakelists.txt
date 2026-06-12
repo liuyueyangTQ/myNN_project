@@ -25,16 +25,3 @@ add_nn_support(metrix_test
         math_libs
 )
 
-add_executable(tensor_test 
-    tensor_test.cpp
-)   
-add_nn_support(tensor_test 
-    MAIN_DIR    
-        ${CORE_DIR}
-    # 可选：追加自定义宏
-    DEFINES
-        USE_DEBUG 
-    # 链接库文件
-    LINKS
-        math_libs
-)
