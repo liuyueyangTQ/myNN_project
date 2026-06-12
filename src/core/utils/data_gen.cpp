@@ -3,7 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cassert>
-#include "tools.h"
+#include "data_gen.h"
 namespace nn {
 
 // ==================== 全局随机引擎 ====================
