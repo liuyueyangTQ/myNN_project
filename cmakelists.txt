@@ -48,8 +48,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 # 收集库源文件
 file(GLOB_RECURSE MATH_LIB_SOURCES CONFIGURE_DEPENDS
     ${CORE_DIR}/math/*.cpp
-    ${CORE_DIR}/tensor/*.cpp
-    ${CORE_DIR}/tensor/*/*.cpp
+    ${CORE_DIR}/autograd/*.cpp
+    ${CORE_DIR}/autograd/*/*.cpp
     ${CORE_DIR}/thread/*.cpp
     ${CORE_DIR}/nn/*.cpp
     ${CORE_DIR}/utils/*.cpp
@@ -63,8 +63,8 @@ target_compile_definitions(math_libs PUBLIC USE_DEBUG)
 target_include_directories(math_libs PUBLIC
     ${CORE_DIR}/common
     ${CORE_DIR}/math
-    ${CORE_DIR}/tensor
-    ${CORE_DIR}/tensor/ops
+    ${CORE_DIR}/autograd
+    ${CORE_DIR}/autograd/ops
     ${CORE_DIR}/thread
     ${CORE_DIR}/nn
     ${CORE_DIR}/utils
