@@ -1,4 +1,5 @@
 #include "basic_ops.h"
+#include "dtensor_tools.h"
 
 namespace dtensor {
 
@@ -195,7 +196,7 @@ void matmul_op::_check_type(dtensor_base* a, dtensor_base* b) {
 void matmul_op::do_op(tensor_type p, sub_type q) { // tensor_type : 大类， 包含普通tensor， layer tensor ； sub_type : 子类， 包含 普通tensor的一维，n维， layer 的 sigmoid， relu
     assert(this->inputs.size() != 0);
     // 实现矩阵乘法操作的逻辑
-    dtensor::dtensor_base* new_node = nullptr;
+    dtensor_base* new_node = nullptr;
     
 #ifdef CHECK_METRIX_SHAPE
     ///// 打印矩阵维度信息
@@ -212,24 +213,32 @@ void matmul_op::do_op(tensor_type p, sub_type q) { // tensor_type : 大类， �
     // 打印输出矩阵维度信息
     std::cout << "matmul output shape: (" << tensor_shape.first << ", " << tensor_shape.second << ")" << std::endl;
 #endif
-    switch (p)
-    {
-    case tensor_type::common:
-        new_node = new multi_dim_tensor(tensor_shape, this->inputs[0]->get_batch_num());
-        new_node->set_type(tensor_type::common);
-        break;
+    // switch (p)
+    // {
+    // case tensor_type::common:
+    //     new_node = new multi_dim_tensor(tensor_shape, this->inputs[0]->get_batch_num());
+    //     new_node->set_type(tensor_type::common);
+    //     break;
 
-    case tensor_type::layer:
-        assert(tensor_shape.second == 1); // 目前先支持输出为列向量的情况，后续再考虑更多输出形状的情况
-        new_node = layer_tool(tensor_shape.first, inputs[0]->get_batch_num(), q); 
-        new_node->set_type(tensor_type::layer);
-        break;
+    // case tensor_type::layer:
+    //     assert(tensor_shape.second == 1); // 目前先支持输出为列向量的情况，后续再考虑更多输出形状的情况
+    //     new_node = layer_tool(tensor_shape.first, inputs[0]->get_batch_num(), q); 
+    //     new_node->set_type(tensor_type::layer);
+    //     break;
     
-    default:
-        break;
+    // default:
+    //     break;
+    // }
+    // new_node->set_op_last(this);
+    // this->output = new_node;
+    std::vector<size_t> new_shape;
+    if(p == tensor_type::layer) {
+        new_shape.push_back(tensor_shape.first);
+    } else {
+        new_shape.push_back(tensor_shape.first);
+        new_shape.push_back(tensor_shape.second);
     }
-    new_node->set_op_last(this);
-    this->output = new_node;
+    dtensor_factory(p, new_shape, q, this->batch_num, this); /// ???? 
     return;
 }
 

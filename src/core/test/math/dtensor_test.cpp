@@ -1,7 +1,9 @@
 #include "metrix.h"
 #include "dtensor.h"  //要先包含dtensor.h， 因为ops.h 依赖于 dtensor.h 中的定义
 #include "ops.h"
-#include "nn.h"
+#include "ops/basic_ops.h"
+#include "dtensor_2D.h"
+#include "layers/layers.h"
 #include <iostream>
 using namespace std;
 using namespace dtensor;
@@ -169,8 +171,8 @@ void test_fun2() {
     return;
 }
 int main() { 
-  //  test_fun1();
-test_matmul_tensors() ;
+    //  test_fun1();
+    test_matmul_tensors() ;
     test_fun2();
     
 }

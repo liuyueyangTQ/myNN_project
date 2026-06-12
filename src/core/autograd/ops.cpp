@@ -1,4 +1,6 @@
-#include"ops.h"
+#include "ops.h"
+#include "dtensor_tools.h"
+
 namespace dtensor{
 
 using namespace base;
@@ -72,36 +74,42 @@ void op::do_op(tensor_type p, sub_type q) {
     assert(this->inputs.size() != 0);
     // 实现加法操作的逻辑
     dtensor_base* new_node = nullptr;
-    auto shape = this->inputs[0]->get_shape();
+    std::vector<size_t> new_shape = this->inputs[0]->get_shape();
     shape_output.clear();
-    for(size_t i = 0; i < shape.size(); ++i)
-        shape_output.push_back(shape[i]);
+    for(size_t i = 0; i < new_shape.size(); ++i)
+        shape_output.push_back(new_shape[i]);
 
-    switch (p)
-    {
-    case tensor_type::common:
-        new_node = new multi_dim_tensor(inputs[0]->get_shape(), inputs[0]->get_batch_num());
-        new_node->set_type(tensor_type::common);
-        break;
+    // switch (p)
+    // {
+    // case tensor_type::common:
+    //     new_node = new multi_dim_tensor(inputs[0]->get_shape(), inputs[0]->get_batch_num());
+    //     new_node->set_type(tensor_type::common);
+    //     break;
 
-    case tensor_type::tensor2D: { // 此时不用管 sub_type
-        std::vector<size_t> tensor2D_shape = inputs[0]->get_shape();
-        new_node = new tensor2D_float({tensor2D_shape[0], tensor2D_shape[1]}, inputs[0]->get_batch_num()); // 二维矩阵张量
-        new_node->set_type(tensor_type::tensor2D);
-        break;
-    }
+    // case tensor_type::tensor2D: { // 此时不用管 sub_type
+    //     std::vector<size_t> tensor2D_shape = inputs[0]->get_shape();
+    //     new_node = new tensor2D_float({tensor2D_shape[0], tensor2D_shape[1]}, inputs[0]->get_batch_num()); // 二维矩阵张量
+    //     new_node->set_type(tensor_type::tensor2D);
+    //     break;
+    // }
 
-    case tensor_type::layer:
-        new_node = layer_tool(inputs[0]->get_n(), inputs[0]->get_batch_num(), q); // origin 作为加法操作的输出层
-        new_node->set_type(tensor_type::layer);
-        break;
+    // case tensor_type::layer:
+    //     new_node = layer_tool(inputs[0]->get_n(), inputs[0]->get_batch_num(), q); // origin 作为加法操作的输出层
+    //     new_node->set_type(tensor_type::layer);
+    //     break;
     
-    default:
-        break;
-    }
-    //统一处理
-    new_node->set_op_last(this);
-    this->output= new_node;
+    // default:
+    //     break;
+    // }
+    // //统一处理
+    // new_node->set_op_last(this);
+    // this->output= new_node;
+    if(p == tensor_type::layer) {
+        int temp = new_shape[0];
+        new_shape.clear();
+        new_shape.push_back(temp);
+    } 
+    dtensor_factory(p, new_shape, q, this->batch_num, this); /// ???? 
     return;
 }
 

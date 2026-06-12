@@ -1,5 +1,10 @@
-#include "common_definitions.h"
 #include <vector>
+#include "dtensor.h"
+#include "dtensors/dtensor_1D.h"
+#include "dtensors/dtensor_2D.h"
+#include "dtensors/layers/layers.h"
+#include "ops.h"
+#include "ops/basic_ops.h"
 using namespace dtensor;
 std::vector<float> nums1 = {0.0, 0.5, 0.5, 0.6, 
                             0.2, 0.3, 0.4, 0.7,

@@ -1,6 +1,7 @@
 #include "metrix.h"
 #include "dtensor.h"  //先包含dtensor.h，再包含ops.h
 #include "ops.h"
+#include "dtensor_2D.h" // tensor2D_float 所在文件
 #include "nn.h"
 #include <iostream>
 using namespace std;

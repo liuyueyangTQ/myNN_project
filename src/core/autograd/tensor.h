@@ -197,9 +197,7 @@ public:
         next(nullptr),
         is_identity(false) 
     {
-        std::cout << "     initializing tensor2D_float...\n";
         batch_grad = this->_allocdata();
-        std::cout << "     successfully allocated data!\n";
     }
     tensor2D_float(_size shape, int batch_num, init_type init_type) : // 随机初始化
         tensor_base(true, false, tensor_type::tensor2D, batch_num), //不锁梯度

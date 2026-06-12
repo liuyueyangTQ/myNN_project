@@ -54,7 +54,7 @@ layer* layer_tool(int n, size_t batch_num, layer_type ltp);
 
 class op {
     friend class dtensor_base;
-protected:
+public:
     std::string name;
     std::pair<tensor_type, tensor_type> get_type_pair(dtensor_base* a, dtensor_base* b);
 

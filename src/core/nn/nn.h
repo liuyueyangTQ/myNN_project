@@ -6,8 +6,9 @@
 #include<cassert>
 #include<chrono>
 #include<thread>
-#include"common_definitions.h"
 #include"tools.h"
+#include"common_definitions.h" // 引入 layers， tensor2D_float 的完整定义
+
 namespace dtensor{
 class layer;
 class dtensor_base;

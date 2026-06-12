@@ -1,4 +1,6 @@
-#include"proto_utils.h"
+#include "proto_utils.h"
+#include "common_definitions.h" // 引入多种 tensor定义
+
 namespace proto {
 void proto_utils::get_binary(std::string&& data) {
     this->binary_data = std::move(data);
